@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:http-server": "npx http-server . --ssl --cert ./openssl-certs/for-iaq-cert_to-20260806.pem --key ./openssl-certs/for-iaq-key_to-20260806.pem",
-    "start:electron": "electron .",
-    "start:dev": "npm-run-all --parallel start:http-server start:electron"
+    "start": "npx http-server . --ssl --cert ./openssl-certs/for-iaq-cert_to-20260806.pem --key ./openssl-certs/for-iaq-key_to-20260806.pem & electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
