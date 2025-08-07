@@ -13,5 +13,8 @@
   "dependencies": {
     "electron": "^37.2.6",
     "electron-store": "^10.1.0"
+  },
+  "devDependencies": {
+    "@types/electron-store": "^1.3.1"
   }
 }
