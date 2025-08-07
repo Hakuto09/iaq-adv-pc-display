@@ -19,7 +19,7 @@
 
                 const device = await navigator.bluetooth.requestDevice({
                     acceptAllDevices: true, // 全てのデバイスを受け入れる
-                    optionalServices: []   // 必要ならサービスUUIDを指定
+//                    optionalServices: []   // 必要ならサービスUUIDを指定
                 });
 
                 console.log('Connected to', device.name || 'Unknown Device');
@@ -30,7 +30,11 @@
                 advDataContainer.appendChild(listItem);
 
             } catch (error) {
-                console.error('Error:', error);
+                if (error.name === 'NotFoundError') {
+                    alert('デバイスが選択されませんでした。もう一度試してください。');
+                } else {
+                    console.error('エラーが発生しました:', error);
+                }
             }
         });
     </script>
