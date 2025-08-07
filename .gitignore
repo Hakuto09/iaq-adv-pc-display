@@ -31,6 +31,9 @@ node_modules/
 venv/
 package/
 
+# Certs
+openssl-certs/
+
 # Backup files
 __keep/
 
