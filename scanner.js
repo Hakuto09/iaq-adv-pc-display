@@ -15,8 +15,12 @@ document.getElementById("start-scan").addEventListener("click", async () => {
     device.addEventListener("advertisementreceived", (event) => {
       const { name, rssi, txPower } = event;
       console.log(
-        `Advertisement from: ${name} | RSSI: ${rssi} | TxPower: ${txPower} | event: ${event}`
+        `Advertisement from: ${name} | RSSI: ${rssi} | TxPower: ${txPower} | event: `,
+        JSON.stringify(event, null, 2)
       );
+      for (let key in event) {
+        console.log(`${key}: `, event[key]);
+      }
     });
 
     // アドバタイズ監視を開始
