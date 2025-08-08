@@ -11,11 +11,11 @@ function createWindow() {
   const win = new BrowserWindow({
     ...windowBounds, // 保存された幅と高さを復元
     webPreferences: {
+      //enableBlinkFeatures: false, // Blink機能を無効化
+      enableBlinkFeatures: "Bluetooth", // Bluetooth機能を明示的に許可
+      //contextIsolation: true, // コンテキストの分離を有効化 (推奨)
+      contextIsolation: false,
       //      nodeIntegration: true,
-      //      contextIsolation: false,
-      //      enableBlinkFeatures: "Bluetooth", // Bluetooth機能を明示的に許可
-      enableBlinkFeatures: false, // Blink機能を無効化
-      contextIsolation: true, // コンテキストの分離を有効化 (推奨)
       nodeIntegration: false, // Node.jsモジュールの統合を無効化
       sandbox: true, // サンドボックス化 (推奨)
       webSecurity: true, // ウェブセキュリティを有効化    },
@@ -53,6 +53,8 @@ function createWindow() {
     store.set("windowBounds", bounds);
   });
 }
+
+app.commandLine.appendSwitch("enable-experimental-web-platform-features"); // Web Bluetooth 実験機能を有効化
 
 app.whenReady().then(() => {
   createWindow();
