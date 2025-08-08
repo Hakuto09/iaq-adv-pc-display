@@ -15,7 +15,7 @@ document.getElementById("start-scan").addEventListener("click", async () => {
     device.addEventListener("advertisementreceived", (event) => {
       const { name, rssi, txPower } = event;
       console.log(
-        `Advertisement from: ${name} | RSSI: ${rssi} | TxPower: ${txPower}`
+        `Advertisement from: ${name} | RSSI: ${rssi} | TxPower: ${txPower} | event: ${event}`
       );
     });
 
