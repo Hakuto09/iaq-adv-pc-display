@@ -11,9 +11,14 @@ function createWindow() {
   const win = new BrowserWindow({
     ...windowBounds, // 保存された幅と高さを復元
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableBlinkFeatures: "Bluetooth", // Bluetooth機能を明示的に許可
+      //      nodeIntegration: true,
+      //      contextIsolation: false,
+      //      enableBlinkFeatures: "Bluetooth", // Bluetooth機能を明示的に許可
+      enableBlinkFeatures: false, // Blink機能を無効化
+      contextIsolation: true, // コンテキストの分離を有効化 (推奨)
+      nodeIntegration: false, // Node.jsモジュールの統合を無効化
+      sandbox: true, // サンドボックス化 (推奨)
+      webSecurity: true, // ウェブセキュリティを有効化    },
     },
   });
 
@@ -36,6 +41,11 @@ function createWindow() {
     win.webContents.debugger.detach(); // DevToolsのAutofill関連プロトコルを無効化
   });
   win.webContents.openDevTools();
+
+  // 現在のURLをログ出力
+  win.webContents.on("did-finish-load", () => {
+    console.log(`Electron is accessing URL: ${win.webContents.getURL()}`);
+  });
 
   // ウィンドウを閉じる際に現在のサイズを保存
   win.on("close", () => {
