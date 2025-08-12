@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import { importCsvToDatabase, getDatabaseData } from "./database";
+import { importCsvToDatabase, getDatabaseData } from "./database.js";
+//const { importCsvToDatabase, getDatabaseData } = required("./database");
 import Store from "electron-store";
 const store = new Store();
 

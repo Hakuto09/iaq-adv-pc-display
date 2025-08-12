@@ -18,7 +18,7 @@ db.serialize(() => {
 });
 
 // CSVファイルをデータベースにインポート
-function importCsvToDatabase(filePath) {
+export function importCsvToDatabase(filePath) {
   return new Promise((resolve, reject) => {
     const stmt = db.prepare(
       `INSERT INTO data (name, age, profession) VALUES (?, ?, ?)`
@@ -38,7 +38,7 @@ function importCsvToDatabase(filePath) {
 }
 
 // データベースからデータを取得
-function getDatabaseData() {
+export function getDatabaseData() {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM data", (err, rows) => {
       if (err) reject(err);
@@ -47,4 +47,4 @@ function getDatabaseData() {
   });
 }
 
-module.exports = { importCsvToDatabase, getDatabaseData };
+//module.exports = { importCsvToDatabase, getDatabaseData };
