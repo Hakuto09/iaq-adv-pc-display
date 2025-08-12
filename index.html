@@ -19,51 +19,21 @@
 
     <script src="scanner.js"></script>
 
-    <h1>CSV to SQLite Example</h1>
-    
-    <!-- ファイル選択とインポートボタン -->
+    <h1>CSV Import and Database Example</h1>
+  
+    <!-- CSVを選択するフォーム -->
     <input type="file" id="csvFile" />
     <button id="importCsvButton">Import CSV</button>
+
+    <!--メッセージ表示エリア -->
     <p id="statusMessage"></p>
-    
-    <!-- データベース内容を表示 -->
-    <button id="fetchDataButton">Fetch Database Data</button>
+
+    <!--データ取得 -->
+    <button id="fetchDataButton">Fetch Data</button>
     <div id="databaseData"></div>
-    
-    <script>
-        // CSVファイルのインポート処理
-        const importCsvButton = document.getElementById('importCsvButton');
-        importCsvButton.addEventListener('click', () => {
-            const fileInput = document.getElementById('csvFile');
-            if (fileInput.files.length > 0) {
-                const filePath = fileInput.files[0].path;
-                window.api.importCsv(filePath);
-            }
-        });
 
-        // インポート結果のメッセージ受信
-        window.api.onImportStatus((message) => {
-            document.getElementById('statusMessage').innerText = message;
-        });
-
-        // データの取得処理
-        const fetchDataButton = document.getElementById('fetchDataButton');
-        fetchDataButton.addEventListener('click', () => {
-            window.api.getData();
-        });
-
-        // データベースからのデータ受信
-        window.api.onDatabaseData((data) => {
-            const dataContainer = document.getElementById('databaseData');
-            if (data.error) {
-                dataContainer.innerText = `Error: ${data.error}`;
-            } else {
-                dataContainer.innerHTML = '<table><tr><th>ID</th><th>Name</th><th>Age</th><th>Profession</th></tr>' +
-                    data.map(row => `<tr><td>${row.id}</td><td>${row.name}</td><td>${row.age}</td><td>${row.profession}</td></tr>`).join('') +
-                    '</table>';
-            }
-        });
-    </script>
+    <!--外部スクリプトを参照 -->
+    <script src="renderer.js" type="module"></script>
 </body>
 
 </html>
