@@ -1,6 +1,6 @@
-//const { app, BrowserWindow } = require("electron");
-import { app, BrowserWindow } from "electron";
-//const Store = require("electron-store");
+import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+import { importCsvToDatabase, getDatabaseData } from "./database";
 import Store from "electron-store";
 const store = new Store();
 
@@ -66,4 +66,24 @@ app.whenReady().then(() => {
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
+});
+
+// CSVファイルからデータベースに書き込む処理
+ipcMain.on("import-csv", async (event, filePath) => {
+  try {
+    await importCsvToDatabase(filePath);
+    event.reply("import-status", "CSV import successful!");
+  } catch (err) {
+    event.reply("import-status", `Error importing CSV: ${err.message}`);
+  }
+});
+
+// データベースからデータを読み込む処理
+ipcMain.on("get-data", async (event) => {
+  try {
+    const data = await getDatabaseData();
+    event.reply("database-data", data);
+  } catch (err) {
+    event.reply("database-data", { error: err.message });
+  }
 });

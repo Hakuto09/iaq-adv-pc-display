@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self' https://localhost:8080;">
     <title>BLE Scanner</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron + SQLite + CSV</title>
 </head>
 
 <body>
@@ -14,6 +18,54 @@
     <ul id="devices"></ul>
 
     <script src="scanner.js"></script>
+
+    <h1>CSV to SQLite Example</h1>
+    
+    <!-- ファイル選択とインポートボタン -->
+    <input type="file" id="csvFile" />
+    <button id="importCsvButton">Import CSV</button>
+    <p id="statusMessage"></p>
+    
+    <!-- データベース内容を表示 -->
+    <button id="fetchDataButton">Fetch Database Data</button>
+    <div id="databaseData"></div>
+    
+    <script>
+        // CSVファイルのインポート処理
+        const importCsvButton = document.getElementById('importCsvButton');
+        importCsvButton.addEventListener('click', () => {
+            const fileInput = document.getElementById('csvFile');
+            if (fileInput.files.length > 0) {
+                const filePath = fileInput.files[0].path;
+                window.api.importCsv(filePath);
+            }
+        });
+
+        // インポート結果のメッセージ受信
+        window.api.onImportStatus((message) => {
+            document.getElementById('statusMessage').innerText = message;
+        });
+
+        // データの取得処理
+        const fetchDataButton = document.getElementById('fetchDataButton');
+        fetchDataButton.addEventListener('click', () => {
+            window.api.getData();
+        });
+
+        // データベースからのデータ受信
+        window.api.onDatabaseData((data) => {
+            const dataContainer = document.getElementById('databaseData');
+            if (data.error) {
+                dataContainer.innerText = `Error: ${data.error}`;
+            } else {
+                dataContainer.innerHTML = '<table><tr><th>ID</th><th>Name</th><th>Age</th><th>Profession</th></tr>' +
+                    data.map(row => `<tr><td>${row.id}</td><td>${row.name}</td><td>${row.age}</td><td>${row.profession}</td></tr>`).join('') +
+                    '</table>';
+            }
+        });
+    </script>
 </body>
 
 </html>
+
+
