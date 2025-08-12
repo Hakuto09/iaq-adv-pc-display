@@ -2,7 +2,7 @@
   "name": "iaq-adv-pc-display",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start:http-server": "npx http-server . --ssl --cert ./openssl-certs/for-iaq-cert_to-20260806.cer --key ./openssl-certs/for-iaq-key_to-20260806.key",
     "start:electron": "electron .",
