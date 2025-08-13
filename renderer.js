@@ -30,7 +30,8 @@ function setupCsvImport() {
 
     const filePath = await window.electron.openFileDialog();
     if (filePath) {
-      console.log("Selected file path:", filePath);
+      console.log("Before window.api.importCsv(): filePath ", filePath);
+      window.api.importCsv(filePath); // Electronのメインプロセスに送信
     } else {
       console.log("No file selected");
     }
