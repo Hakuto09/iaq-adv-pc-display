@@ -1,3 +1,6 @@
+//const Chart = window.api.getChartLibrary();
+//const Chart2 = window.api.Chart;
+
 // CSVファイルのインポート処理
 function setupCsvImport() {
   const importCsvButton = document.getElementById("importCsvButton");
@@ -65,6 +68,44 @@ function setupDatabaseDataReceiver() {
   });
 }
 
+function setupChart() {
+  // グラフの設定
+  const ctx = document.getElementById("myChart").getContext("2d");
+  //  console.log("Before new Chart: window.api.Chart ", window.api.Chart);
+  const chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "RSSI Value",
+          data: [],
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+
+  // BLEデータ受信時の処理
+  window.api.onBLEData((data) => {
+    console.log("Device discovered:", data);
+
+    // リスト要素の追加
+    const deviceList = document.getElementById("deviceList");
+    const listItem = document.createElement("li");
+    listItem.innerText = `${data.name || "Unknown Device"} (ID: ${
+      data.id
+    }) RSSI: ${data.rssi}`;
+    deviceList.appendChild(listItem);
+
+    // グラフデータに追加
+    chart.data.labels.push(data.name || "Unknown Device");
+    chart.data.datasets[0].data.push(data.rssi);
+    chart.update();
+  });
+}
+
 // 初期化処理
 function initialize() {
   console.log("initialize(): In");
@@ -72,6 +113,7 @@ function initialize() {
   setupImportStatusReceiver();
   setupDataFetch();
   setupDatabaseDataReceiver();
+  setupChart();
 }
 
 // ページをロード後に初期化

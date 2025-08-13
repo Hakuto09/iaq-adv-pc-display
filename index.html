@@ -9,6 +9,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Electron + SQLite + CSV</title>
 </head>
 
@@ -18,6 +19,10 @@
     <ul id="devices"></ul>
 
     <script src="scanner.js"></script>
+
+    <h1>BLE Scanner (noble)</h1>
+    <ul id="deviceList"></ul>
+    <canvas id="myChart"></canvas>
 
     <h1>CSV Import and Database Example</h1>
   
@@ -31,6 +36,8 @@
     <!--データ取得 -->
     <button id="fetchDataButton">Fetch Data</button>
     <div id="databaseData"></div>
+
+    <script src="./scripts/chart.js"></script>
 
     <!--外部スクリプトを参照 -->
     <script src="renderer.js" type="module"></script>

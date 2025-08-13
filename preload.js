@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
+import Chart from "chart.js/auto";
 
 contextBridge.exposeInMainWorld("api", {
   // CSVファイルをインポート
@@ -6,6 +7,10 @@ contextBridge.exposeInMainWorld("api", {
 
   // データベースからデータを取得
   getData: () => ipcRenderer.send("get-data"),
+
+  // ChartJSをレンダラープロセスで使うためのAPI
+  //getChartLibrary: () => Chart,
+  Chart,
 
   // メッセージ受信
   onImportStatus: (callback) =>
