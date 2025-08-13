@@ -5,7 +5,7 @@ import { importCsvToDatabase, getDatabaseData } from "./database.js";
 import Store from "electron-store";
 const store = new Store();
 
-//import noble from "@abandonware/noble";
+import noble from "@abandonware/noble";
 
 // ESモジュールで __dirname を定義するためのコード
 import { fileURLToPath } from "url";
@@ -78,10 +78,11 @@ function createWindow() {
     });
     return result.filePaths[0] || null; // 選択されたファイルのパスを返す
   });
+
+  return win;
 }
 
-function setupBleWatch() {
-  /*
+function setupBleWatch(win) {
   noble.on("stateChange", (state) => {
     if (state === "poweredOn") {
       console.log("Starting BLE scan...");
@@ -98,9 +99,8 @@ function setupBleWatch() {
       name: peripheral.advertisement.localName,
       rssi: peripheral.rssi,
     };
-    mainWindow.webContents.send("ble-data", advertiseData); // レンダラープロセスに送信
+    win.webContents.send("ble-data", advertiseData); // レンダラープロセスに送信
   });
-*/
 }
 
 app.commandLine.appendSwitch("enable-experimental-web-platform-features"); // Web Bluetooth 実験機能を有効化
@@ -111,9 +111,9 @@ app.whenReady().then(() => {
     path.join(__dirname, "preload.js")
   );
 
-  createWindow();
+  const win = createWindow();
 
-  setupBleWatch();
+  setupBleWatch(win);
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
