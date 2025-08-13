@@ -17,18 +17,21 @@ function createWindow() {
   // 以前保存したウィンドウサイズを取得
   const windowBounds = store.get("windowBounds") || { width: 800, height: 600 };
 
+  console.log(
+    "Before new BrowserWindow(): Path of preload.js:",
+    path.join(__dirname, "preload.js")
+  );
+
   const win = new BrowserWindow({
     ...windowBounds, // 保存された幅と高さを復元
     webPreferences: {
       preload: path.join(__dirname, "preload.js"), // preload.js を設定
       //enableBlinkFeatures: false, // Blink機能を無効化
       enableBlinkFeatures: "Bluetooth", // Bluetooth機能を明示的に許可
-      contextIsolation: true, // コンテキストの分離を有効化 (推奨)
-      //contextIsolation: false,
-      //      nodeIntegration: true,
+      contextIsolation: true, // コンテキストの分離を有効化 (true推奨)
       nodeIntegration: false, // Node.jsモジュールの統合を無効化
-      sandbox: true, // サンドボックス化 (推奨)
-      webSecurity: true, // ウェブセキュリティを有効化    },
+      sandbox: false, // サンドボックス化 (true推奨)
+      webSecurity: true, // ウェブセキュリティを有効化
     },
   });
 
@@ -67,6 +70,11 @@ function createWindow() {
 app.commandLine.appendSwitch("enable-experimental-web-platform-features"); // Web Bluetooth 実験機能を有効化
 
 app.whenReady().then(() => {
+  console.log(
+    "Before createWindow(): Path of preload.js:",
+    path.join(__dirname, "preload.js")
+  );
+
   createWindow();
 
   app.on("activate", () => {

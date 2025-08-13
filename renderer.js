@@ -5,6 +5,7 @@ function setupCsvImport() {
     const fileInput = document.getElementById("csvFile");
     if (fileInput.files.length > 0) {
       const filePath = fileInput.files[0].path; // CSVファイルのパスを取得
+      console.log("Before window.api.importCsv():");
       window.api.importCsv(filePath); // Electronのメインプロセスに送信
     } else {
       alert("Please select a CSV file!");
@@ -14,6 +15,7 @@ function setupCsvImport() {
 
 // インポート結果のメッセージ受信
 function setupImportStatusReceiver() {
+  console.log("Before window.api.onImportStatus():");
   window.api.onImportStatus((message) => {
     document.getElementById("statusMessage").innerText = message; // メッセージをHTMLに表示
   });
@@ -23,6 +25,7 @@ function setupImportStatusReceiver() {
 function setupDataFetch() {
   const fetchDataButton = document.getElementById("fetchDataButton");
   fetchDataButton.addEventListener("click", () => {
+    console.log("Before window.api.getData():");
     window.api.getData(); // データ取得要求をメインプロセスに送信
   });
 }
@@ -64,6 +67,7 @@ function setupDatabaseDataReceiver() {
 
 // 初期化処理
 function initialize() {
+  console.log("initialize(): In");
   setupCsvImport();
   setupImportStatusReceiver();
   setupDataFetch();
