@@ -5,6 +5,8 @@ import { importCsvToDatabase, getDatabaseData } from "./database.js";
 import Store from "electron-store";
 const store = new Store();
 
+//import noble from "@abandonware/noble";
+
 // ESモジュールで __dirname を定義するためのコード
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -67,6 +69,29 @@ function createWindow() {
   });
 }
 
+function setupBleWatch() {
+  /*
+  noble.on("stateChange", (state) => {
+    if (state === "poweredOn") {
+      console.log("Starting BLE scan...");
+      noble.startScanning([], true); // アドバタイズパケットを取得
+    } else {
+      noble.stopScanning();
+    }
+  });
+
+  // アドバタイズパケットが検出されるたびに送信
+  noble.on("discover", (peripheral) => {
+    const advertiseData = {
+      id: peripheral.id,
+      name: peripheral.advertisement.localName,
+      rssi: peripheral.rssi,
+    };
+    mainWindow.webContents.send("ble-data", advertiseData); // レンダラープロセスに送信
+  });
+*/
+}
+
 app.commandLine.appendSwitch("enable-experimental-web-platform-features"); // Web Bluetooth 実験機能を有効化
 
 app.whenReady().then(() => {
@@ -76,6 +101,8 @@ app.whenReady().then(() => {
   );
 
   createWindow();
+
+  setupBleWatch();
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -89,6 +116,7 @@ app.on("window-all-closed", () => {
 // CSVファイルからデータベースに書き込む処理
 ipcMain.on("import-csv", async (event, filePath) => {
   try {
+    console.log("Before importCsvToDatabase(): filePath", filePath);
     await importCsvToDatabase(filePath);
     event.reply("import-status", "CSV import successful!");
   } catch (err) {

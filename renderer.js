@@ -8,7 +8,7 @@ function setupCsvImport() {
     const fileInput = document.getElementById("csvFile");
     if (fileInput.files.length > 0) {
       const filePath = fileInput.files[0].path; // CSVファイルのパスを取得
-      console.log("Before window.api.importCsv():");
+      console.log("Before window.api.importCsv(): filePath ", filePath);
       window.api.importCsv(filePath); // Electronのメインプロセスに送信
     } else {
       alert("Please select a CSV file!");
