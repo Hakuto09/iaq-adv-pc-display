@@ -8,9 +8,8 @@ contextBridge.exposeInMainWorld("api", {
   // データベースからデータを取得
   getData: () => ipcRenderer.send("get-data"),
 
-  // ChartJSをレンダラープロセスで使うためのAPI
-  //getChartLibrary: () => Chart,
-  Chart,
+  onBLEData: (callback) =>
+    ipcRenderer.on("ble-data", (event, data) => callback(data)),
 
   // メッセージ受信
   onImportStatus: (callback) =>
