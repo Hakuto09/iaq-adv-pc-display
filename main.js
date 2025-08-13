@@ -5,6 +5,14 @@ import { importCsvToDatabase, getDatabaseData } from "./database.js";
 import Store from "electron-store";
 const store = new Store();
 
+// ESモジュールで __dirname を定義するためのコード
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+// 現在のファイルのディレクトリを取得（__dirnameを定義）
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 function createWindow() {
   // 以前保存したウィンドウサイズを取得
   const windowBounds = store.get("windowBounds") || { width: 800, height: 600 };
@@ -12,10 +20,11 @@ function createWindow() {
   const win = new BrowserWindow({
     ...windowBounds, // 保存された幅と高さを復元
     webPreferences: {
+      preload: path.join(__dirname, "preload.js"), // preload.js を設定
       //enableBlinkFeatures: false, // Blink機能を無効化
       enableBlinkFeatures: "Bluetooth", // Bluetooth機能を明示的に許可
-      //contextIsolation: true, // コンテキストの分離を有効化 (推奨)
-      contextIsolation: false,
+      contextIsolation: true, // コンテキストの分離を有効化 (推奨)
+      //contextIsolation: false,
       //      nodeIntegration: true,
       nodeIntegration: false, // Node.jsモジュールの統合を無効化
       sandbox: true, // サンドボックス化 (推奨)
