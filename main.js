@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
 import { importCsvToDatabase, getDatabaseData } from "./database.js";
 //const { importCsvToDatabase, getDatabaseData } = required("./database");
@@ -67,6 +67,17 @@ function createWindow() {
     const bounds = win.getBounds(); // 現在のウィンドウサイズを取得
     store.set("windowBounds", bounds);
   });
+
+  // ファイル選択ダイアログを開く処理
+  ipcMain.handle("dialog:openFile", async () => {
+    const result = await dialog.showOpenDialog(win, {
+      properties: ["openFile"],
+      filters: [
+        { name: "CSV Files", extensions: ["csv"] }, // CSVファイルに絞る場合
+      ],
+    });
+    return result.filePaths[0] || null; // 選択されたファイルのパスを返す
+  });
 }
 
 function setupBleWatch() {
@@ -134,6 +145,7 @@ ipcMain.on("get-data", async (event) => {
   }
 });
 
+/*
 // メインプロセスで 'file-select' イベントを受け取る
 ipcMain.on("file-select", (event, filePath) => {
   console.log("File path received at main.js: filePath ", filePath);
@@ -142,3 +154,4 @@ ipcMain.on("file-select", (event, filePath) => {
   //  win.webContents.send("file-selected", filePath);
   event.reply("file-selected", filePath);
 });
+*/

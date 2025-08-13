@@ -36,12 +36,17 @@ contextBridge.exposeInMainWorld("fileAPI", {
 */
 
 contextBridge.exposeInMainWorld("electron", {
-  ipcRenderer: {
+  /*
+    ipcRenderer: {
     send: (channel, data) => {
       ipcRenderer.send(channel, data);
     },
     on: (channel, callback) => {
       ipcRenderer.on(channel, (event, ...args) => callback(...args));
     },
+  },
+*/
+  openFileDialog: async () => {
+    return await ipcRenderer.invoke("dialog:openFile");
   },
 });
