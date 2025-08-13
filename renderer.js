@@ -7,12 +7,30 @@ function setupCsvImport() {
   importCsvButton.addEventListener("click", () => {
     const fileInput = document.getElementById("csvFile");
     if (fileInput.files.length > 0) {
+      console.log(
+        "Before get fileInput.files[0].path: fileInput.files.length: ",
+        fileInput.files.length
+      );
       const filePath = fileInput.files[0].path; // CSVファイルのパスを取得
+
+      // 必要に応じてメインプロセスにファイルパスを送信
+      /*
+        window.fileAPI.getSelectedFilePath((filePath) => {
+        console.log("File path from main process:", filePath);
+      });
+*/
+      window.electron.ipcRenderer.send("file-select", filePath);
+
       console.log("Before window.api.importCsv(): filePath ", filePath);
       window.api.importCsv(filePath); // Electronのメインプロセスに送信
     } else {
       alert("Please select a CSV file!");
     }
+  });
+
+  window.electron.ipcRenderer.on("file-selected", (filePath) => {
+    console.log("File path received from main process:", filePath);
+    window.api.importCsv(filePath); // Electronのメインプロセスに送信
   });
 }
 

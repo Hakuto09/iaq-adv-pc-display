@@ -133,3 +133,12 @@ ipcMain.on("get-data", async (event) => {
     event.reply("database-data", { error: err.message });
   }
 });
+
+// メインプロセスで 'file-select' イベントを受け取る
+ipcMain.on("file-select", (event, filePath) => {
+  console.log("File path received at main.js: filePath ", filePath);
+
+  // ファイルパスをレンダラープロセスに返す
+  //  win.webContents.send("file-selected", filePath);
+  event.reply("file-selected", filePath);
+});
