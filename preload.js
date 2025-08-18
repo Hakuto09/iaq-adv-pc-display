@@ -8,7 +8,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onAdvertisementData: (callback) =>
     ipcRenderer.on("advertisementData", (_, data) => callback(data)),
   onBLEDataMacFilter: (callback) =>
-    ipcRenderer.on("ble-data-mac-filter", (event, data) => callback(data)),
+    ipcRenderer.on("ble-data-mac-filter", (event, data, date) =>
+      callback(data, date)
+    ),
 });
 
 contextBridge.exposeInMainWorld("api", {

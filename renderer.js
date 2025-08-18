@@ -140,19 +140,21 @@ function setupChartMacFilter() {
   });
 
   // BLEデータ受信時の処理
-  window.electronAPI.onBLEDataMacFilter((data) => {
-    console.log("Device discovered:", data);
+  window.electronAPI.onBLEDataMacFilter((data, date) => {
+    console.log("Device discovered:", data, "date", date);
 
     // リスト要素の追加
     const deviceList = document.getElementById("deviceList");
     const listItem = document.createElement("li");
-    listItem.innerText = `${data.name || "Unknown Device"} (ID: ${
-      data.id
-    }) Temp: ${data.temp}`;
+    listItem.innerText = `${date} Temp: ${data.temp}`;
+    //    listItem.innerText = `${data.name || "Unknown Device"} (ID: ${
+    //      data.id
+    //    }) Temp: ${data.temp}`;
     deviceList.appendChild(listItem);
 
     // グラフデータに追加
-    chart.data.labels.push(data.name || "Unknown Device");
+    chart.data.labels.push(date);
+    //    chart.data.labels.push(data.name || "Unknown Device");
     chart.data.datasets[0].data.push(data.temp);
     chart.update();
   });

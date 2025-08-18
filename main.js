@@ -15,6 +15,8 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+let dummy = { temp: 0 }; // for debug only
+
 function createWindow() {
   // 以前保存したウィンドウサイズを取得
   const windowBounds = store.get("windowBounds") || { width: 800, height: 600 };
@@ -99,6 +101,7 @@ function setupBleWatchMacFilter(win) {
           "scanStatus",
           `スキャン開始: ターゲットMAC -> ${macAddress}`
         );
+        console.log("スキャン開始: ターゲットMAC ->", macAddress);
       } else {
         noble.stopScanning();
         event.reply("scanStatus", "BLEがオフになっています！");
@@ -107,6 +110,7 @@ function setupBleWatchMacFilter(win) {
 
     noble.on("discover", (peripheral) => {
       if (peripheral.address.toLowerCase() === macAddress.toLowerCase()) {
+        const nowDate = new Date();
         const advertisement = peripheral.advertisement;
         const manufacturerData = advertisement.manufacturerData;
 
@@ -119,13 +123,24 @@ function setupBleWatchMacFilter(win) {
             .join("\n");
 
           event.reply("advertisementData", logData);
+          console.log("advertisement", advertisement);
           console.log("manufacturerData", manufacturerData);
-          win.webContents.send("ble-data-mac-filter", manufacturerData[0]); // レンダラープロセスに送信
+          console.log("manufacturerData[1]", manufacturerData[1]);
+          //          console.log("logData", logData);
+          dummy.temp = manufacturerData[1];
+          console.log("dummy.temp", dummy.temp);
+          win.webContents.send(
+            "ble-data-mac-filter",
+            dummy, //manufacturerData[0],
+            nowDate
+          );
+          //          dummy.temp++;
         } else {
           event.reply(
             "advertisementData",
             "Manufacturer Dataが見つかりませんでした。"
           );
+          console.log("Manufacturer Dataが見つかりませんでした。");
         }
       }
     });
