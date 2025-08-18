@@ -15,8 +15,6 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-let dummy = { temp: 0, humidity: 0, co2: 0 }; // for debug only
-
 function createWindow() {
   // 以前保存したウィンドウサイズを取得
   const windowBounds = store.get("windowBounds") || { width: 800, height: 600 };
@@ -127,18 +125,19 @@ function setupBleWatchMacFilter(win) {
           console.log("manufacturerData", manufacturerData);
           console.log("manufacturerData[1]", manufacturerData[1]);
           //          console.log("logData", logData);
-          dummy.temperature = manufacturerData[1];
-          console.log("dummy.temperature", dummy.temperature);
-          dummy.humidity = manufacturerData[3];
-          console.log("dummy.humidity", dummy.humidity);
-          dummy.co2 = manufacturerData[5];
-          console.log("dummy.co2", dummy.co2);
-          win.webContents.send(
-            "ble-data-mac-filter",
-            dummy, //manufacturerData[0],
-            nowDate
-          );
-          //          dummy.temp++;
+          const sendData = {
+            temperature: manufacturerData[1], // temporary!!
+            humidity: manufacturerData[3], // temporary!!
+            co2: manufacturerData[5], // temporary!!
+          };
+
+          const hours = nowDate.getHours();
+          const minutes = nowDate.getMinutes();
+          const seconds = nowDate.getSeconds();
+          const nowTime = `${hours}:${minutes}:${seconds}`;
+
+          console.log("sendData", sendData, "nowTime", nowTime);
+          win.webContents.send("ble-data-with-date", sendData, nowTime);
         } else {
           event.reply(
             "advertisementData",

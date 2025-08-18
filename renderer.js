@@ -120,7 +120,11 @@ function setupDatabaseDataReceiver() {
   });
 }
 
-function setupChartMacFilter() {
+function setupValueAndChart() {
+  const valueTemperature = document.getElementById("value-temperature");
+  const valueHumidity = document.getElementById("value-humidity");
+  const valueCO2 = document.getElementById("value-co2");
+
   const defaultOptions = {
     responsive: false, // レスポンシブを無効化
     maintainAspectRatio: false, // アスペクト比を維持しない
@@ -128,7 +132,7 @@ function setupChartMacFilter() {
 
   // グラフの設定
   const ctxTemperature = document
-    .getElementById("chartOfTemperature")
+    .getElementById("chart-temperature")
     .getContext("2d");
   const chartTemperature = new Chart(ctxTemperature, {
     type: "line",
@@ -147,7 +151,7 @@ function setupChartMacFilter() {
   });
 
   const ctxHumidity = document
-    .getElementById("chartOfHumidity")
+    .getElementById("chart-humidity")
     .getContext("2d");
   const chartHumidity = new Chart(ctxHumidity, {
     type: "line",
@@ -165,7 +169,7 @@ function setupChartMacFilter() {
     options: defaultOptions,
   });
 
-  const ctxCO2 = document.getElementById("chartOfCO2").getContext("2d");
+  const ctxCO2 = document.getElementById("chart-co2").getContext("2d");
   const chartCO2 = new Chart(ctxCO2, {
     type: "line",
     data: {
@@ -183,8 +187,12 @@ function setupChartMacFilter() {
   });
 
   // BLEデータ受信時の処理
-  window.electronAPI.onBLEDataMacFilter((data, date) => {
-    console.log("Device discovered:", data, "date", date);
+  window.electronAPI.onBLEDataWithDate((data, date) => {
+    console.log("Device discovered:", "data", data, "date", date);
+
+    valueTemperature.textContent = data.temperature;
+    valueHumidity.textContent = data.humidity;
+    valueCO2.textContent = data.co2;
 
     // リスト要素の追加
     const deviceList = document.getElementById("deviceList");
@@ -253,7 +261,7 @@ function initialize() {
   setupImportStatusReceiver();
   setupDataFetch();
   setupDatabaseDataReceiver();
-  setupChartMacFilter();
+  setupValueAndChart();
   setupChart();
 }
 
