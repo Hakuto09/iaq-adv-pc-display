@@ -82,7 +82,9 @@ function createWindow() {
   return win;
 }
 
-function setupBleWatchMacFilter(win, macAddress) {
+function setupBleWatchMacFilter(win) {
+  let isScanning = false;
+
   ipcMain.on("startScan", (event, macAddress) => {
     if (isScanning) {
       event.reply("scanStatus", "スキャンはすでに実行中です！");
@@ -167,7 +169,8 @@ app.whenReady().then(() => {
 
   const win = createWindow();
 
-  setupBleWatch(win);
+  setupBleWatchMacFilter(win);
+  //  setupBleWatch(win);
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();

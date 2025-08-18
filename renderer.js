@@ -140,7 +140,7 @@ function setupChartMacFilter() {
   });
 
   // BLEデータ受信時の処理
-  window.api.onBLEDataMacFilter((data) => {
+  window.electronAPI.onBLEDataMacFilter((data) => {
     console.log("Device discovered:", data);
 
     // リスト要素の追加
