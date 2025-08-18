@@ -14,6 +14,17 @@
 </head>
 
 <body>
+    <!-- CSVを選択するフォーム -->
+    <!-- input type="file" id="csvFile" / -->
+    <button id="importCsvButton">Import CSV</button>
+    
+    <!--メッセージ表示エリア -->
+    <p id="statusMessage"></p>
+    
+    <!--データ取得 -->
+    <button id="fetchDataButton">Fetch Data</button>
+    <div id="databaseData"></div>
+
     <h1>BLE Advertising Packet Scanner</h1>
     <button id="start-scan">Start Scanning</button>
     <ul id="devices"></ul>
@@ -26,17 +37,6 @@
 
     <h1>CSV Import and Database Example</h1>
   
-    <!-- CSVを選択するフォーム -->
-    <!-- input type="file" id="csvFile" / -->
-    <button id="importCsvButton">Import CSV</button>
-
-    <!--メッセージ表示エリア -->
-    <p id="statusMessage"></p>
-
-    <!--データ取得 -->
-    <button id="fetchDataButton">Fetch Data</button>
-    <div id="databaseData"></div>
-
     <script src="./scripts/chart.js"></script>
 
     <!--外部スクリプトを参照 -->
