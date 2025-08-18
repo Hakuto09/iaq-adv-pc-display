@@ -1,5 +1,16 @@
 import { contextBridge, ipcRenderer } from "electron";
 
+contextBridge.exposeInMainWorld("electronAPI", {
+  startScan: (macAddress) => ipcRenderer.send("startScan", macAddress),
+  stopScan: () => ipcRenderer.send("stopScan"),
+  onScanStatus: (callback) =>
+    ipcRenderer.on("scanStatus", (_, message) => callback(message)),
+  onAdvertisementData: (callback) =>
+    ipcRenderer.on("advertisementData", (_, data) => callback(data)),
+  onBLEDataMacFilter: (callback) =>
+    ipcRenderer.on("ble-data-mac-filter", (event, data) => callback(data)),
+});
+
 contextBridge.exposeInMainWorld("api", {
   // CSVファイルをインポート
   importCsv: (filePath) => ipcRenderer.send("import-csv", filePath),

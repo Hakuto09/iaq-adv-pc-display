@@ -82,6 +82,60 @@ function createWindow() {
   return win;
 }
 
+function setupBleWatchMacFilter(win, macAddress) {
+  ipcMain.on("startScan", (event, macAddress) => {
+    if (isScanning) {
+      event.reply("scanStatus", "スキャンはすでに実行中です！");
+      return;
+    }
+
+    isScanning = true;
+    noble.on("stateChange", (state) => {
+      if (state === "poweredOn") {
+        noble.startScanning([], true);
+        event.reply(
+          "scanStatus",
+          `スキャン開始: ターゲットMAC -> ${macAddress}`
+        );
+      } else {
+        noble.stopScanning();
+        event.reply("scanStatus", "BLEがオフになっています！");
+      }
+    });
+
+    noble.on("discover", (peripheral) => {
+      if (peripheral.address.toLowerCase() === macAddress.toLowerCase()) {
+        const advertisement = peripheral.advertisement;
+        const manufacturerData = advertisement.manufacturerData;
+
+        if (manufacturerData) {
+          const logData = manufacturerData
+            .map(
+              (byte, index) =>
+                `Byte ${index + 1}: 0x${byte.toString(16).padStart(2, "0")}`
+            )
+            .join("\n");
+
+          event.reply("advertisementData", logData);
+          console.log("manufacturerData", manufacturerData);
+          win.webContents.send("ble-data-mac-filter", manufacturerData[0]); // レンダラープロセスに送信
+        } else {
+          event.reply(
+            "advertisementData",
+            "Manufacturer Dataが見つかりませんでした。"
+          );
+        }
+      }
+    });
+  });
+
+  ipcMain.on("stopScan", (event) => {
+    noble.stopScanning();
+    isScanning = false;
+    event.reply("scanStatus", "スキャンを停止しました。");
+  });
+}
+
 function setupBleWatch(win) {
   noble.on("stateChange", (state) => {
     if (state === "poweredOn") {

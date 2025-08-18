@@ -14,6 +14,20 @@
 </head>
 
 <body>
+    <h1>BLE Advertise Logger</h1>
+    <label for="macAddress">MACアドレス:</label>
+    <input type="text" id="macAddress" placeholder="dc:2e:97:ff:f8:c7">
+    <br><br>
+    <button id="startBtn">スキャン開始</button>
+    <button id="stopBtn">スキャン停止</button>
+    <h3>ログ:</h3>
+    <div id="log"></div>
+
+    <script src="scanner.js"></script>
+
+    <h1>BLE Scanner Mac Filter (noble)</h1>
+    <canvas id="chartOfTemp"></canvas>
+
     <!-- CSVを選択するフォーム -->
     <!-- input type="file" id="csvFile" / -->
     <button id="importCsvButton">Import CSV</button>
@@ -29,10 +43,8 @@
     <button id="start-scan">Start Scanning</button>
     <ul id="devices"></ul>
 
-    <script src="scanner.js"></script>
-
     <h1>BLE Scanner (noble)</h1>
-    <canvas id="myChart"></canvas>
+    <canvas id="chartOfRssi"></canvas>
     <ul id="deviceList"></ul>
 
     <h1>CSV Import and Database Example</h1>

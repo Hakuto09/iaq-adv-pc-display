@@ -1,6 +1,36 @@
 //const Chart = window.api.getChartLibrary();
 //const Chart2 = window.api.Chart;
 
+function setup() {
+  const logDiv = document.getElementById("log");
+  const macAddressInput = document.getElementById("macAddress");
+  const startBtn = document.getElementById("startBtn");
+  const stopBtn = document.getElementById("stopBtn");
+
+  startBtn.addEventListener("click", () => {
+    const macAddress = macAddressInput.value.trim();
+    if (macAddress) {
+      logDiv.textContent = "スキャンを開始します...";
+      window.electronAPI.startScan(macAddress);
+    } else {
+      logDiv.textContent = "MACアドレスを入力してください！";
+    }
+  });
+
+  stopBtn.addEventListener("click", () => {
+    logDiv.textContent = "スキャンを停止します...";
+    window.electronAPI.stopScan();
+  });
+
+  window.electronAPI.onScanStatus((message) => {
+    logDiv.textContent += "\n" + message;
+  });
+
+  window.electronAPI.onAdvertisementData((data) => {
+    logDiv.textContent += "\n--- Advertisement Data ---\n" + data;
+  });
+}
+
 // CSVファイルのインポート処理
 function setupCsvImport() {
   const importCsvButton = document.getElementById("importCsvButton");
@@ -90,9 +120,47 @@ function setupDatabaseDataReceiver() {
   });
 }
 
+function setupChartMacFilter() {
+  // グラフの設定
+  const ctx = document.getElementById("chartOfTemp").getContext("2d");
+  //  console.log("Before new Chart: window.api.Chart ", window.api.Chart);
+  const chart = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "Temp Value",
+          data: [],
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+
+  // BLEデータ受信時の処理
+  window.api.onBLEDataMacFilter((data) => {
+    console.log("Device discovered:", data);
+
+    // リスト要素の追加
+    const deviceList = document.getElementById("deviceList");
+    const listItem = document.createElement("li");
+    listItem.innerText = `${data.name || "Unknown Device"} (ID: ${
+      data.id
+    }) Temp: ${data.temp}`;
+    deviceList.appendChild(listItem);
+
+    // グラフデータに追加
+    chart.data.labels.push(data.name || "Unknown Device");
+    chart.data.datasets[0].data.push(data.temp);
+    chart.update();
+  });
+}
+
 function setupChart() {
   // グラフの設定
-  const ctx = document.getElementById("myChart").getContext("2d");
+  const ctx = document.getElementById("chartOfRssi").getContext("2d");
   //  console.log("Before new Chart: window.api.Chart ", window.api.Chart);
   const chart = new Chart(ctx, {
     type: "line",
@@ -131,10 +199,12 @@ function setupChart() {
 // 初期化処理
 function initialize() {
   console.log("initialize(): In");
+  setup();
   setupCsvImport();
   setupImportStatusReceiver();
   setupDataFetch();
   setupDatabaseDataReceiver();
+  setupChartMacFilter();
   setupChart();
 }
 
