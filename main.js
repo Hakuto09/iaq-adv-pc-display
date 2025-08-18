@@ -15,6 +15,8 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+let pastDate;
+
 function createWindow() {
   // 以前保存したウィンドウサイズを取得
   const windowBounds = store.get("windowBounds") || { width: 800, height: 600 };
@@ -112,7 +114,14 @@ function setupBleWatchMacFilter(win) {
         const advertisement = peripheral.advertisement;
         const manufacturerData = advertisement.manufacturerData;
 
-        if (manufacturerData) {
+        let isGapOver = true;
+        if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
+
+        console.log("pastDate", pastDate);
+        console.log("nowDate", nowDate);
+        console.log("isGapOver", isGapOver);
+
+        if (manufacturerData && isGapOver) {
           const logData = manufacturerData
             .map(
               (byte, index) =>
@@ -126,24 +135,30 @@ function setupBleWatchMacFilter(win) {
           console.log("manufacturerData[1]", manufacturerData[1]);
           //          console.log("logData", logData);
           const sendData = {
-            temperature: manufacturerData[1], // temporary!!
-            humidity: manufacturerData[3], // temporary!!
-            co2: manufacturerData[5], // temporary!!
+            temperature: 0,
+            humidity: 0,
+            co2: 0,
           };
+          sendData.temperature = manufacturerData[1]; // temporary!!
+          sendData.humidity = manufacturerData[3]; // temporary!!
+          sendData.co2 = manufacturerData[5]; // temporary!!
 
-          const hours = nowDate.getHours();
-          const minutes = nowDate.getMinutes();
-          const seconds = nowDate.getSeconds();
+          const padZero = (num) => num.toString().padStart(2, "0");
+          const hours = padZero(nowDate.getHours());
+          const minutes = padZero(nowDate.getMinutes());
+          const seconds = padZero(nowDate.getSeconds());
           const nowTime = `${hours}:${minutes}:${seconds}`;
 
           console.log("sendData", sendData, "nowTime", nowTime);
           win.webContents.send("ble-data-with-date", sendData, nowTime);
+
+          pastDate = nowDate;
         } else {
           event.reply(
             "advertisementData",
             "Manufacturer Dataが見つかりませんでした。"
           );
-          console.log("Manufacturer Dataが見つかりませんでした。");
+          console.log("Not Found Manufacturer Data!!");
         }
       }
     });

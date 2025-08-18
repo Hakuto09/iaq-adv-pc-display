@@ -140,7 +140,7 @@ function setupValueAndChart() {
       labels: [],
       datasets: [
         {
-          label: "Temperature Value",
+          label: "Temperature",
           data: [],
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
@@ -159,7 +159,7 @@ function setupValueAndChart() {
       labels: [],
       datasets: [
         {
-          label: "Humidity Value",
+          label: "Humidity",
           data: [],
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
@@ -176,7 +176,7 @@ function setupValueAndChart() {
       labels: [],
       datasets: [
         {
-          label: "CO2 Value",
+          label: "CO2",
           data: [],
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
