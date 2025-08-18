@@ -121,22 +121,65 @@ function setupDatabaseDataReceiver() {
 }
 
 function setupChartMacFilter() {
+  const defaultOptions = {
+    responsive: false, // レスポンシブを無効化
+    maintainAspectRatio: false, // アスペクト比を維持しない
+  };
+
   // グラフの設定
-  const ctx = document.getElementById("chartOfTemp").getContext("2d");
-  //  console.log("Before new Chart: window.api.Chart ", window.api.Chart);
-  const chart = new Chart(ctx, {
+  const ctxTemperature = document
+    .getElementById("chartOfTemperature")
+    .getContext("2d");
+  const chartTemperature = new Chart(ctxTemperature, {
     type: "line",
     data: {
       labels: [],
       datasets: [
         {
-          label: "Temp Value",
+          label: "Temperature Value",
           data: [],
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
         },
       ],
     },
+    options: defaultOptions,
+  });
+
+  const ctxHumidity = document
+    .getElementById("chartOfHumidity")
+    .getContext("2d");
+  const chartHumidity = new Chart(ctxHumidity, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "Humidity Value",
+          data: [],
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: defaultOptions,
+  });
+
+  const ctxCO2 = document.getElementById("chartOfCO2").getContext("2d");
+  const chartCO2 = new Chart(ctxCO2, {
+    type: "line",
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: "CO2 Value",
+          data: [],
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: defaultOptions,
   });
 
   // BLEデータ受信時の処理
@@ -146,17 +189,21 @@ function setupChartMacFilter() {
     // リスト要素の追加
     const deviceList = document.getElementById("deviceList");
     const listItem = document.createElement("li");
-    listItem.innerText = `${date} Temp: ${data.temp}`;
-    //    listItem.innerText = `${data.name || "Unknown Device"} (ID: ${
-    //      data.id
-    //    }) Temp: ${data.temp}`;
+    listItem.innerText = `${date} Temperature: ${data.temperature} Humidity: ${data.humidity} CO2: ${data.co2}`;
     deviceList.appendChild(listItem);
 
     // グラフデータに追加
-    chart.data.labels.push(date);
-    //    chart.data.labels.push(data.name || "Unknown Device");
-    chart.data.datasets[0].data.push(data.temp);
-    chart.update();
+    chartTemperature.data.labels.push(date);
+    chartTemperature.data.datasets[0].data.push(data.temperature);
+    chartTemperature.update();
+
+    chartHumidity.data.labels.push(date);
+    chartHumidity.data.datasets[0].data.push(data.humidity);
+    chartHumidity.update();
+
+    chartCO2.data.labels.push(date);
+    chartCO2.data.datasets[0].data.push(data.co2);
+    chartCO2.update();
   });
 }
 
