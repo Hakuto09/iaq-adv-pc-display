@@ -27,6 +27,7 @@
 
     <script src="scanner.js"></script>
 
+    <h1>BLE Scanner Mac Filter (noble)</h1>
     <div class="slide">
         <div class="frame-value-temperature">
             <img class="icon" src="assets/temp.png" />
@@ -120,72 +121,16 @@
         </div>
     </div>
 
-    <h1>BLE Scanner Mac Filter (noble)</h1>
-    <div class="container">
-        <!-- 最上段 -->
-        <div id="top-row" class="row">
-            <div class="data-display">
-                <img class="icon" src="assets/temp.png" alt="Icon">
-                <span class="label">Temperature :</span>
-                <span id="value-temperature" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/Humi.png" alt="Icon">
-                <span class="label">Humidity :</span>
-                <span id="value-humidity" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/CO2.png" alt="Icon">
-                <span class="label">CO2 :</span>
-                <span id="value-co2" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/TVOC.png" alt="Icon">
-                <span class="label">Value 4:</span>
-                <span id="value-tvoc" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/CO.png" alt="Icon">
-                <span class="label">Value 5:</span>
-                <span id="value-co" class="value"></span>
-            </div>
-        </div>
-
-        <!-- 2段目 -->
-        <div id="middle-row" class="row">
-            <div class="data-display">
-                <img class="icon" src="assets/PM1.0.png" alt="Icon">
-                <span class="label">Value 6:</span>
-                <span id="value-pm1.0" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/PM2.5.png" alt="Icon">
-                <span class="label">Value 7:</span>
-                <span id="value-pm2.5" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/PM10.png" alt="Icon">
-                <span class="label">Value 8:</span>
-                <span id="value-pm10" class="value"></span>
-            </div>
-            <div class="data-display">
-                <img class="icon" src="assets/CH2O.png" alt="Icon">
-                <span class="label">Value 9:</span>
-                <span id="value-ch2o" class="value"></span>
-            </div>
-        </div>
-    </div>
-
     <div class="chart-container">
         <!-- 3段目 -->
         <!-- div id="charts-row" -->
-            <canvas id="chart-temperature" width="400px" height="300px"></canvas>
-            <canvas id="chart-humidity" width="400px" height="300px"></canvas>
-            <canvas id="chart-co2" width="400px" height="300px"></canvas>
+        <canvas id="chart-temperature" width="400px" height="300px"></canvas>
+        <canvas id="chart-humidity" width="400px" height="300px"></canvas>
+        <canvas id="chart-co2" width="400px" height="300px"></canvas>
         <!-- /div -->
     </div>
 
-    <!-- canvas id="chartOfTemp"></canvas -->
+        <!-- canvas id="chartOfTemp"></canvas -->
     <h3>ログ:</h3>
     <div id="log"></div>
 
