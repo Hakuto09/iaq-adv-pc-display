@@ -109,7 +109,10 @@ function setupBleWatchMacFilter(win) {
     });
 
     noble.on("discover", (peripheral) => {
-      if (peripheral.address.toLowerCase() === macAddress.toLowerCase()) {
+      if (
+        "0" === macAddress.toLowerCase() ||
+        peripheral.address.toLowerCase() === macAddress.toLowerCase()
+      ) {
         const nowDate = new Date();
         const advertisement = peripheral.advertisement;
         const manufacturerData = advertisement.manufacturerData;
@@ -121,38 +124,46 @@ function setupBleWatchMacFilter(win) {
         console.log("nowDate", nowDate);
         console.log("isGapOver", isGapOver);
 
-        if (manufacturerData && isGapOver) {
-          const logData = manufacturerData
-            .map(
-              (byte, index) =>
-                `Byte ${index + 1}: 0x${byte.toString(16).padStart(2, "0")}`
-            )
-            .join("\n");
+        if (manufacturerData) {
+          if (isGapOver) {
+            const logData = manufacturerData
+              .map(
+                (byte, index) =>
+                  `Byte ${index + 1}: 0x${byte.toString(16).padStart(2, "0")}`
+              )
+              .join("\n");
 
-          event.reply("advertisementData", logData);
-          console.log("advertisement", advertisement);
-          console.log("manufacturerData", manufacturerData);
-          console.log("manufacturerData[1]", manufacturerData[1]);
-          //          console.log("logData", logData);
-          const sendData = {
-            temperature: 0,
-            humidity: 0,
-            co2: 0,
-          };
-          sendData.temperature = manufacturerData[1]; // temporary!!
-          sendData.humidity = manufacturerData[3]; // temporary!!
-          sendData.co2 = manufacturerData[5]; // temporary!!
+            event.reply("advertisementData", logData);
+            console.log("advertisement", advertisement);
+            console.log("manufacturerData", manufacturerData);
+            console.log("manufacturerData[1]", manufacturerData[1]);
+            //          console.log("logData", logData);
+            const sendData = {
+              temperature: 0,
+              humidity: 0,
+              co2: 0,
+            };
+            sendData.temperature = manufacturerData[1]; // temporary!!
+            sendData.humidity = manufacturerData[3]; // temporary!!
+            sendData.co2 = manufacturerData[5]; // temporary!!
 
-          const padZero = (num) => num.toString().padStart(2, "0");
-          const hours = padZero(nowDate.getHours());
-          const minutes = padZero(nowDate.getMinutes());
-          const seconds = padZero(nowDate.getSeconds());
-          const nowTime = `${hours}:${minutes}:${seconds}`;
+            if (typeof sendData.temperature !== "undefined") {
+              const padZero = (num) => num.toString().padStart(2, "0");
+              const hours = padZero(nowDate.getHours());
+              const minutes = padZero(nowDate.getMinutes());
+              const seconds = padZero(nowDate.getSeconds());
+              const nowTime = `${hours}:${minutes}:${seconds}`;
 
-          console.log("sendData", sendData, "nowTime", nowTime);
-          win.webContents.send("ble-data-with-date", sendData, nowTime);
+              console.log("sendData", sendData, "nowTime", nowTime);
+              win.webContents.send("ble-data-with-date", sendData, nowTime);
 
-          pastDate = nowDate;
+              pastDate = nowDate;
+            } else {
+              console.log("sendData.temperature is undefined!!");
+            }
+          } else {
+            console.log("isGapOver = false!!");
+          }
         } else {
           event.reply(
             "advertisementData",
@@ -160,6 +171,8 @@ function setupBleWatchMacFilter(win) {
           );
           console.log("Not Found Manufacturer Data!!");
         }
+      } else {
+        console.log("Not match with MAC Address!!");
       }
     });
   });
