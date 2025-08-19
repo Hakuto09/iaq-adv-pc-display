@@ -121,33 +121,9 @@ function setupDatabaseDataReceiver() {
 }
 
 function setupValueAndChart() {
-  // 要素を取得
   const valueTemperature = document.getElementById("value-temperature");
   const valueHumidity = document.getElementById("value-humidity");
   const valueCO2 = document.getElementById("value-co2");
-  const valueTVOC = document.getElementById("value-tvoc");
-  const valueCO = document.getElementById("value-co");
-  const valuePM1_0 = document.getElementById("value-pm1_0");
-  const valuePM2_5 = document.getElementById("value-pm2_5");
-  const valuePM10 = document.getElementById("value-pm10");
-  const valueCH2O = document.getElementById("value-ch2o");
-
-  // 初期化：経過秒数の変数を作成
-  let secondsElapsed = 0;
-
-  // ※暫定表示テスト用：10秒毎に更新する処理を開始
-  setInterval(() => {
-    secondsElapsed += 10; // 経過秒数を10秒ずつ加算
-    valueTemperature.textContent = `${secondsElapsed}`; // テキストを更新
-    valueHumidity.textContent = `${secondsElapsed}`; // テキストを更新
-    valueCO2.textContent = `${secondsElapsed}`; // テキストを更新
-    valueTVOC.textContent = `${secondsElapsed}`; // テキストを更新
-    valueCO.textContent = `${secondsElapsed}`; // テキストを更新
-    valuePM1_0.textContent = `${secondsElapsed}`; // テキストを更新
-    valuePM2_5.textContent = `${secondsElapsed}`; // テキストを更新
-    valuePM10.textContent = `${secondsElapsed}`; // テキストを更新
-    valueCH2O.textContent = `${secondsElapsed}`; // テキストを更新
-  }, 10000); // 10,000ミリ秒 = 10秒
 
   const defaultOptions = {
     responsive: false, // レスポンシブを無効化

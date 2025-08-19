@@ -1,0 +1,181 @@
+.slide {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    background-color: #ffffff;
+}
+
+.slide .icon {
+    position: absolute;
+    width: 52px;
+    height: 53px;
+    top: 20px;
+    left: 12px;
+    aspect-ratio: 0.99;
+    object-fit: cover;
+}
+
+.slide .name-value {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 15px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+}
+
+.slide .box-value {
+    position: absolute;
+    width: 103px;
+    height: 47px;
+    top: 25px;
+    left: 70px;
+}
+
+.slide .overlap-box-value {
+    position: relative;
+    width: 101px;
+    height: 47px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-color: #858585;
+}
+
+.slide .value {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 32px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.slide .unit-value {
+    position: absolute;
+    top: 35px;
+    left: 175px;
+    font-family: "Inter-Bold", Helvetica;
+    font-weight: 700;
+    color: #000000;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+
+
+.slide .frame-value-temperature {
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    top: 65px;
+    left: 88px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-humidity {
+    top: 65px;
+    left: 384px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-co2 {
+    top: 65px;
+    left: 680px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-tvoc {
+    top: 65px;
+    left: 976px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-co {
+    top: 65px;
+    left: 1272px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-pm1_0 {
+    top: 220px;
+    left: 88px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-pm2_5 {
+    top: 220px;
+    left: 384px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-pm10 {
+    top: 220px;
+    left: 680px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
+.slide .frame-value-ch2o {
+    top: 220px;
+    left: 976px;
+    position: absolute;
+    width: 256px;
+    height: 120px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    border: 1px solid;
+    border-color: #169f4f;
+}
+
