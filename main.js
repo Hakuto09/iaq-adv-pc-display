@@ -142,10 +142,22 @@ function setupBleWatchMacFilter(win) {
               temperature: 0,
               humidity: 0,
               co2: 0,
+              tvoc: 0,
+              co: 0,
+              pm1_0: 0,
+              pm2_5: 0,
+              pm10: 0,
+              ch2o: 0,
             };
             sendData.temperature = manufacturerData[1]; // temporary!!
             sendData.humidity = manufacturerData[3]; // temporary!!
             sendData.co2 = manufacturerData[5]; // temporary!!
+            sendData.tvoc = manufacturerData[7]; // temporary!!
+            sendData.co = manufacturerData[9]; // temporary!!
+            sendData.pm1_0 = manufacturerData[11]; // temporary!!
+            sendData.pm2_5 = manufacturerData[13]; // temporary!!
+            sendData.pm10 = manufacturerData[15]; // temporary!!
+            sendData.ch2o = manufacturerData[16]; // temporary!!
 
             if (typeof sendData.temperature !== "undefined") {
               const padZero = (num) => num.toString().padStart(2, "0");

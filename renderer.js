@@ -135,7 +135,20 @@ function setupValueAndChart() {
   // 初期化：経過秒数の変数を作成
   let secondsElapsed = 0;
 
+  function updateBoxValue(data) {
+    valueTemperature.textContent = data.temperature;
+    valueHumidity.textContent = data.humidity;
+    valueCO2.textContent = data.co2;
+    valueTVOC.textContent = data.tvoc;
+    valueCO.textContent = data.co;
+    valuePM1_0.textContent = data.pm1_0;
+    valuePM2_5.textContent = data.pm2_5;
+    valuePM10.textContent = data.pm10;
+    valueCH2O.textContent = data.ch2o;
+  }
+
   // ※暫定表示テスト用：10秒毎に更新する処理を開始
+  /*
   setInterval(() => {
     secondsElapsed += 10; // 経過秒数を10秒ずつ加算
     valueTemperature.textContent = `${secondsElapsed}`; // テキストを更新
@@ -148,6 +161,7 @@ function setupValueAndChart() {
     valuePM10.textContent = `${secondsElapsed}`; // テキストを更新
     valueCH2O.textContent = `${secondsElapsed}`; // テキストを更新
   }, 10000); // 10,000ミリ秒 = 10秒
+*/
 
   const defaultOptions = {
     responsive: false, // レスポンシブを無効化
@@ -210,13 +224,18 @@ function setupValueAndChart() {
     options: defaultOptions,
   });
 
+  function updateCharts(data, date) {
+    const limit = 10;
+    updateChart(chartTemperature, date, data.temperature, limit);
+    updateChart(chartHumidity, date, data.humidity, limit);
+    updateChart(chartCO2, date, data.co2, limit);
+  }
+
   // BLEデータ受信時の処理
   window.electronAPI.onBLEDataWithDate((data, date) => {
     console.log("Device discovered:", "data", data, "date", date);
 
-    valueTemperature.textContent = data.temperature;
-    valueHumidity.textContent = data.humidity;
-    valueCO2.textContent = data.co2;
+    updateBoxValue(data);
 
     // リスト要素の追加
     const deviceList = document.getElementById("deviceList");
@@ -224,19 +243,21 @@ function setupValueAndChart() {
     listItem.innerText = `${date} Temperature: ${data.temperature} Humidity: ${data.humidity} CO2: ${data.co2}`;
     deviceList.appendChild(listItem);
 
-    // グラフデータに追加
-    chartTemperature.data.labels.push(date);
-    chartTemperature.data.datasets[0].data.push(data.temperature);
-    chartTemperature.update();
-
-    chartHumidity.data.labels.push(date);
-    chartHumidity.data.datasets[0].data.push(data.humidity);
-    chartHumidity.update();
-
-    chartCO2.data.labels.push(date);
-    chartCO2.data.datasets[0].data.push(data.co2);
-    chartCO2.update();
+    updateCharts(data, date);
   });
+}
+
+function updateChart(chart, date, data, limit) {
+  chart.data.labels.push(date); // X軸ラベルに新しいデータを追加
+  chart.data.datasets[0].data.push(data); // Y軸データに新しいデータを追加
+
+  // データが10個を超えた場合、古いデータを削除
+  if (chart.data.labels.length > limit) {
+    chart.data.labels.shift(); // 配列の最初の要素を削除
+    chart.data.datasets[0].data.shift(); // データセットの最初の値を削除
+  }
+
+  chart.update();
 }
 
 function setupChart() {

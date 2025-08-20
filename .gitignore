@@ -25,11 +25,9 @@ pnpm-debug.log*
 build/
 dist/
 node_modules/
+iaq-adv-pc-display-win32-x64/
 .secret-*
 **.sample
-
-venv/
-package/
 
 # Certs
 openssl-certs/
