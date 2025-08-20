@@ -56,6 +56,10 @@
     font-size: 32px;
     letter-spacing: 0;
     line-height: normal;
+    text-align: right;
+    width: 100%;
+    padding-right: 10px;
+    box-sizing: border-box;
 }
 
 .slide .unit-value {
