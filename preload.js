@@ -5,8 +5,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   stopScan: () => ipcRenderer.send("stopScan"),
   onScanStatus: (callback) =>
     ipcRenderer.on("scanStatus", (_, message) => callback(message)),
-  onAdvertisementData: (callback) =>
-    ipcRenderer.on("advertisementData", (_, data) => callback(data)),
+  onManufacturerData: (callback) =>
+    ipcRenderer.on("manufacturerData", (_, data) => callback(data)),
   onBLEDataWithDate: (callback) =>
     ipcRenderer.on("ble-data-with-date", (event, data, date) =>
       callback(data, date)

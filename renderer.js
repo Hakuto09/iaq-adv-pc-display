@@ -2,7 +2,7 @@
 //const Chart2 = window.api.Chart;
 
 function setup() {
-  const logDiv = document.getElementById("log");
+  const log = document.getElementById("log");
   const macAddressInput = document.getElementById("macAddress");
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
@@ -10,24 +10,24 @@ function setup() {
   startBtn.addEventListener("click", () => {
     const macAddress = macAddressInput.value.trim();
     if (macAddress) {
-      logDiv.textContent = "スキャンを開始します...";
+      log.textContent = "スキャンを開始します...";
       window.electronAPI.startScan(macAddress);
     } else {
-      logDiv.textContent = "MACアドレスを入力してください！";
+      log.textContent = "MACアドレスを入力してください！";
     }
   });
 
   stopBtn.addEventListener("click", () => {
-    logDiv.textContent = "スキャンを停止します...";
+    log.textContent = "スキャンを停止します...";
     window.electronAPI.stopScan();
   });
 
   window.electronAPI.onScanStatus((message) => {
-    logDiv.textContent += "\n" + message;
+    log.textContent += "\n" + message;
   });
 
-  window.electronAPI.onAdvertisementData((data) => {
-    logDiv.textContent += "\n--- Advertisement Data ---\n" + data;
+  window.electronAPI.onManufacturerData((data) => {
+    log.textContent += "\n" + "ManufacturerData: " + data;
   });
 }
 

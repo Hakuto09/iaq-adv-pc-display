@@ -134,7 +134,8 @@ function setupBleWatchMacFilter(win) {
               )
               .join("\n");
 
-            event.reply("advertisementData", logData);
+            event.reply("manufacturerData", " nowDate: " + nowDate);
+            event.reply("manufacturerData", manufacturerData);
             console.log("advertisement", advertisement);
             console.log("manufacturerData", manufacturerData);
             console.log("manufacturerData[1]", manufacturerData[1]);
