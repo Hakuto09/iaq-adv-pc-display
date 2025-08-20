@@ -238,10 +238,12 @@ function setupValueAndChart() {
     updateBoxValue(data);
 
     // リスト要素の追加
+    /*
     const deviceList = document.getElementById("deviceList");
     const listItem = document.createElement("li");
     listItem.innerText = `${date} Temperature: ${data.temperature} Humidity: ${data.humidity} CO2: ${data.co2}`;
     deviceList.appendChild(listItem);
+    */
 
     updateCharts(data, date);
   });
@@ -260,6 +262,7 @@ function updateChart(chart, date, data, limit) {
   chart.update();
 }
 
+/*
 function setupChart() {
   // グラフの設定
   const ctx = document.getElementById("chartOfRssi").getContext("2d");
@@ -297,6 +300,7 @@ function setupChart() {
     chart.update();
   });
 }
+*/
 
 // 初期化処理
 function initialize() {
@@ -307,7 +311,7 @@ function initialize() {
   setupDataFetch();
   setupDatabaseDataReceiver();
   setupValueAndChart();
-  setupChart();
+  //  setupChart();
 }
 
 // ページをロード後に初期化

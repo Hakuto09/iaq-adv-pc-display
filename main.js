@@ -15,6 +15,7 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const openDevToolsFlag = false;
 let pastDate;
 
 function createWindow() {
@@ -57,7 +58,7 @@ function createWindow() {
     console.log("DevTools opened. Suppressing Autofill errors...");
     win.webContents.debugger.detach(); // DevToolsのAutofill関連プロトコルを無効化
   });
-  win.webContents.openDevTools();
+  if (openDevToolsFlag) win.webContents.openDevTools();
 
   // 現在のURLをログ出力
   win.webContents.on("did-finish-load", () => {
