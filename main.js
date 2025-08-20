@@ -153,13 +153,13 @@ function setupBleWatchMacFilter(win) {
             };
             sendData.temperature = manufacturerData[1]; // temporary!!
             sendData.humidity = manufacturerData[3]; // temporary!!
-            sendData.co2 = manufacturerData[5]; // temporary!!
-            sendData.tvoc = manufacturerData[7]; // temporary!!
-            sendData.co = manufacturerData[9]; // temporary!!
-            sendData.pm1_0 = manufacturerData[11]; // temporary!!
-            sendData.pm2_5 = manufacturerData[13]; // temporary!!
-            sendData.pm10 = manufacturerData[15]; // temporary!!
-            sendData.ch2o = manufacturerData[16]; // temporary!!
+            sendData.pm1_0 = manufacturerData[5]; // temporary!!
+            sendData.pm2_5 = manufacturerData[7]; // temporary!!
+            sendData.pm10 = manufacturerData[9]; // temporary!!
+            sendData.co2 = manufacturerData[11]; // temporary!!
+            sendData.tvoc = manufacturerData[13]; // temporary!!
+            sendData.ch2o = manufacturerData[15]; // temporary!!
+            sendData.co = manufacturerData[16]; // temporary!!
 
             if (typeof sendData.temperature !== "undefined") {
               const padZero = (num) => num.toString().padStart(2, "0");
@@ -173,20 +173,30 @@ function setupBleWatchMacFilter(win) {
 
               pastDate = nowDate;
             } else {
-              console.log("sendData.temperature is undefined!!");
+              console.log(
+                "sendData.temperature is undefined!!:",
+                " nowDate ",
+                nowDate
+              );
             }
           } else {
-            console.log("isGapOver = false!!");
+            console.log("isGapOver = false!!:", " nowDate ", nowDate);
           }
         } else {
           event.reply(
             "advertisementData",
             "Manufacturer Dataが見つかりませんでした。"
           );
-          console.log("Not Found Manufacturer Data!!");
+          console.log("Not Found Manufacturer Data!!:", " nowDate ", nowDate);
         }
       } else {
-        console.log("Not match with MAC Address!!");
+        /*
+        console.log(
+          "Not match with MAC Address!!:",
+          " peripheral ",
+          peripheral.address.toLowerCase()
+        );
+        */
       }
     });
   });
