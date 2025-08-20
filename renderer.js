@@ -163,10 +163,12 @@ function setupValueAndChart() {
   }, 10000); // 10,000ミリ秒 = 10秒
 */
 
+  /*
   const defaultOptions = {
     responsive: false, // レスポンシブを無効化
     maintainAspectRatio: false, // アスペクト比を維持しない
   };
+  */
 
   // グラフの設定
   const ctxTemperature = document
@@ -185,7 +187,24 @@ function setupValueAndChart() {
         },
       ],
     },
-    options: defaultOptions,
+    options: {
+      responsive: false,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: "[℃]", // 軸全体のタイトル
+          },
+        },
+        x: {
+          title: {
+            display: true,
+            text: "time", // X軸のタイトル
+          },
+        },
+      },
+    },
   });
 
   const ctxHumidity = document
@@ -204,7 +223,24 @@ function setupValueAndChart() {
         },
       ],
     },
-    options: defaultOptions,
+    options: {
+      responsive: false,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: "[%]", // 軸全体のタイトル
+          },
+        },
+        x: {
+          title: {
+            display: true,
+            text: "time", // X軸のタイトル
+          },
+        },
+      },
+    },
   });
 
   const ctxCO2 = document.getElementById("chart-co2").getContext("2d");
@@ -221,7 +257,24 @@ function setupValueAndChart() {
         },
       ],
     },
-    options: defaultOptions,
+    options: {
+      responsive: false,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: "[ppm]", // 軸全体のタイトル
+          },
+        },
+        x: {
+          title: {
+            display: true,
+            text: "time", // X軸のタイトル
+          },
+        },
+      },
+    },
   });
 
   function updateCharts(data, date) {
