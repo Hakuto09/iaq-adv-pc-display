@@ -87,70 +87,70 @@ export function calcPm10From16Bit(pm10_16Bit) {
   return pm10;
 }
 
-export function calcCO2From16Bit(CO2_16Bit) {
+export function calcCO2From16Bit(co2_16Bit) {
   const min16Bit = 0x0190; // 400 ppm
   const max16Bit = 0x1388; // 5000 ppm
   const minCO2 = 400; // ppm
   const maxCO2 = 5000; // ppm
 
-  const CO2 = (
-    ((CO2_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCO2 - minCO2) +
+  const co2 = (
+    ((co2_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCO2 - minCO2) +
     minCO2
   ).toFixed(0);
 
-  console.log(`calcCO2From16Bit(): CO2_16Bit ${CO2_16Bit}`);
-  console.log(`calcCO2From16Bit(): CO2 ${CO2} ppm`);
+  console.log(`calcCO2From16Bit(): co2_16Bit ${co2_16Bit}`);
+  console.log(`calcCO2From16Bit(): co2 ${co2} ppm`);
 
-  return CO2;
+  return co2;
 }
 
-export function calcTVOCFrom16Bit(TVOC16Bit) {
+export function calcTVOCFrom16Bit(tvoc16Bit) {
   const min16Bit = 0x0000; // 4 ppb
   const max16Bit = 0x07d0; // 2000 ppb
   const minTVOC = 0; // ppb
   const maxTVOC = 2000; // ppb
 
-  const TVOC = (
-    ((TVOC16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxTVOC - minTVOC) +
+  const tvoc = (
+    ((tvoc16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxTVOC - minTVOC) +
     minTVOC
   ).toFixed(0);
 
-  console.log(`calcCO2From16Bit(): TVOC16Bit ${TVOC16Bit}`);
-  console.log(`calcCO2From16Bit(): TVOC ${TVOC} ppm`);
+  console.log(`calcCO2From16Bit(): tvoc16Bit ${tvoc16Bit}`);
+  console.log(`calcCO2From16Bit(): tvoc ${tvoc} ppm`);
 
-  return TVOC;
+  return tvoc;
 }
 
-export function calcCH2OFrom16Bit(CH2O_16Bit) {
+export function calcCH2OFrom16Bit(ch2o_16Bit) {
   const min16Bit = 0x0000; // 4 ppb
   const max16Bit = 0x1388; // 5000 ppb
   const minCH2O = 0; // ppb
   const maxCH2O = 5000; // ppb
 
-  const CH2O = (
-    ((CH2O_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCH2O - minCH2O) +
+  const ch2o = (
+    ((ch2o_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCH2O - minCH2O) +
     minCH2O
   ).toFixed(0);
 
-  console.log(`calcCO2From16Bit(): CH2O_16Bit ${CH2O_16Bit}`);
-  console.log(`calcCO2From16Bit(): CH2O ${CH2O} ppm`);
+  console.log(`calcCO2From16Bit(): CH2O_16Bit ${ch2o_16Bit}`);
+  console.log(`calcCO2From16Bit(): ch2o ${ch2o} ppm`);
 
-  return CH2O;
+  return ch2o;
 }
 
-export function calcCOFrom8Bit(CO_16Bit) {
-  const min16Bit = 0x00; // 0.0 ppm
-  const max16Bit = 0xc8; // 20.0 ppm
+export function calcCOFrom8Bit(co_8Bit) {
+  const min8Bit = 0x00; // 0.0 ppm
+  const max8Bit = 0xc8; // 20.0 ppm
   const minCO = 0.0; // 0.0 ppm
   const maxCO = 20.0; // 20.0 ppm
 
-  const CO = (
-    ((CO_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCO - minCO) +
+  const co = (
+    ((co_8Bit - min8Bit) / (max8Bit - min8Bit)) * (maxCO - minCO) +
     minCO
   ).toFixed(1);
 
-  console.log(`calcCO2From16Bit(): CO_16Bit ${CO_16Bit}`);
-  console.log(`calcCO2From16Bit(): CO ${CO} ppm`);
+  console.log(`calcCO2From16Bit(): co_8Bit ${co_8Bit}`);
+  console.log(`calcCO2From16Bit(): co ${co} ppm`);
 
-  return CO2;
+  return co;
 }
