@@ -1,5 +1,4 @@
-//const Chart = window.api.getChartLibrary();
-//const Chart2 = window.api.Chart;
+//import ChartDataLabels from "chartjs-plugin-datalabels";
 
 function setup() {
   const log = document.getElementById("log");
@@ -170,6 +169,30 @@ function setupValueAndChart() {
   };
   */
 
+  const dataLabelsPlugin = {
+    id: "dataLabels",
+    beforeDraw: (chart) => {
+      const ctx = chart.ctx;
+      const dataset = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0); // データのメタ情報を取得
+      const yAxis = chart.scales.y;
+
+      meta.data.forEach((element, index) => {
+        // 各ポイントのX,Y座標を取得
+        const x = element.x;
+        const y = element.y;
+
+        // 数値ラベルを描画
+        const value = dataset.data[index];
+        ctx.fillStyle = "black"; // ラベルの色
+        ctx.font = "12px Arial"; // ラベルのフォント
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(value, x + 10, y - 10); // 数値を少し上に描画
+      });
+    },
+  };
+
   // グラフの設定
   const ctxTemperature = document
     .getElementById("chart-temperature")
@@ -205,6 +228,7 @@ function setupValueAndChart() {
         },
       },
     },
+    plugins: [dataLabelsPlugin],
   });
 
   const ctxHumidity = document
@@ -241,6 +265,7 @@ function setupValueAndChart() {
         },
       },
     },
+    plugins: [dataLabelsPlugin],
   });
 
   const ctxCO2 = document.getElementById("chart-co2").getContext("2d");
@@ -275,6 +300,7 @@ function setupValueAndChart() {
         },
       },
     },
+    plugins: [dataLabelsPlugin],
   });
 
   function updateCharts(data, date) {
