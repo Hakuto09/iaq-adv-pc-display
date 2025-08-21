@@ -165,7 +165,8 @@ function setupBleWatchMacFilter(win) {
               const hours = padZero(nowDate.getHours());
               const minutes = padZero(nowDate.getMinutes());
               const seconds = padZero(nowDate.getSeconds());
-              const nowTime = `${hours}:${minutes}:${seconds}`;
+              //const nowTime = `${hours}:${minutes}:${seconds}`;
+              const nowTime = `${hours}:${minutes}`;
 
               console.log("sendData", sendData, "nowTime", nowTime);
               win.webContents.send("ble-data-with-date", sendData, nowTime);
