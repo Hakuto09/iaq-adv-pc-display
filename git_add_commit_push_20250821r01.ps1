@@ -3,7 +3,7 @@ $branchList = @(
     "main"
 )
 
-if ($args.Count -ne 4) {
+if (($args.Count -ne 3) -and ($args.Count -ne 4)) {
     Write-Host "Usage: .\script.ps1 <branch> <version> <commit comment> <options>"
     Write-Host "Example: .\script.ps1 main V1.0.0 20250311r01-001_build-test"
     Write-Host "Branch list:"

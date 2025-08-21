@@ -42,8 +42,8 @@
     width: 101px;
     height: 47px;
     background-color: #ffffff;
-    border: 1px solid;
-    border-color: #858585;
+    /*border: 1px solid;*/
+    /*border-color: #858585;*/
 }
 
 .slide .value {
