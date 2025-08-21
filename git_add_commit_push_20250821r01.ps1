@@ -3,8 +3,8 @@ $branchList = @(
     "main"
 )
 
-if ($args.Count -ne 3) {
-    Write-Host "Usage: .\script.ps1 <branch> <version> <commit comment>"
+if ($args.Count -ne 4) {
+    Write-Host "Usage: .\script.ps1 <branch> <version> <commit comment> <options>"
     Write-Host "Example: .\script.ps1 main V1.0.0 20250311r01-001_build-test"
     Write-Host "Branch list:"
     foreach ($item in $branchList) {
@@ -16,6 +16,7 @@ if ($args.Count -ne 3) {
 $branch = $args[0]
 $version = $args[1]
 $comments = $args[2]
+$options = $args[3]
 $found = $false
 
 # version.js‚ğíœ
@@ -40,7 +41,7 @@ if (-not $found) {
 # Git‘€ì
 git add .
 git commit -m $comments
-git push origin $branch
+git push origin $branch $options
 
 # DUMMYƒo[ƒWƒ‡ƒ“‚ğ‘‚«–ß‚·
 "export const version = 'DUMMY';" | Out-File -FilePath "version.js" -Encoding UTF8
