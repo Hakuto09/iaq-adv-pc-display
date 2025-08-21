@@ -219,6 +219,11 @@ function setupValueAndChart() {
             display: true,
             text: "[℃]", // 軸全体のタイトル
           },
+          min: 0, // Y軸の最小値
+          max: 50, // Y軸の最大値
+          ticks: {
+            stepSize: 5, // Y軸の目盛り間隔
+          },
         },
         x: {
           title: {
@@ -256,6 +261,11 @@ function setupValueAndChart() {
             display: true,
             text: "[%]", // 軸全体のタイトル
           },
+          min: 0, // Y軸の最小値
+          max: 100, // Y軸の最大値
+          ticks: {
+            stepSize: 10, // Y軸の目盛り間隔
+          },
         },
         x: {
           title: {
@@ -290,6 +300,11 @@ function setupValueAndChart() {
           title: {
             display: true,
             text: "[ppm]", // 軸全体のタイトル
+          },
+          min: 0, // Y軸の最小値
+          max: 3000, // Y軸の最大値
+          ticks: {
+            stepSize: 500, // Y軸の目盛り間隔
           },
         },
         x: {
