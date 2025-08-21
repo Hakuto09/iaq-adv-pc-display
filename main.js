@@ -129,20 +129,33 @@ function setupBleWatchMacFilter(win) {
 
         if (manufacturerData) {
           if (isGapOver) {
+            /*
             const logData = manufacturerData
               .map(
                 (byte, index) =>
                   `Byte ${index + 1}: 0x${byte.toString(16).padStart(2, "0")}`
               )
               .join("\n");
+            */
+            /*
+            const manufacturerDataLog = manufacturerData
+              .map((byte, index) => `0x${byte.toString(16).padStart(2, "0")}`)
+              .join(" ");
+            */
+            let manufacturerDataLog = "";
+            manufacturerData.forEach(
+              (value) =>
+                (manufacturerDataLog +=
+                  "0x" + value.toString(16).padStart(2, "0") + " ")
+            );
 
             event.reply("manufacturerData", " nowDate: " + nowDate);
-            event.reply("manufacturerData", manufacturerData);
+            event.reply("manufacturerData", manufacturerDataLog);
             console.log("advertisement", advertisement);
             console.log("manufacturerData", manufacturerData);
             console.log("manufacturerData Hex:");
             manufacturerData.forEach((value) =>
-              console.log(value.toString(16))
+              console.log("0x" + value.toString(16).padStart(2, "0"))
             );
 
             const sendData = getIAQData(manufacturerData);
