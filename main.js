@@ -2,6 +2,17 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
 import { importCsvToDatabase, getDatabaseData } from "./database.js";
 //const { importCsvToDatabase, getDatabaseData } = required("./database");
+import {
+  calcTemperatureFrom16Bit,
+  calcHumidityFrom16Bit,
+  calcPm1_0From16Bit,
+  calcPm2_5From16Bit,
+  calcPm10From16Bit,
+  calcCO2From16Bit,
+  calcTVOCFrom16Bit,
+  calcCH2OFrom16Bit,
+  calcCOFrom8Bit,
+} from "./iaqdata.js";
 import Store from "electron-store";
 const store = new Store();
 
@@ -88,6 +99,48 @@ function createWindow() {
 function setupBleWatchMacFilter(win) {
   let isScanning = false;
 
+  function getSendData(manufacturerData) {
+    const sendData = {
+      temperature: 0,
+      humidity: 0,
+      co2: 0,
+      tvoc: 0,
+      co: 0,
+      pm1_0: 0,
+      pm2_5: 0,
+      pm10: 0,
+      ch2o: 0,
+    };
+
+    sendData.temperature = calcTemperatureFrom16Bit(
+      (manufacturerData[0] << 8) | manufacturerData[1]
+    );
+    sendData.humidity = calcHumidityFrom16Bit(
+      (manufacturerData[2] << 8) | manufacturerData[3]
+    );
+    sendData.pm1_0 = calcPm1_0From16Bit(
+      (manufacturerData[4] << 8) | manufacturerData[5]
+    );
+    sendData.pm2_5 = calcPm2_5From16Bit(
+      (manufacturerData[6] << 8) | manufacturerData[7]
+    );
+    sendData.pm10 = calcPm10From16Bit(
+      (manufacturerData[8] << 8) | manufacturerData[9]
+    );
+    sendData.co2 = calcCO2From16Bit(
+      (manufacturerData[10] << 8) | manufacturerData[11]
+    );
+    sendData.tvoc = calcTVOCFrom16Bit(
+      (manufacturerData[12] << 8) | manufacturerData[13]
+    );
+    sendData.ch2o = calcCH2OFrom16Bit(
+      (manufacturerData[14] << 8) | manufacturerData[15]
+    );
+    sendData.co = calcCOFrom8Bit(manufacturerData[16]);
+
+    return sendData;
+  }
+
   ipcMain.on("startScan", (event, macAddress) => {
     if (isScanning) {
       event.reply("scanStatus", "スキャンはすでに実行中です！");
@@ -95,6 +148,7 @@ function setupBleWatchMacFilter(win) {
     }
 
     isScanning = true;
+
     noble.on("stateChange", (state) => {
       if (state === "poweredOn") {
         noble.startScanning([], true);
@@ -138,28 +192,12 @@ function setupBleWatchMacFilter(win) {
             event.reply("manufacturerData", manufacturerData);
             console.log("advertisement", advertisement);
             console.log("manufacturerData", manufacturerData);
-            console.log("manufacturerData[1]", manufacturerData[1]);
-            //          console.log("logData", logData);
-            const sendData = {
-              temperature: 0,
-              humidity: 0,
-              co2: 0,
-              tvoc: 0,
-              co: 0,
-              pm1_0: 0,
-              pm2_5: 0,
-              pm10: 0,
-              ch2o: 0,
-            };
-            sendData.temperature = manufacturerData[1]; // temporary!!
-            sendData.humidity = manufacturerData[3]; // temporary!!
-            sendData.pm1_0 = manufacturerData[5]; // temporary!!
-            sendData.pm2_5 = manufacturerData[7]; // temporary!!
-            sendData.pm10 = manufacturerData[9]; // temporary!!
-            sendData.co2 = manufacturerData[11]; // temporary!!
-            sendData.tvoc = manufacturerData[13]; // temporary!!
-            sendData.ch2o = manufacturerData[15]; // temporary!!
-            sendData.co = manufacturerData[16]; // temporary!!
+            console.log("manufacturerData Hex:");
+            manufacturerData.forEach((value) =>
+              console.log(value.toString(16))
+            );
+
+            const sendData = getSendData(manufacturerData);
 
             if (typeof sendData.temperature !== "undefined") {
               const padZero = (num) => num.toString().padStart(2, "0");
