@@ -1,1 +1,1 @@
-﻿export const version = 'DUMMY';
+﻿export const version = 'V1.0.0';
