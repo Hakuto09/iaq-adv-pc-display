@@ -97,7 +97,7 @@ function setupBleWatchMacFilter(win) {
     }
 
     isScanning = true;
-
+    /*
     noble.on("stateChange", (state) => {
       console.log('noble.on("stateChange"): In');
       if (state === "poweredOn") {
@@ -112,6 +112,38 @@ function setupBleWatchMacFilter(win) {
         event.reply("scanStatus", "BLEがオフになっています！");
       }
     });
+    */
+    if (noble.state === "poweredOn") {
+      console.log("Before noble.startScanning():");
+      noble.startScanning([], true);
+      event.reply("scanStatus", `スキャン開始: ターゲットMAC -> ${macAddress}`);
+      console.log("スキャン開始: ターゲットMAC ->", macAddress);
+    } else {
+      console.log('Before noble.once("stateChange"):');
+      noble.once("stateChange", (state) => {
+        if (state === "poweredOn") {
+          noble.startScanning([], true);
+          event.reply(
+            "scanStatus",
+            `スキャン開始 (stateChange): ターゲットMAC -> ${macAddress}`
+          );
+          console.log(
+            "スキャン開始 (stateChange): ターゲットMAC ->",
+            macAddress
+          );
+        } else if (state === "unknown" || state === "unsupported") {
+          console.log(
+            'noble: state === "unknown" or "unsupported":',
+            " state ",
+            state
+          );
+          console.error("Bluetoothアダプタの状態を確認してください");
+        } else {
+          noble.stopScanning();
+          console.error("(stateChange): Bluetoothがオンになりません");
+        }
+      });
+    }
 
     noble.on("discover", (peripheral) => {
       //      console.log('noble.on("discover"): In');
