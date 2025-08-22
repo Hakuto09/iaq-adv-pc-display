@@ -217,7 +217,7 @@ function setupValueAndChart() {
         y: {
           title: {
             display: true,
-            text: "[℃]", // 軸全体のタイトル
+            text: "[ ℃ ]", // 軸全体のタイトル
           },
           min: 0, // Y軸の最小値
           max: 50, // Y軸の最大値
@@ -259,7 +259,7 @@ function setupValueAndChart() {
         y: {
           title: {
             display: true,
-            text: "[%]", // 軸全体のタイトル
+            text: "[ % ]", // 軸全体のタイトル
           },
           min: 0, // Y軸の最小値
           max: 100, // Y軸の最大値
@@ -299,7 +299,7 @@ function setupValueAndChart() {
         y: {
           title: {
             display: true,
-            text: "[ppm]", // 軸全体のタイトル
+            text: "[ ppm ]", // 軸全体のタイトル
           },
           min: 0, // Y軸の最小値
           max: 3000, // Y軸の最大値
