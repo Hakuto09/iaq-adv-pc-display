@@ -114,7 +114,7 @@ function setupBleWatchMacFilter(win) {
     });
 
     noble.on("discover", (peripheral) => {
-      console.log('noble.on("discover"): In');
+      //      console.log('noble.on("discover"): In');
       if (
         "0" === macAddress.toLowerCase() ||
         peripheral.address.toLowerCase() === macAddress.toLowerCase()

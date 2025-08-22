@@ -1,11 +1,19 @@
+function signed16Bit(value) {
+  // 値が16ビット範囲内かを確認
+  // 16ビットの符号付き整数範囲を補正
+  return value & 0x8000 ? value - 0x10000 : value;
+}
+
 export function calcTemperatureFrom16Bit(temperature16Bit) {
-  const min16Bit = 0xff38; // -20.0 ℃
-  const max16Bit = 0x01f4; // 50.0 ℃
+  const signedMin16Bit = signed16Bit(0xff38); // -20.0 ℃
+  const signedMax16Bit = signed16Bit(0x01f4); // 50.0 ℃
   const minTemperature = -20.0; // ℃
   const maxTemperature = 50.0; // ℃
+  const signedTemperature16Bit = signed16Bit(temperature16Bit);
 
   const temperature = (
-    ((temperature16Bit - min16Bit) / (max16Bit - min16Bit)) *
+    ((signedTemperature16Bit - signedMin16Bit) /
+      (signedMax16Bit - signedMin16Bit)) *
       (maxTemperature - minTemperature) +
     minTemperature
   ).toFixed(1);
@@ -19,13 +27,13 @@ export function calcTemperatureFrom16Bit(temperature16Bit) {
 }
 
 export function calcHumidityFrom16Bit(humidity16Bit) {
-  const min16Bit = 0x0000; // 0.0 %RH
-  const max16Bit = 0x03e8; // 100.0 %RH
+  const signedMin16Bit = 0x0000; // 0.0 %RH
+  const signedMax16Bit = 0x03e8; // 100.0 %RH
   const minHumidity = 0.0; // %RH
   const maxHumidity = 100.0; // %RH
 
   const humidity = (
-    ((humidity16Bit - min16Bit) / (max16Bit - min16Bit)) *
+    ((humidity16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxHumidity - minHumidity) +
     minHumidity
   ).toFixed(1);
@@ -37,13 +45,14 @@ export function calcHumidityFrom16Bit(humidity16Bit) {
 }
 
 export function calcPm1_0From16Bit(pm1_0_16Bit) {
-  const min16Bit = 0x0000; // 0 ug/m3
-  const max16Bit = 0x03e8; // 1000 ug/m3
+  const signedMin16Bit = 0x0000; // 0 ug/m3
+  const signedMax16Bit = 0x03e8; // 1000 ug/m3
   const minPm1_0 = 0; // ug/m3
   const maxPm1_0 = 1000; // ug/m3
 
   const pm1_0 = (
-    ((pm1_0_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxPm1_0 - minPm1_0) +
+    ((pm1_0_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+      (maxPm1_0 - minPm1_0) +
     minPm1_0
   ).toFixed(0);
 
@@ -54,13 +63,14 @@ export function calcPm1_0From16Bit(pm1_0_16Bit) {
 }
 
 export function calcPm2_5From16Bit(pm2_5_16Bit) {
-  const min16Bit = 0x0000; // 0 ug/m3
-  const max16Bit = 0x03e8; // 1000 ug/m3
+  const signedMin16Bit = 0x0000; // 0 ug/m3
+  const signedMax16Bit = 0x03e8; // 1000 ug/m3
   const minPm2_5 = 0; // ug/m3
   const maxPm2_5 = 1000; // ug/m3
 
   const pm2_5 = (
-    ((pm2_5_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxPm2_5 - minPm2_5) +
+    ((pm2_5_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+      (maxPm2_5 - minPm2_5) +
     minPm2_5
   ).toFixed(0);
 
@@ -71,13 +81,14 @@ export function calcPm2_5From16Bit(pm2_5_16Bit) {
 }
 
 export function calcPm10From16Bit(pm10_16Bit) {
-  const min16Bit = 0x0000; // 0 ug/m3
-  const max16Bit = 0x03e8; // 1000 ug/m3
+  const signedMin16Bit = 0x0000; // 0 ug/m3
+  const signedMax16Bit = 0x03e8; // 1000 ug/m3
   const minPm10 = 0; // ug/m3
   const maxPm10 = 1000; // ug/m3
 
   const pm10 = (
-    ((pm10_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxPm10 - minPm10) +
+    ((pm10_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+      (maxPm10 - minPm10) +
     minPm10
   ).toFixed(0);
 
@@ -88,13 +99,14 @@ export function calcPm10From16Bit(pm10_16Bit) {
 }
 
 export function calcCO2From16Bit(co2_16Bit) {
-  const min16Bit = 0x0190; // 400 ppm
-  const max16Bit = 0x1388; // 5000 ppm
+  const signedMin16Bit = 0x0190; // 400 ppm
+  const signedMax16Bit = 0x1388; // 5000 ppm
   const minCO2 = 400; // ppm
   const maxCO2 = 5000; // ppm
 
   const co2 = (
-    ((co2_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCO2 - minCO2) +
+    ((co2_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+      (maxCO2 - minCO2) +
     minCO2
   ).toFixed(0);
 
@@ -105,13 +117,14 @@ export function calcCO2From16Bit(co2_16Bit) {
 }
 
 export function calcTVOCFrom16Bit(tvoc16Bit) {
-  const min16Bit = 0x0000; // 4 ppb
-  const max16Bit = 0x07d0; // 2000 ppb
+  const signedMin16Bit = 0x0000; // 4 ppb
+  const signedMax16Bit = 0x07d0; // 2000 ppb
   const minTVOC = 0; // ppb
   const maxTVOC = 2000; // ppb
 
   const tvoc = (
-    ((tvoc16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxTVOC - minTVOC) +
+    ((tvoc16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+      (maxTVOC - minTVOC) +
     minTVOC
   ).toFixed(0);
 
@@ -122,13 +135,14 @@ export function calcTVOCFrom16Bit(tvoc16Bit) {
 }
 
 export function calcCH2OFrom16Bit(ch2o_16Bit) {
-  const min16Bit = 0x0000; // 4 ppb
-  const max16Bit = 0x1388; // 5000 ppb
+  const signedMin16Bit = 0x0000; // 4 ppb
+  const signedMax16Bit = 0x1388; // 5000 ppb
   const minCH2O = 0; // ppb
   const maxCH2O = 5000; // ppb
 
   const ch2o = (
-    ((ch2o_16Bit - min16Bit) / (max16Bit - min16Bit)) * (maxCH2O - minCH2O) +
+    ((ch2o_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+      (maxCH2O - minCH2O) +
     minCH2O
   ).toFixed(0);
 
