@@ -1,4 +1,5 @@
-//import ChartDataLabels from "chartjs-plugin-datalabels";
+const APP_VERSION = "V1.0.0";
+//const APP_VERSION = "V1.0.0 preliminary";
 
 function setup() {
   const log = document.getElementById("log");
@@ -6,7 +7,7 @@ function setup() {
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
 
-  log.textContent = "";
+  log.textContent = "Application Version: " + APP_VERSION;
 
   startBtn.addEventListener("click", () => {
     const macAddress = macAddressInput.value.trim();
