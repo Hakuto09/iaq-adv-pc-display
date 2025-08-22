@@ -119,7 +119,7 @@ function setupBleWatchMacFilter(win) {
       event.reply("scanStatus", `スキャン開始: ターゲットMAC -> ${macAddress}`);
       console.log("スキャン開始: ターゲットMAC ->", macAddress);
     } else {
-      console.log('Before noble.once("stateChange"):');
+      console.log("Before noble.once('stateChange'):");
       noble.once("stateChange", (state) => {
         if (state === "poweredOn") {
           noble.startScanning([], true);
@@ -194,8 +194,14 @@ function setupBleWatchMacFilter(win) {
             );
 
             const sendData = getIAQData(manufacturerData);
+            console.log(
+              "After getIAQData():",
+              " sendData.error ",
+              sendData.error
+            );
 
-            if (typeof sendData.temperature !== "undefined") {
+            //            if (typeof sendData.temperature !== "undefined") {
+            if (!sendData.error) {
               const padZero = (num) => num.toString().padStart(2, "0");
               const hours = padZero(nowDate.getHours());
               const minutes = padZero(nowDate.getMinutes());
