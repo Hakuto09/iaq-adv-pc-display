@@ -239,6 +239,11 @@ function setupValueAndChart() {
             display: true,
             text: "time", // X軸のタイトル
           },
+          ticks: {
+            autoSkip: false, // ラベルを自動でスキップしない
+            maxRotation: 45, // 最大角度 (45度まで回転)
+            minRotation: 45, // 最小角度 (45度で固定)
+          },
         },
       },
     },
@@ -287,6 +292,11 @@ function setupValueAndChart() {
             display: true,
             text: "time", // X軸のタイトル
           },
+          ticks: {
+            autoSkip: false, // ラベルを自動でスキップしない
+            maxRotation: 45, // 最大角度 (45度まで回転)
+            minRotation: 45, // 最小角度 (45度で固定)
+          },
         },
       },
     },
@@ -332,6 +342,11 @@ function setupValueAndChart() {
           title: {
             display: true,
             text: "time", // X軸のタイトル
+          },
+          ticks: {
+            autoSkip: false, // ラベルを自動でスキップしない
+            maxRotation: 45, // 最大角度 (45度まで回転)
+            minRotation: 45, // 最小角度 (45度で固定)
           },
         },
       },
