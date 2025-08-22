@@ -18,6 +18,7 @@ const __dirname = dirname(__filename);
 
 const openDevToolsFlag = false;
 let pastDate;
+let manufacturerDataValidCount = 0;
 
 function createWindow() {
   // 以前保存したウィンドウサイズを取得
@@ -224,7 +225,13 @@ function setupBleWatchMacFilter(win) {
               console.log("sendData", sendData, "nowTime", nowTime);
               win.webContents.send("ble-data-with-date", sendData, nowTime);
 
+              event.reply(
+                "manufacturerData",
+                `ValidCount ${manufacturerDataValidCount}`
+              );
+
               pastDate = nowDate;
+              manufacturerDataValidCount++;
             } else {
               console.log(
                 "sendData.temperature is undefined!!:",

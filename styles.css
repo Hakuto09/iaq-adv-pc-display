@@ -56,6 +56,16 @@ canvas {
     color: #333;
 }
 
+#startBtn {
+    margin-right: 20px;
+    /* 右側に余白を追加 */
+}
+
+#stopBtn {
+    margin-left: 0;
+    /* 必要に応じて左側に余白を設定／デフォルト保持 */
+}
+
 #importCsvButton {
     display: none;  /* 要素とそのスペースを完全に非表示にする */
 }
