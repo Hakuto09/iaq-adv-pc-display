@@ -31,9 +31,11 @@ export function calcHumidityFrom16Bit(humidity16Bit) {
   const signedMax16Bit = 0x03e8; // 100.0 %RH
   const minHumidity = 0.0; // %RH
   const maxHumidity = 100.0; // %RH
+  const signedHumidity16Bit = signed16Bit(humidity16Bit);
 
   const humidity = (
-    ((humidity16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedHumidity16Bit - signedMin16Bit) /
+      (signedMax16Bit - signedMin16Bit)) *
       (maxHumidity - minHumidity) +
     minHumidity
   ).toFixed(1);
@@ -49,9 +51,10 @@ export function calcPm1_0From16Bit(pm1_0_16Bit) {
   const signedMax16Bit = 0x03e8; // 1000 ug/m3
   const minPm1_0 = 0; // ug/m3
   const maxPm1_0 = 1000; // ug/m3
+  const signedPm1_0_16Bit = signed16Bit(pm1_0_16Bit);
 
   const pm1_0 = (
-    ((pm1_0_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedPm1_0_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxPm1_0 - minPm1_0) +
     minPm1_0
   ).toFixed(0);
@@ -67,9 +70,10 @@ export function calcPm2_5From16Bit(pm2_5_16Bit) {
   const signedMax16Bit = 0x03e8; // 1000 ug/m3
   const minPm2_5 = 0; // ug/m3
   const maxPm2_5 = 1000; // ug/m3
+  const signedPm2_5_16Bit = signed16Bit(pm2_5_16Bit);
 
   const pm2_5 = (
-    ((pm2_5_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedPm2_5_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxPm2_5 - minPm2_5) +
     minPm2_5
   ).toFixed(0);
@@ -85,9 +89,10 @@ export function calcPm10From16Bit(pm10_16Bit) {
   const signedMax16Bit = 0x03e8; // 1000 ug/m3
   const minPm10 = 0; // ug/m3
   const maxPm10 = 1000; // ug/m3
+  const signedPm10_16Bit = signed16Bit(pm10_16Bit);
 
   const pm10 = (
-    ((pm10_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedPm10_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxPm10 - minPm10) +
     minPm10
   ).toFixed(0);
@@ -103,9 +108,10 @@ export function calcCO2From16Bit(co2_16Bit) {
   const signedMax16Bit = 0x1388; // 5000 ppm
   const minCO2 = 400; // ppm
   const maxCO2 = 5000; // ppm
+  const signedCO2_16Bit = signed16Bit(co2_16Bit);
 
   const co2 = (
-    ((co2_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedCO2_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxCO2 - minCO2) +
     minCO2
   ).toFixed(0);
@@ -121,9 +127,10 @@ export function calcTVOCFrom16Bit(tvoc16Bit) {
   const signedMax16Bit = 0x07d0; // 2000 ppb
   const minTVOC = 0; // ppb
   const maxTVOC = 2000; // ppb
+  const signedTVOC16Bit = signed16Bit(tvoc16Bit);
 
   const tvoc = (
-    ((tvoc16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedTVOC16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxTVOC - minTVOC) +
     minTVOC
   ).toFixed(0);
@@ -139,9 +146,10 @@ export function calcCH2OFrom16Bit(ch2o_16Bit) {
   const signedMax16Bit = 0x1388; // 5000 ppb
   const minCH2O = 0; // ppb
   const maxCH2O = 5000; // ppb
+  const signedCH2O_16Bit = signed16Bit(ch2o_16Bit);
 
   const ch2o = (
-    ((ch2o_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
+    ((signedCH2O_16Bit - signedMin16Bit) / (signedMax16Bit - signedMin16Bit)) *
       (maxCH2O - minCH2O) +
     minCH2O
   ).toFixed(0);
@@ -157,9 +165,10 @@ export function calcCOFrom8Bit(co_8Bit) {
   const max8Bit = 0xc8; // 20.0 ppm
   const minCO = 0.0; // 0.0 ppm
   const maxCO = 20.0; // 20.0 ppm
+  const signedCO_8Bit = signed16Bit(co_8Bit);
 
   const co = (
-    ((co_8Bit - min8Bit) / (max8Bit - min8Bit)) * (maxCO - minCO) +
+    ((signedCO_8Bit - min8Bit) / (max8Bit - min8Bit)) * (maxCO - minCO) +
     minCO
   ).toFixed(1);
 
