@@ -90,6 +90,7 @@ function setupBleWatchMacFilter(win) {
   let isScanning = false;
 
   ipcMain.on("startScan", (event, macAddress) => {
+    console.log('ipcMain.on("startScan"): In');
     if (isScanning) {
       event.reply("scanStatus", "スキャンはすでに実行中です！");
       return;
@@ -98,6 +99,7 @@ function setupBleWatchMacFilter(win) {
     isScanning = true;
 
     noble.on("stateChange", (state) => {
+      console.log('noble.on("stateChange"): In');
       if (state === "poweredOn") {
         noble.startScanning([], true);
         event.reply(
@@ -112,6 +114,7 @@ function setupBleWatchMacFilter(win) {
     });
 
     noble.on("discover", (peripheral) => {
+      console.log('noble.on("discover"): In');
       if (
         "0" === macAddress.toLowerCase() ||
         peripheral.address.toLowerCase() === macAddress.toLowerCase()
@@ -202,6 +205,7 @@ function setupBleWatchMacFilter(win) {
   });
 
   ipcMain.on("stopScan", (event) => {
+    console.log('ipcMain.on("stopScan"): In');
     noble.stopScanning();
     isScanning = false;
     event.reply("scanStatus", "スキャンを停止しました。");

@@ -17,7 +17,7 @@ function setup() {
   });
 
   stopBtn.addEventListener("click", () => {
-    log.textContent = "スキャンを停止します...";
+    log.textContent += "スキャンを停止します...";
     window.electronAPI.stopScan();
   });
 
