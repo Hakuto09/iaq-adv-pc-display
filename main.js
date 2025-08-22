@@ -117,7 +117,8 @@ function setupBleWatchMacFilter(win) {
       console.log("Before noble.startScanning():");
       noble.startScanning([], true);
       event.reply("scanStatus", `スキャン開始: ターゲットMAC -> ${macAddress}`);
-      console.log("スキャン開始: ターゲットMAC ->", macAddress);
+      //      console.log("スキャン開始: ターゲットMAC ->", macAddress);
+      console.log("Scan Start: Target MAC ->", macAddress);
     } else {
       console.log("Before noble.once('stateChange'):");
       noble.once("stateChange", (state) => {
@@ -127,20 +128,31 @@ function setupBleWatchMacFilter(win) {
             "scanStatus",
             `スキャン開始 (stateChange): ターゲットMAC -> ${macAddress}`
           );
+          /*
           console.log(
             "スキャン開始 (stateChange): ターゲットMAC ->",
             macAddress
           );
+          */
+          console.log("Scan Start (stateChange): Target MAC ->", macAddress);
         } else if (state === "unknown" || state === "unsupported") {
           console.log(
             'noble: state === "unknown" or "unsupported":',
             " state ",
             state
           );
-          console.error("Bluetoothアダプタの状態を確認してください");
+          event.reply(
+            "scanStatus",
+            "(stateChange): Bluetoothアダプタの状態を確認してください"
+          );
+          console.error("(stateChange): Please check Bluetooth setting.");
         } else {
           noble.stopScanning();
-          console.error("(stateChange): Bluetoothがオンになりません");
+          event.reply(
+            "scanStatus",
+            "(stateChange): Bluetoothがオンになりません"
+          );
+          console.error("(stateChange): Cannot switch on Bluetooth.");
         }
       });
     }
@@ -247,6 +259,7 @@ function setupBleWatchMacFilter(win) {
     noble.stopScanning();
     isScanning = false;
     event.reply("scanStatus", "スキャンを停止しました。");
+    console.log("Scan Stopped.");
   });
 }
 
