@@ -55,3 +55,11 @@ canvas {
     font-weight: bold;
     color: #333;
 }
+
+#importCsvButton {
+    display: none;  /* 要素とそのスペースを完全に非表示にする */
+}
+
+#fetchDataButton {
+    display: none;
+}
