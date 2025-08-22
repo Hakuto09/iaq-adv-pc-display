@@ -213,6 +213,12 @@ function setupValueAndChart() {
     options: {
       responsive: false,
       maintainAspectRatio: true,
+      layout: {
+        padding: {
+          left: 10, // グラフの右側余白を広げる
+          right: 30, // グラフの右側余白を広げる
+        },
+      },
       scales: {
         y: {
           title: {
@@ -255,6 +261,12 @@ function setupValueAndChart() {
     options: {
       responsive: false,
       maintainAspectRatio: true,
+      layout: {
+        padding: {
+          left: 10, // グラフの右側余白を広げる
+          right: 30, // グラフの右側余白を広げる
+        },
+      },
       scales: {
         y: {
           title: {
@@ -295,6 +307,12 @@ function setupValueAndChart() {
     options: {
       responsive: false,
       maintainAspectRatio: true,
+      layout: {
+        padding: {
+          left: 10, // グラフの右側余白を広げる
+          right: 30, // グラフの右側余白を広げる
+        },
+      },
       scales: {
         y: {
           title: {
