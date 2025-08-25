@@ -1,5 +1,5 @@
-const APP_VERSION = "V1.0.1";
-//const APP_VERSION = "V1.0.1 preliminary";
+//const APP_VERSION = "V1.0.1";     // For release
+const APP_VERSION = "V1.0.2 preliminary";
 
 function setup() {
   const log = document.getElementById("log");
@@ -94,6 +94,7 @@ function setupDatabaseDataReceiver() {
     if (data.error) {
       dataContainer.innerText = `Error: ${data.error}`; // エラーがあれば記述
     } else {
+      /*
       const tableRows = data
         .map(
           (row) =>
@@ -105,8 +106,29 @@ function setupDatabaseDataReceiver() {
          </tr>`
         )
         .join("");
+      */
+      const tableRows = data
+        .map(
+          (row) =>
+            `<tr>
+           <td>${row.id}</td>
+           <td>${row.input_data_type}</td>
+           <td>${row.device_protocol}</td>
+           <td>${row.topicName}</td>
+           <td>${row.device_id}</td>
+           <td>${row.createdAt}</td>
+           <td>${row.createdAt_c}</td>
+           <td>${row.Temperature}</td>
+           <td>${row.Humidity}</td>
+           <td>${row.PM1_0}</td>
+           <td>${row.PM2_5}</td>
+           <td>${row.PM10}</td>
+         </tr>`
+        )
+        .join("");
 
       // データをHTMLテーブル形式で表示
+      /*
       dataContainer.innerHTML = `
         <table>
           <tr>
@@ -114,6 +136,26 @@ function setupDatabaseDataReceiver() {
             <th>Name</th>
             <th>Age</th>
             <th>Profession</th>
+          </tr>
+          ${tableRows}
+        </table>
+      `;
+      */
+      dataContainer.innerHTML = `
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>input_data_type</th>
+            <th>device_protocol</th>
+            <th>topicName</th>
+            <th>device_id</th>
+            <th>createdAt</th>
+            <th>createdAt_c</th>
+            <th>Temperature</th>
+            <th>Humidity</th>
+            <th>PM1_0</th>
+            <th>PM2_5</th>
+            <th>PM10</th>
           </tr>
           ${tableRows}
         </table>
@@ -445,4 +487,5 @@ function initialize() {
 }
 
 // ページをロード後に初期化
+document.addEventListener("DOMContentLoaded", initialize);
 document.addEventListener("DOMContentLoaded", initialize);

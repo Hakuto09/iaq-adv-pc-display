@@ -67,9 +67,11 @@ canvas {
 }
 
 #importCsvButton {
-    display: none;  /* 要素とそのスペースを完全に非表示にする */
+    display: block;
+    /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
 }
 
 #fetchDataButton {
-    display: none;
+    display: block;
+    /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
 }

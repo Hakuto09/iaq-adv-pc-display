@@ -23,16 +23,15 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       input_data_type INTEGER,
       device_protocol TEXT,
-      PM2_5 REAL,
       topicName TEXT,
       device_id TEXT,
       createdAt TEXT,
-      Temperature REAL,
       createdAt_c TEXT,
+      Temperature REAL,
       Humidity REAL,
-      PM10 REAL,
       PM1_0 REAL,
-      rssi INTEGER
+      PM2_5 REAL,
+      PM10 REAL
     )
   `);
 });
@@ -45,19 +44,18 @@ export function importCsvToDatabase(filePath) {
       //      `INSERT INTO data (name, age, profession) VALUES (?, ?, ?)`
       `
         INSERT INTO data (
-            rssi,
             input_data_type,
             device_protocol,
-            PM2_5,
             topicName,
             device_id,
             createdAt,
-            Temperature,
             createdAt_c,
+            Temperature,
             Humidity,
-            PM10,
-            PM1_0
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            PM1_0,
+            PM2_5,
+            PM10
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `
     );
     console.log("Before fs.createReadStream():");
@@ -70,16 +68,15 @@ export function importCsvToDatabase(filePath) {
         stmt.run(
           row.input_data_type,
           row.device_protocol,
-          row.PM2_5,
           row.topicName,
           row.device_id,
           row.createdAt,
-          row.Temperature,
           row.createdAt_c,
+          row.Temperature,
           row.Humidity,
-          row.PM10,
           row.PM1_0,
-          row.rssi
+          row.PM2_5,
+          row.PM10
         );
       })
       .on("end", () => {
