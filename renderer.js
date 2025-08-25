@@ -1,5 +1,5 @@
-const APP_VERSION = "V1.0.0";
-//const APP_VERSION = "V1.0.0 preliminary";
+const APP_VERSION = "V1.0.1";
+//const APP_VERSION = "V1.0.1 preliminary";
 
 function setup() {
   const log = document.getElementById("log");
