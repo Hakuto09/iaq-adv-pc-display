@@ -250,53 +250,55 @@ export function getIAQData(manufacturerData) {
   };
   let error;
 
-  if (manufacturerData[0] === "undefined") {
+  console.log("getIAQData():", "manufacturerData[0]", manufacturerData[0]);
+
+  if (manufacturerData && manufacturerData[0] === undefined) {
     console.log('manufacturerData[0] === "undefined": In');
     IAQData.error = true;
+  } else {
+    [IAQData.temperature, error] = calcTemperatureFrom16Bit(
+      (manufacturerData[0] << 8) | manufacturerData[1]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.humidity, error] = calcHumidityFrom16Bit(
+      (manufacturerData[2] << 8) | manufacturerData[3]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.pm1_0, error] = calcPm1_0From16Bit(
+      (manufacturerData[4] << 8) | manufacturerData[5]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.pm2_5, error] = calcPm2_5From16Bit(
+      (manufacturerData[6] << 8) | manufacturerData[7]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.pm10, error] = calcPm10From16Bit(
+      (manufacturerData[8] << 8) | manufacturerData[9]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.co2, error] = calcCO2From16Bit(
+      (manufacturerData[10] << 8) | manufacturerData[11]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.tvoc, error] = calcTVOCFrom16Bit(
+      (manufacturerData[12] << 8) | manufacturerData[13]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.ch2o, error] = calcCH2OFrom16Bit(
+      (manufacturerData[14] << 8) | manufacturerData[15]
+    );
+    //IAQData.error |= error;
+
+    [IAQData.co, error] = calcCOFrom8Bit(manufacturerData[16]);
+    //IAQData.error |= error;
   }
-
-  [IAQData.temperature, error] = calcTemperatureFrom16Bit(
-    (manufacturerData[0] << 8) | manufacturerData[1]
-  );
-  IAQData.error |= error;
-
-  [IAQData.humidity, error] = calcHumidityFrom16Bit(
-    (manufacturerData[2] << 8) | manufacturerData[3]
-  );
-  IAQData.error |= error;
-
-  [IAQData.pm1_0, error] = calcPm1_0From16Bit(
-    (manufacturerData[4] << 8) | manufacturerData[5]
-  );
-  IAQData.error |= error;
-
-  [IAQData.pm2_5, error] = calcPm2_5From16Bit(
-    (manufacturerData[6] << 8) | manufacturerData[7]
-  );
-  IAQData.error |= error;
-
-  [IAQData.pm10, error] = calcPm10From16Bit(
-    (manufacturerData[8] << 8) | manufacturerData[9]
-  );
-  IAQData.error |= error;
-
-  [IAQData.co2, error] = calcCO2From16Bit(
-    (manufacturerData[10] << 8) | manufacturerData[11]
-  );
-  IAQData.error |= error;
-
-  [IAQData.tvoc, error] = calcTVOCFrom16Bit(
-    (manufacturerData[12] << 8) | manufacturerData[13]
-  );
-  IAQData.error |= error;
-
-  [IAQData.ch2o, error] = calcCH2OFrom16Bit(
-    (manufacturerData[14] << 8) | manufacturerData[15]
-  );
-  IAQData.error |= error;
-
-  [IAQData.co, error] = calcCOFrom8Bit(manufacturerData[16]);
-  IAQData.error |= error;
 
   return IAQData;
 }
