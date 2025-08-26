@@ -40,7 +40,7 @@ if (-not $found) {
 #### version.jsファイルにバージョン情報を出力する
 ###"export const version = '$version';" | Out-File -FilePath "version.js" -Encoding UTF8
 # バージョンをログ出力する (に変更)
-Select-String -Path ./version.js -Pattern "APP_VERSION"
+Select-String -Path ./version.js -Pattern "APP_VERSION" | Where-Object { $_.Line -notmatch "^\s*//" }
 
 # Git操作
 git add .
