@@ -1,5 +1,4 @@
-//const APP_VERSION = "V1.0.1";     // For release
-const APP_VERSION = "V1.0.2 preliminary";
+import { APP_VERSION } from "./version.js";
 
 function setup() {
   const log = document.getElementById("log");
