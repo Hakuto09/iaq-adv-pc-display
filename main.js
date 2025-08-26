@@ -328,9 +328,11 @@ ipcMain.on("import-csv", async (event, filePath) => {
 ipcMain.on("get-data", async (event) => {
   try {
     const data = await getDatabaseData();
-    event.reply("database-data", data);
+    //    event.reply("database-data", data);
+    event.reply("db-data-with-header", data);
   } catch (err) {
-    event.reply("database-data", { error: err.message });
+    //    event.reply("database-data", { error: err.message });
+    event.reply("db-data-with-header", { error: err.message });
   }
 });
 

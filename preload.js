@@ -28,6 +28,8 @@ contextBridge.exposeInMainWorld("api", {
     ipcRenderer.on("import-status", (event, message) => callback(message)),
   onDatabaseData: (callback) =>
     ipcRenderer.on("database-data", (event, data) => callback(data)),
+  onDBDataWithHeader: (callback) =>
+    ipcRenderer.on("db-data-with-header", (event, data) => callback(data)),
 
   getSelectedFilePath: (callback) => {
     ipcRenderer.on("file-selected", (event, filePath) => {

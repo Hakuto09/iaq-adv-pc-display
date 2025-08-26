@@ -93,19 +93,6 @@ function setupDatabaseDataReceiver() {
     if (data.error) {
       dataContainer.innerText = `Error: ${data.error}`; // エラーがあれば記述
     } else {
-      /*
-      const tableRows = data
-        .map(
-          (row) =>
-            `<tr>
-           <td>${row.id}</td>
-           <td>${row.name}</td>
-           <td>${row.age}</td>
-           <td>${row.profession}</td>
-         </tr>`
-        )
-        .join("");
-      */
       const tableRows = data
         .map(
           (row) =>
@@ -127,19 +114,6 @@ function setupDatabaseDataReceiver() {
         .join("");
 
       // データをHTMLテーブル形式で表示
-      /*
-      dataContainer.innerHTML = `
-        <table>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Age</th>
-            <th>Profession</th>
-          </tr>
-          ${tableRows}
-        </table>
-      `;
-      */
       dataContainer.innerHTML = `
         <table>
           <tr>
@@ -161,19 +135,53 @@ function setupDatabaseDataReceiver() {
       `;
     }
   });
+
+  window.api.onDBDataWithHeader((data) => {
+    const dataContainer = document.getElementById("databaseData");
+
+    if (data.error) {
+      dataContainer.innerText = `Error: ${data.error}`; // エラーがあれば記述
+    } else {
+      // ヘッダと行データを分割して取得する
+      const { headers, rows } = data; // `data` は {headers: [...], rows: [...]} の構造を想定
+
+      // ヘッダ行を作成
+      const headerRow = headers.map((header) => `<th>${header}</th>`).join("");
+
+      // データ行を作成
+      const tableRows = rows
+        .map(
+          (row) =>
+            `<tr>${headers
+              .map((header) => `<td>${row[header]}</td>`)
+              .join("")}</tr>`
+        )
+        .join("");
+
+      // テーブルを生成して `innerHTML` を設定
+      dataContainer.innerHTML = `
+        <table>
+          <tr>
+            ${headerRow}
+          </tr>
+            ${tableRows}
+        </table>
+      `;
+    }
+  });
 }
 
 function setupValueAndChart() {
   // 要素を取得
   const valueTemperature = document.getElementById("value-temperature");
   const valueHumidity = document.getElementById("value-humidity");
-  const valueCO2 = document.getElementById("value-co2");
-  const valueTVOC = document.getElementById("value-tvoc");
-  const valueCO = document.getElementById("value-co");
   const valuePM1_0 = document.getElementById("value-pm1_0");
   const valuePM2_5 = document.getElementById("value-pm2_5");
   const valuePM10 = document.getElementById("value-pm10");
+  const valueCO2 = document.getElementById("value-co2");
+  const valueTVOC = document.getElementById("value-tvoc");
   const valueCH2O = document.getElementById("value-ch2o");
+  const valueCO = document.getElementById("value-co");
 
   // 初期化：経過秒数の変数を作成
   let secondsElapsed = 0;
@@ -181,30 +189,14 @@ function setupValueAndChart() {
   function updateBoxValue(data) {
     valueTemperature.textContent = data.temperature;
     valueHumidity.textContent = data.humidity;
-    valueCO2.textContent = data.co2;
-    valueTVOC.textContent = data.tvoc;
-    valueCO.textContent = data.co;
     valuePM1_0.textContent = data.pm1_0;
     valuePM2_5.textContent = data.pm2_5;
     valuePM10.textContent = data.pm10;
+    valueCO2.textContent = data.co2;
+    valueTVOC.textContent = data.tvoc;
     valueCH2O.textContent = data.ch2o;
+    valueCO.textContent = data.co;
   }
-
-  // ※暫定表示テスト用：10秒毎に更新する処理を開始
-  /*
-  setInterval(() => {
-    secondsElapsed += 10; // 経過秒数を10秒ずつ加算
-    valueTemperature.textContent = `${secondsElapsed}`; // テキストを更新
-    valueHumidity.textContent = `${secondsElapsed}`; // テキストを更新
-    valueCO2.textContent = `${secondsElapsed}`; // テキストを更新
-    valueTVOC.textContent = `${secondsElapsed}`; // テキストを更新
-    valueCO.textContent = `${secondsElapsed}`; // テキストを更新
-    valuePM1_0.textContent = `${secondsElapsed}`; // テキストを更新
-    valuePM2_5.textContent = `${secondsElapsed}`; // テキストを更新
-    valuePM10.textContent = `${secondsElapsed}`; // テキストを更新
-    valueCH2O.textContent = `${secondsElapsed}`; // テキストを更新
-  }, 10000); // 10,000ミリ秒 = 10秒
-*/
 
   /*
   const defaultOptions = {
