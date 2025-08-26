@@ -29,9 +29,8 @@ export function importCsvToDatabase(filePath) {
   return new Promise((resolve, reject) => {
     console.log("Before db.prepare():");
     const stmt = db.prepare(
-      //      `INSERT INTO data (name, age, profession) VALUES (?, ?, ?)`
       `
-        INSERT INTO data (
+        INSERT INTO IAQ (
           temperature,
           humidity,
           pm1_0,
@@ -50,7 +49,6 @@ export function importCsvToDatabase(filePath) {
       .on("data", (row) => {
         // CSVの各行をデータベースに挿入
         console.log("Before stmt.run():");
-        //        stmt.run(row.name, row.age, row.profession);
         stmt.run(
           row.temperature,
           row.humidity,
