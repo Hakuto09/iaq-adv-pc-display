@@ -158,6 +158,14 @@ function setupDatabaseDataReceiver() {
         )
         .join("");
 
+      console.log(
+        "Before change dataContainer.innerHTML:",
+        " headers: ",
+        headers,
+        " rows: ",
+        rows
+      );
+
       // テーブルを生成して `innerHTML` を設定
       dataContainer.innerHTML = `
         <table>
@@ -182,9 +190,6 @@ function setupValueAndChart() {
   const valueTVOC = document.getElementById("value-tvoc");
   const valueCH2O = document.getElementById("value-ch2o");
   const valueCO = document.getElementById("value-co");
-
-  // 初期化：経過秒数の変数を作成
-  let secondsElapsed = 0;
 
   function updateBoxValue(data) {
     valueTemperature.textContent = data.temperature;

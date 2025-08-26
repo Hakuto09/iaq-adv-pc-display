@@ -8,18 +8,19 @@ const db = new sqlite3.Database("./iaq_data.db");
 // テーブル作成の初期化
 db.serialize(() => {
   console.log("Before db.run():");
+  // 小数点表示の問題等あり、データ値は全て文字列に。
   db.run(`
     CREATE TABLE IF NOT EXISTS IAQ (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      temperature REAL,
-      humidity REAL,
-      pm1_0 REAL,
-      pm2_5 REAL,
-      pm10 REAL,
-      co2 INTEGER,
-      tvoc INTEGER,
-      ch2o INTEGER,
-      co REAL
+      temperature TEXT,
+      humidity TEXT,
+      pm1_0 TEXT,
+      pm2_5 TEXT,
+      pm10 TEXT,
+      co2 TEXT,
+      tvoc TEXT,
+      ch2o TEXT,
+      co TEXT
     )
   `);
 });
@@ -48,7 +49,18 @@ export function importCsvToDatabase(filePath) {
       .pipe(csvParser())
       .on("data", (row) => {
         // CSVの各行をデータベースに挿入
-        console.log("Before stmt.run():");
+        const temperature = parseFloat(row.temperature).toFixed(1); // 文字列から数値に変換
+        const humidity = parseFloat(row.humidity).toFixed(1); // 文字列から数値に変換
+        const co = parseFloat(row.co).toFixed(1); // 文字列から数値に変換
+        console.log(
+          "Before stmt.run():",
+          "typeof row.temperature",
+          typeof row.temperature,
+          "row.temperature",
+          row.temperature,
+          "temperature",
+          temperature
+        );
         stmt.run(
           row.temperature,
           row.humidity,
