@@ -93,7 +93,7 @@ export function getDatabaseData() {
   */
   return new Promise((resolve, reject) => {
     // SQLクエリでテーブルのすべてのデータを取得
-    const sql = `SELECT temperature, humidity, pm1_0, pm2_5, pm10, co2, tvoc, ch2o, co FROM IAQ`;
+    const sql = `SELECT id, temperature, humidity, pm1_0, pm2_5, pm10, co2, tvoc, ch2o, co FROM IAQ`;
 
     db.all(sql, [], (err, rows) => {
       if (err) {
@@ -105,6 +105,7 @@ export function getDatabaseData() {
       // データ形式を再構築
       const reformattedData = {
         headers: [
+          "id",
           "temperature",
           "humidity",
           "pm1_0",
@@ -116,6 +117,7 @@ export function getDatabaseData() {
           "co",
         ], // ヘッダ名を定義
         rows: rows.map((row) => ({
+          id: row.id,
           temperature: row.temperature,
           humidity: row.humidity,
           pm1_0: row.pm1_0,
