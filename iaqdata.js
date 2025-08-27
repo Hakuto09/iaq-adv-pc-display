@@ -250,10 +250,13 @@ export function getIAQData(manufacturerData) {
   };
   let error;
 
-  console.log("getIAQData():", "manufacturerData[0]", manufacturerData[0]);
+  //  console.log("getIAQData():", "manufacturerData[0]", manufacturerData[0]);
+  console.log("getIAQData():", "manufacturerData[16]", manufacturerData[16]);
 
-  if (manufacturerData && manufacturerData[0] === undefined) {
-    console.log('manufacturerData[0] === "undefined": In');
+  //  if (manufacturerData && manufacturerData[0] === undefined) {
+  if (manufacturerData && manufacturerData[16] === undefined) {
+    //    console.log('manufacturerData[0] === "undefined": In');
+    console.log('manufacturerData[16] === "undefined": In');
     IAQData.error = true;
   } else {
     [IAQData.temperature, error] = calcTemperatureFrom16Bit(

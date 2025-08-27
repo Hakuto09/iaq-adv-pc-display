@@ -203,7 +203,7 @@ function setupBleWatchMacFilter(win) {
                   "0x" + value.toString(16).padStart(2, "0") + " ")
             );
 
-            event.reply("manufacturerData", " nowDate: " + nowDate);
+            event.reply("manufacturerData", "nowDate:" + nowDate);
             event.reply("manufacturerData", manufacturerDataLog);
             console.log("advertisement", advertisement);
             console.log("manufacturerData", manufacturerData);
@@ -239,11 +239,9 @@ function setupBleWatchMacFilter(win) {
               pastDate = nowDate;
               manufacturerDataValidCount++;
             } else {
-              console.log(
-                "sendData.temperature is undefined!!:",
-                " nowDate ",
-                nowDate
-              );
+              event.reply("manufacturerData", "sendData.error is true!!");
+
+              console.log("sendData.error is true!!:", "nowDate", nowDate);
             }
           } else {
             console.log("isGapOver = false!!:", "nowDate", nowDate);
