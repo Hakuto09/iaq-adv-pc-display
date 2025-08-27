@@ -135,12 +135,11 @@ function setupBleWatchMacFilter(win) {
             macAddress
           );
           */
-          console.log("Scan Start (stateChange): Target MAC ->", macAddress);
+          console.log("Scan Start (stateChange):", `Target MAC ${macAddress}`);
         } else if (state === "unknown" || state === "unsupported") {
           console.log(
             'noble: state === "unknown" or "unsupported":',
-            " state ",
-            state
+            `state ${state}`
           );
           event.reply(
             "scanStatus",
@@ -167,7 +166,7 @@ function setupBleWatchMacFilter(win) {
         const jstDate = new Date().toLocaleString("ja-JP", {
           timeZone: "Asia/Tokyo",
         }); // 日本時間を表示
-        console.log("jstDate", jstDate);
+        console.log(`jstDate ${jstDate}`);
         const nowDate = new Date(jstDate); // 日本時間を明示的に保持
 
         const advertisement = peripheral.advertisement;
@@ -176,10 +175,10 @@ function setupBleWatchMacFilter(win) {
         let isGapOver = true;
         if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
 
-        console.log("pastDate", pastDate);
-        console.log("nowDate", nowDate);
-        console.log("nowDate.toString()", nowDate.toString());
-        console.log("isGapOver", isGapOver);
+        console.log(`pastDate ${pastDate}`);
+        console.log(`nowDate ${nowDate}`);
+        console.log(`nowDate.toString() ${nowDate.toString()}`);
+        console.log(`isGapOver ${isGapOver}`);
 
         if (manufacturerData) {
           if (isGapOver) {
@@ -203,20 +202,20 @@ function setupBleWatchMacFilter(win) {
                   "0x" + value.toString(16).padStart(2, "0") + " ")
             );
 
-            event.reply("manufacturerData", "nowDate:" + nowDate);
+            event.reply("manufacturerData", `nowDate: ${nowDate}`);
             event.reply("manufacturerData", manufacturerDataLog);
-            console.log("advertisement", advertisement);
-            console.log("manufacturerData", manufacturerData);
+            console.log(`nowDate ${nowDate}`);
+            console.log(`advertisement ${advertisement}`);
+            console.log(`manufacturerData ${manufacturerData}`);
             console.log("manufacturerData Hex:");
             manufacturerData.forEach((value) =>
-              console.log("0x" + value.toString(16).padStart(2, "0"))
+              console.log(`0x${value.toString(16).padStart(2, "0")}`)
             );
 
             const sendData = getIAQData(manufacturerData);
             console.log(
               "After getIAQData():",
-              " sendData.error ",
-              sendData.error
+              `sendData.error ${sendData.error}`
             );
 
             //            if (typeof sendData.temperature !== "undefined") {
@@ -228,7 +227,6 @@ function setupBleWatchMacFilter(win) {
               //const nowTime = `${hours}:${minutes}:${seconds}`;
               const nowTime = `${hours}:${minutes}`;
 
-              console.log("sendData", sendData, "nowTime", nowTime);
               win.webContents.send("ble-data-with-date", sendData, nowTime);
 
               event.reply(
@@ -236,28 +234,35 @@ function setupBleWatchMacFilter(win) {
                 `ValidCount ${manufacturerDataValidCount}`
               );
 
+              console.log(
+                `sendData ${sendData}`,
+                `nowDate ${nowDate}`,
+                `nowTime ${nowTime}`,
+                `manufacturerDataValidCount ${manufacturerDataValidCount}`
+              );
+
               pastDate = nowDate;
               manufacturerDataValidCount++;
             } else {
               event.reply("manufacturerData", "sendData.error is true!!");
 
-              console.log("sendData.error is true!!:", "nowDate", nowDate);
+              console.log("sendData.error is true!!:", `nowDate ${nowDate}`);
             }
           } else {
-            console.log("isGapOver = false!!:", "nowDate", nowDate);
+            console.log("isGapOver = false!!:", `nowDate ${nowDate}`);
           }
         } else {
           event.reply(
             "advertisementData",
             "Manufacturer Dataが見つかりませんでした。"
           );
-          console.log("Not Found Manufacturer Data!!:", " nowDate ", nowDate);
+          console.log("Not Found Manufacturer Data!!:", `nowDate ${nowDate}`);
         }
       } else {
         /*
         console.log(
           "Not match with MAC Address!!:",
-          " peripheral ",
+          "peripheral",
           peripheral.address.toLowerCase()
         );
         */
@@ -320,7 +325,7 @@ app.on("window-all-closed", () => {
 // CSVファイルからデータベースに書き込む処理
 ipcMain.on("import-csv", async (event, filePath) => {
   try {
-    console.log("Before importCsvToDatabase(): filePath", filePath);
+    console.log("Before importCsvToDatabase():", `filePath ${filePath}`);
     await importCsvToDatabase(filePath);
     event.reply("import-status", "CSV import successful!");
   } catch (err) {
