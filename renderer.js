@@ -2,17 +2,17 @@ import { APP_VERSION } from "./version.js";
 
 function setup() {
   const log = document.getElementById("log");
-  const macAddressInput = document.getElementById("macAddress");
+  const targetMACInput = document.getElementById("targetMAC");
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
 
   log.textContent = "Application Version: " + APP_VERSION;
 
   startBtn.addEventListener("click", () => {
-    const macAddress = macAddressInput.value.trim();
-    if (macAddress) {
+    const targetMAC = targetMACInput.value.trim();
+    if (targetMAC) {
       log.textContent += "\n" + "スキャンを開始します...";
-      window.electronAPI.startScan(macAddress);
+      window.electronAPI.startScan(targetMAC);
     } else {
       log.textContent += "\n" + "MACアドレスを入力してください！";
     }

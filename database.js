@@ -9,9 +9,10 @@ const db = new sqlite3.Database("./iaq_data.db");
 db.serialize(() => {
   console.log("Before db.run():");
   // 小数点表示の問題等あり、データ値は全て文字列に。
+  //    id INTEGER PRIMARY KEY AUTOINCREMENT,
   db.run(`
     CREATE TABLE IF NOT EXISTS IAQ (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date_jst TEXT PRIMARY KEY,
       temperature TEXT,
       humidity TEXT,
       pm1_0 TEXT,
@@ -32,6 +33,7 @@ export function importCsvToDatabase(filePath) {
     const stmt = db.prepare(
       `
         INSERT INTO IAQ (
+          date_jst,
           temperature,
           humidity,
           pm1_0,
@@ -49,16 +51,19 @@ export function importCsvToDatabase(filePath) {
       .pipe(csvParser())
       .on("data", (row) => {
         // CSVの各行をデータベースに挿入
-        const temperature = parseFloat(row.temperature).toFixed(1); // 文字列から数値に変換
-        const humidity = parseFloat(row.humidity).toFixed(1); // 文字列から数値に変換
-        const co = parseFloat(row.co).toFixed(1); // 文字列から数値に変換
+        //const temperature = parseFloat(row.temperature).toFixed(1); // 文字列から数値に変換
+        //const humidity = parseFloat(row.humidity).toFixed(1); // 文字列から数値に変換
+        //const co = parseFloat(row.co).toFixed(1); // 文字列から数値に変換
+        /*
         console.log(
           "Before stmt.run():",
           `typeof row.temperature ${typeof row.temperature}`,
           `row.temperature ${row.temperature}`,
           `temperature ${temperature}`
         );
+        */
         stmt.run(
+          row.date_jst,
           row.temperature,
           row.humidity,
           row.pm1_0,
@@ -105,7 +110,8 @@ export function getDatabaseData() {
       // データ形式を再構築
       const reformattedData = {
         headers: [
-          "id",
+          //"id",
+          "date_jst",
           "temperature",
           "humidity",
           "pm1_0",
@@ -117,7 +123,8 @@ export function getDatabaseData() {
           "co",
         ], // ヘッダ名を定義
         rows: rows.map((row) => ({
-          id: row.id,
+          //          id: row.id,
+          date_jst: row.date_jst,
           temperature: row.temperature,
           humidity: row.humidity,
           pm1_0: row.pm1_0,

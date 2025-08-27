@@ -90,7 +90,7 @@ function createWindow() {
 function setupBleWatchMacFilter(win) {
   let isScanning = false;
 
-  ipcMain.on("startScan", (event, macAddress) => {
+  ipcMain.on("startScan", (event, targetMAC) => {
     console.log('ipcMain.on("startScan"): In');
     if (isScanning) {
       event.reply("scanStatus", "スキャンはすでに実行中です！");
@@ -105,9 +105,9 @@ function setupBleWatchMacFilter(win) {
         noble.startScanning([], true);
         event.reply(
           "scanStatus",
-          `スキャン開始: ターゲットMAC -> ${macAddress}`
+          `スキャン開始: ターゲットMAC -> ${targetMAC}`
         );
-        console.log("スキャン開始: ターゲットMAC ->", macAddress);
+        console.log("スキャン開始: ターゲットMAC ->", targetMAC);
       } else {
         noble.stopScanning();
         event.reply("scanStatus", "BLEがオフになっています！");
@@ -117,9 +117,9 @@ function setupBleWatchMacFilter(win) {
     if (noble.state === "poweredOn") {
       console.log("Before noble.startScanning():");
       noble.startScanning([], true);
-      event.reply("scanStatus", `スキャン開始: ターゲットMAC -> ${macAddress}`);
-      //      console.log("スキャン開始: ターゲットMAC ->", macAddress);
-      console.log("Scan Start: Target MAC ->", macAddress);
+      event.reply("scanStatus", `スキャン開始: ターゲットMAC -> ${targetMAC}`);
+      //      console.log("スキャン開始: ターゲットMAC ->", targetMAC);
+      console.log("Scan Start: Target MAC ->", targetMAC);
     } else {
       console.log("Before noble.once('stateChange'):");
       noble.once("stateChange", (state) => {
@@ -127,15 +127,15 @@ function setupBleWatchMacFilter(win) {
           noble.startScanning([], true);
           event.reply(
             "scanStatus",
-            `スキャン開始 (stateChange): ターゲットMAC -> ${macAddress}`
+            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC}`
           );
           /*
           console.log(
             "スキャン開始 (stateChange): ターゲットMAC ->",
-            macAddress
+            targetMAC
           );
           */
-          console.log("Scan Start (stateChange):", `Target MAC ${macAddress}`);
+          console.log("Scan Start (stateChange):", `Target MAC ${targetMAC}`);
         } else if (state === "unknown" || state === "unsupported") {
           console.log(
             'noble: state === "unknown" or "unsupported":',
@@ -160,8 +160,8 @@ function setupBleWatchMacFilter(win) {
     noble.on("discover", (peripheral) => {
       //      console.log('noble.on("discover"): In');
       if (
-        "0" === macAddress.toLowerCase() ||
-        peripheral.address.toLowerCase() === macAddress.toLowerCase()
+        "0" === targetMAC.toLowerCase() ||
+        peripheral.address.toLowerCase() === targetMAC.toLowerCase()
       ) {
         const jstDate = new Date().toLocaleString("ja-JP", {
           timeZone: "Asia/Tokyo",
