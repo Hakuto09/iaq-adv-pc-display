@@ -33,7 +33,10 @@ contextBridge.exposeInMainWorld("api", {
 
   getSelectedFilePath: (callback) => {
     ipcRenderer.on("file-selected", (event, filePath) => {
-      console.log("Before getSelectedFilePath's callback: filePath ", filePath);
+      console.log(
+        "Before getSelectedFilePath's callback:",
+        `filePath ${filePath}`
+      );
       callback(filePath);
     });
   },

@@ -54,12 +54,9 @@ export function importCsvToDatabase(filePath) {
         const co = parseFloat(row.co).toFixed(1); // 文字列から数値に変換
         console.log(
           "Before stmt.run():",
-          "typeof row.temperature",
-          typeof row.temperature,
-          "row.temperature",
-          row.temperature,
-          "temperature",
-          temperature
+          `typeof row.temperature ${typeof row.temperature}`,
+          `row.temperature ${row.temperature}`,
+          `temperature ${temperature}`
         );
         stmt.run(
           row.temperature,

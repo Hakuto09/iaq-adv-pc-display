@@ -61,10 +61,10 @@ function setupCsvImport() {
 
     const filePath = await window.electron.openFileDialog();
     if (filePath) {
-      console.log("Before window.api.importCsv(): filePath ", filePath);
+      console.log("Before window.api.importCsv():", `filePath ${filePath}`);
       window.api.importCsv(filePath); // Electronのメインプロセスに送信
     } else {
-      console.log("No file selected");
+      console.log("No file selected.");
     }
   });
 }
@@ -160,10 +160,8 @@ function setupDatabaseDataReceiver() {
 
       console.log(
         "Before change dataContainer.innerHTML:",
-        " headers: ",
-        headers,
-        " rows: ",
-        rows
+        `headers: ${headers}`,
+        `rows: ${rows}`
       );
 
       // テーブルを生成して `innerHTML` を設定
@@ -401,7 +399,7 @@ function setupValueAndChart() {
 
   // BLEデータ受信時の処理
   window.electronAPI.onBLEDataWithDate((data, date) => {
-    console.log("Device discovered:", "data", data, "date", date);
+    console.log("Device discovered:", `data ${data}`, `date ${date}`);
 
     updateBoxValue(data);
 
