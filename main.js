@@ -164,7 +164,12 @@ function setupBleWatchMacFilter(win) {
         "0" === macAddress.toLowerCase() ||
         peripheral.address.toLowerCase() === macAddress.toLowerCase()
       ) {
-        const nowDate = new Date();
+        const jstDate = new Date().toLocaleString("ja-JP", {
+          timeZone: "Asia/Tokyo",
+        }); // 日本時間を表示
+        console.log("jstDate", jstDate);
+        const nowDate = new Date(jstDate); // 日本時間を明示的に保持
+
         const advertisement = peripheral.advertisement;
         const manufacturerData = advertisement.manufacturerData;
 
@@ -173,6 +178,7 @@ function setupBleWatchMacFilter(win) {
 
         console.log("pastDate", pastDate);
         console.log("nowDate", nowDate);
+        console.log("nowDate.toString()", nowDate.toString());
         console.log("isGapOver", isGapOver);
 
         if (manufacturerData) {
@@ -240,7 +246,7 @@ function setupBleWatchMacFilter(win) {
               );
             }
           } else {
-            console.log("isGapOver = false!!:", " nowDate ", nowDate);
+            console.log("isGapOver = false!!:", "nowDate", nowDate);
           }
         } else {
           event.reply(
