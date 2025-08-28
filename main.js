@@ -159,15 +159,48 @@ function setupBleWatchMacFilter(win) {
 
     noble.on("discover", (peripheral) => {
       //      console.log('noble.on("discover"): In');
+
+      function getJapanTimeISOString(date) {
+        const japanOffsetInMinutes = 9 * 60; // 日本時間：UTC+9=540分
+        const utcTimestamp = date.getTime();
+        const japanTimestamp = utcTimestamp + japanOffsetInMinutes * 60 * 1000; // ミリ秒に変換して適用
+
+        // 日本時間のタイムスタンプをDateオブジェクトに変換
+        const japanDate = new Date(japanTimestamp);
+
+        // ISO形式として保存（日本時間基準）
+        return japanDate.toISOString().replace("Z", "+09:00");
+      }
+
       if (
         "0" === targetMAC.toLowerCase() ||
         peripheral.address.toLowerCase() === targetMAC.toLowerCase()
       ) {
+        /*
         const jstDate = new Date().toLocaleString("ja-JP", {
           timeZone: "Asia/Tokyo",
         }); // 日本時間を表示
         console.log(`jstDate ${jstDate}`);
+        console.log(`jstDate.toString() ${jstDate.toString()}`);
+
         const nowDate = new Date(jstDate); // 日本時間を明示的に保持
+        console.log(`nowDate ${nowDate}`);
+        console.log(`nowDate.toString() ${nowDate.toString()}`);
+        console.log(`nowDate.toISOString() ${nowDate.toISOString()}`);
+        console.log(`nowDate.getTime() ${nowDate.getTime()}`);
+        */
+        const tmpNowDate = new Date();
+        console.log(`tmpNowDate ${tmpNowDate}`);
+        const japanTimeISOString = getJapanTimeISOString(tmpNowDate);
+        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
+        const nowDate = new Date(japanTimeISOString);
+        console.log(
+          "After new Date(japanTimeISOString)",
+          `nowDate ${nowDate}`,
+          `nowDate.toISOString() ${nowDate.toISOString()}`
+        );
+
+        console.log(`pastDate ${pastDate}`);
 
         const advertisement = peripheral.advertisement;
         const manufacturerData = advertisement.manufacturerData;
@@ -175,9 +208,6 @@ function setupBleWatchMacFilter(win) {
         let isGapOver = true;
         if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
 
-        console.log(`pastDate ${pastDate}`);
-        console.log(`nowDate ${nowDate}`);
-        console.log(`nowDate.toString() ${nowDate.toString()}`);
         console.log(`isGapOver ${isGapOver}`);
 
         if (manufacturerData) {
