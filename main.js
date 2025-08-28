@@ -265,7 +265,7 @@ function setupBleWatchMacFilter(win) {
               );
 
               console.log(
-                `sendData ${sendData}`,
+                `sendData ${JSON.stringify(sendData)}`,
                 `nowDate ${nowDate}`,
                 `nowTime ${nowTime}`,
                 `manufacturerDataValidCount ${manufacturerDataValidCount}`
