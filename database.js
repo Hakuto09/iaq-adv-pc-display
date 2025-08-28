@@ -12,7 +12,8 @@ db.serialize(() => {
   //    id INTEGER PRIMARY KEY AUTOINCREMENT,
   db.run(`
     CREATE TABLE IF NOT EXISTS IAQ (
-      date_jst TEXT PRIMARY KEY,
+      date_jst_iso TEXT PRIMARY KEY,
+      mac_address TEXT,
       temperature TEXT,
       humidity TEXT,
       pm1_0 TEXT,
@@ -33,7 +34,8 @@ export function importCsvToDatabase(filePath) {
     const stmt = db.prepare(
       `
         INSERT INTO IAQ (
-          date_jst,
+          date_jst_iso,
+          mac_address,
           temperature,
           humidity,
           pm1_0,
@@ -43,7 +45,7 @@ export function importCsvToDatabase(filePath) {
           tvoc,
           ch2o,
           co
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `
     );
     console.log("Before fs.createReadStream():");
@@ -63,7 +65,8 @@ export function importCsvToDatabase(filePath) {
         );
         */
         stmt.run(
-          row.date_jst,
+          row.date_jst_iso,
+          row.mac_address,
           row.temperature,
           row.humidity,
           row.pm1_0,
@@ -85,8 +88,60 @@ export function importCsvToDatabase(filePath) {
   });
 }
 
+// データをデータベースへ格納
+export function insertDatabaseData(japanTimeISOString, currentMAC, sendData) {
+  console.log(
+    "insertDatabaseData(): Before stmt.run()",
+    `japanTimeISOString ${japanTimeISOString}`,
+    `currentMAC ${currentMAC}`,
+    `sendData ${JSON.stringify(sendData)}`
+  );
+  db.run(
+    `
+      INSERT INTO IAQ (
+        date_jst_iso,
+        mac_address,
+        temperature,
+        humidity,
+        pm1_0,
+        pm2_5,
+        pm10,
+        co2,
+        tvoc,
+        ch2o,
+        co
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+    [
+      japanTimeISOString,
+      currentMAC,
+      sendData.temperature,
+      sendData.humidity,
+      sendData.pm1_0,
+      sendData.pm2_5,
+      sendData.pm10,
+      sendData.co2,
+      sendData.tvoc,
+      sendData.ch2o,
+      sendData.co,
+    ],
+    function (err) {
+      if (err) {
+        console.error(
+          "insertDatabaseData(): Error inserting data:",
+          err.message
+        );
+      } else {
+        console.log(
+          `insertDatabaseData(): Row inserted with ID: ${this.lastID}`
+        );
+      }
+    }
+  );
+}
+
 // データベースからデータを取得
-export function getDatabaseData() {
+export function getDatabaseData(targetMAC) {
   /*
   return new Promise((resolve, reject) => {
     console.log("Before db.all():");
@@ -98,7 +153,12 @@ export function getDatabaseData() {
   */
   return new Promise((resolve, reject) => {
     // SQLクエリでテーブルのすべてのデータを取得
-    const sql = `SELECT id, temperature, humidity, pm1_0, pm2_5, pm10, co2, tvoc, ch2o, co FROM IAQ`;
+    //const sql = `SELECT id, temperature, humidity, pm1_0, pm2_5, pm10, co2, tvoc, ch2o, co FROM IAQ`;
+    let sql = `SELECT * FROM IAQ`;
+    if ("0" !== targetMAC) {
+      sql = `SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER(${targetMAC})`;
+    }
+    console.log("Before db.all():", `sql ${sql}`, `targetMAC ${targetMAC}`);
 
     db.all(sql, [], (err, rows) => {
       if (err) {
@@ -111,7 +171,8 @@ export function getDatabaseData() {
       const reformattedData = {
         headers: [
           //"id",
-          "date_jst",
+          "date_jst_iso",
+          "mac_address",
           "temperature",
           "humidity",
           "pm1_0",
@@ -124,7 +185,8 @@ export function getDatabaseData() {
         ], // ヘッダ名を定義
         rows: rows.map((row) => ({
           //          id: row.id,
-          date_jst: row.date_jst,
+          date_jst_iso: row.date_jst_iso,
+          mac_address: row.mac_address,
           temperature: row.temperature,
           humidity: row.humidity,
           pm1_0: row.pm1_0,

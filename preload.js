@@ -18,7 +18,7 @@ contextBridge.exposeInMainWorld("api", {
   importCsv: (filePath) => ipcRenderer.send("import-csv", filePath),
 
   // データベースからデータを取得
-  getData: () => ipcRenderer.send("get-data"),
+  getData: (targetMAC) => ipcRenderer.send("get-data", targetMAC),
 
   onBLEData: (callback) =>
     ipcRenderer.on("ble-data", (event, data) => callback(data)),

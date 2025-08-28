@@ -80,9 +80,13 @@ function setupImportStatusReceiver() {
 // データの取得処理
 function setupDataFetch() {
   const fetchDataButton = document.getElementById("fetchDataButton");
+
   fetchDataButton.addEventListener("click", () => {
-    console.log("Before window.api.getData():");
-    window.api.getData(); // データ取得要求をメインプロセスに送信
+    const targetMACInput = document.getElementById("targetMAC");
+    const targetMAC = targetMACInput.value.trim();
+
+    console.log("Before window.api.getData():", `targetMAC ${targetMAC}`);
+    window.api.getData(targetMAC); // データ取得要求をメインプロセスに送信
   });
 }
 

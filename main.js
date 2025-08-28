@@ -1,6 +1,10 @@
 import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
-import { importCsvToDatabase, getDatabaseData } from "./database.js";
+import {
+  importCsvToDatabase,
+  insertDatabaseData,
+  getDatabaseData,
+} from "./database.js";
 //const { importCsvToDatabase, getDatabaseData } = required("./database");
 import { getIAQData } from "./iaqdata.js";
 import Store from "electron-store";
@@ -157,7 +161,7 @@ function setupBleWatchMacFilter(win) {
       });
     }
 
-    noble.on("discover", (peripheral) => {
+    noble.on("discover", async (peripheral) => {
       //      console.log('noble.on("discover"): In');
 
       function getJapanTimeISOString(date) {
@@ -172,9 +176,11 @@ function setupBleWatchMacFilter(win) {
         return japanDate.toISOString().replace("Z", "+09:00");
       }
 
+      const currentMAC = peripheral.address;
+
       if (
         "0" === targetMAC.toLowerCase() ||
-        peripheral.address.toLowerCase() === targetMAC.toLowerCase()
+        currentMAC.toLowerCase() === targetMAC.toLowerCase()
       ) {
         /*
         const jstDate = new Date().toLocaleString("ja-JP", {
@@ -190,17 +196,18 @@ function setupBleWatchMacFilter(win) {
         console.log(`nowDate.getTime() ${nowDate.getTime()}`);
         */
         const tmpNowDate = new Date();
-        console.log(`tmpNowDate ${tmpNowDate}`);
+        //        console.log(`tmpNowDate ${tmpNowDate}`);
         const japanTimeISOString = getJapanTimeISOString(tmpNowDate);
-        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
+        //        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
         const nowDate = new Date(japanTimeISOString);
+        /*
         console.log(
           "After new Date(japanTimeISOString)",
           `nowDate ${nowDate}`,
           `nowDate.toISOString() ${nowDate.toISOString()}`
         );
-
         console.log(`pastDate ${pastDate}`);
+        */
 
         const advertisement = peripheral.advertisement;
         const manufacturerData = advertisement.manufacturerData;
@@ -208,7 +215,7 @@ function setupBleWatchMacFilter(win) {
         let isGapOver = true;
         if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
 
-        console.log(`isGapOver ${isGapOver}`);
+        //console.log(`isGapOver ${isGapOver}`);
 
         if (manufacturerData) {
           if (isGapOver) {
@@ -235,6 +242,8 @@ function setupBleWatchMacFilter(win) {
             event.reply("manufacturerData", `nowDate: ${nowDate}`);
             event.reply("manufacturerData", manufacturerDataLog);
             console.log(`nowDate ${nowDate}`);
+            console.log(`japanTimeISOString ${japanTimeISOString}`);
+            console.log(`pastDate ${pastDate}`);
             console.log(`advertisement ${advertisement}`);
             console.log(`manufacturerData ${manufacturerData}`);
             console.log("manufacturerData Hex:");
@@ -256,6 +265,19 @@ function setupBleWatchMacFilter(win) {
               const seconds = padZero(nowDate.getSeconds());
               //const nowTime = `${hours}:${minutes}:${seconds}`;
               const nowTime = `${hours}:${minutes}`;
+
+              insertDatabaseData(
+                japanTimeISOString,
+                currentMAC.toLowerCase(),
+                sendData
+              );
+
+              const db_data = await getDatabaseData(targetMAC.toLowerCase());
+              console.log(
+                "After await getDatabaseData()",
+                `targetMAC ${targetMAC}`,
+                `db_data ${JSON.stringify(db_data)}`
+              );
 
               win.webContents.send("ble-data-with-date", sendData, nowTime);
 
@@ -364,9 +386,10 @@ ipcMain.on("import-csv", async (event, filePath) => {
 });
 
 // データベースからデータを読み込む処理
-ipcMain.on("get-data", async (event) => {
+ipcMain.on("get-data", async (event, targetMAC) => {
   try {
-    const data = await getDatabaseData();
+    console.log("Before await getDatabaseData():", `targetMAC ${targetMAC}`);
+    const data = await getDatabaseData(targetMAC);
     //    event.reply("database-data", data);
     event.reply("db-data-with-header", data);
   } catch (err) {

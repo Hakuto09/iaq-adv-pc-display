@@ -28,6 +28,7 @@ node_modules/
 iaq-adv-pc-display-win32-x64/
 .secret-*
 **.sample
+.db
 
 # Certs
 openssl-certs/
