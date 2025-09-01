@@ -36,33 +36,24 @@ function setup() {
 function setupCsvImport() {
   const importCsvButton = document.getElementById("importCsvButton");
   importCsvButton.addEventListener("click", async () => {
-    /*
-      const fileInput = document.getElementById("csvFile");
-    if (fileInput.files.length > 0) {
-      console.log(
-        "Before get fileInput.files[0].path: fileInput.files.length: ",
-        fileInput.files.length
-      );
-      const filePath = fileInput.files[0].path; // CSVファイルのパスを取得
-
-      window.electron.ipcRenderer.send("file-select", filePath);
-
-      console.log("Before window.api.importCsv(): filePath ", filePath);
-      window.api.importCsv(filePath); // Electronのメインプロセスに送信
-    } else {
-      alert("Please select a CSV file!");
-      }
-
-    window.electron.ipcRenderer.on("file-selected", (filePath) => {
-        console.log("File path received from main process:", filePath);
-        window.api.importCsv(filePath); // Electronのメインプロセスに送信
-    });
-      */
-
     const filePath = await window.electron.openFileDialog();
     if (filePath) {
       console.log("Before window.api.importCsv():", `filePath ${filePath}`);
       window.api.importCsv(filePath); // Electronのメインプロセスに送信
+    } else {
+      console.log("No file selected.");
+    }
+  });
+}
+
+// CSVファイルのエクスポート処理
+function setupCsvExport() {
+  const importCsvButton = document.getElementById("exportCsvButton");
+  importCsvButton.addEventListener("click", async () => {
+    const filePath = await window.electron.openFileDialog();
+    if (filePath) {
+      console.log("Before window.api.exportCsv():", `filePath ${filePath}`);
+      window.api.exportCsv(filePath); // Electronのメインプロセスに送信
     } else {
       console.log("No file selected.");
     }

@@ -89,40 +89,34 @@ export function importCsvToDatabase(filePath) {
 }
 
 // SQLiteテーブルからデータを読み取り、CSVに出力する関数
-export function exportTableToCSV(outputFilePath, targetMAC, data) {
-  // SQLiteでデータを取得するSQL文
-  const query = `SELECT * FROM ${tableName}`;
+export function exportTableToCSV(outputFilePath, data) {
+  console.log("exportTableToCSV(): In.");
 
-  db.all(query, [], (err, rows) => {
+  const headers = data.headers;
+  const rows = data.rows;
+
+  if (rows.length === 0) {
+    console.log(`No data found in table '${tableName}'`);
+    return;
+  }
+
+  console.log(`Fetched ${rows.length} rows from the table '${tableName}'`);
+
+  // CSVデータへの変換
+  const csvContent = [headers.join(",")]; // ヘッダー行作成
+
+  rows.forEach((row) => {
+    const values = headers.map((header) => row[header]); // 各列の値を取得
+    csvContent.push(values.join(",")); // 各行をCSV形式で追加
+  });
+
+  // ファイルを書き出し
+  fs.writeFile(outputFilePath, csvContent.join("\n"), "utf8", (err) => {
     if (err) {
-      console.error(`Error fetching data from SQLite: ${err.message}`);
+      console.error(`Error writing to CSV file: ${err.message}`);
       return;
     }
-
-    if (rows.length === 0) {
-      console.log(`No data found in table '${tableName}'`);
-      return;
-    }
-
-    console.log(`Fetched ${rows.length} rows from the table '${tableName}'`);
-
-    // CSVデータの変換
-    const headers = Object.keys(rows[0]); // テーブルの列名を取得
-    const csvContent = [headers.join(",")]; // ヘッダー行作成
-
-    rows.forEach((row) => {
-      const values = headers.map((header) => row[header]); // 各列の値を取得
-      csvContent.push(values.join(",")); // 各行をCSV形式で追加
-    });
-
-    // ファイルを書き出し
-    fs.writeFile(outputFilePath, csvContent.join("\n"), "utf8", (err) => {
-      if (err) {
-        console.error(`Error writing to CSV file: ${err.message}`);
-        return;
-      }
-      console.log(`CSV file has been created successfully: ${outputFilePath}`);
-    });
+    console.log(`CSV file has been created successfully: ${outputFilePath}`);
   });
 }
 

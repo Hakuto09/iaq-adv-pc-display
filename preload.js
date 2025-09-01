@@ -14,8 +14,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
 });
 
 contextBridge.exposeInMainWorld("api", {
-  // CSVファイルをインポート
+  // CSVファイルのインポート
   importCsv: (filePath) => ipcRenderer.send("import-csv", filePath),
+  // CSVファイルのエクスポート
+  exportCsv: (filePath) => ipcRenderer.send("export-csv", filePath),
 
   // データベースからデータを取得
   getData: (targetMAC) => ipcRenderer.send("get-data", targetMAC),
