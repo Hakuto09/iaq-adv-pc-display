@@ -93,6 +93,7 @@ function setupDataFetch() {
 // データベースからのデータ受信・表示更新
 function setupDatabaseDataReceiver() {
   window.api.onDatabaseData((data) => {
+    /*
     const dataContainer = document.getElementById("databaseData");
     if (data.error) {
       dataContainer.innerText = `Error: ${data.error}`; // エラーがあれば記述
@@ -138,6 +139,7 @@ function setupDatabaseDataReceiver() {
         </table>
       `;
     }
+    */
   });
 
   window.api.onDBDataWithHeader((data) => {

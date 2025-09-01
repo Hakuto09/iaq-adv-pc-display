@@ -67,17 +67,24 @@ canvas {
 }
 
 #importCsvButton {
-    display: block;
-    /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
+    /*display: block;*/
+    display: none;  /* 要素とそのスペースを完全に非表示にする */
 }
 
 #fetchDataButton {
-    display: block;
+    display: inline;
     /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
+    margin-right: 20px;
 }
 
+#exportDataButton {
+    display: inline;
+    /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
+    margin-right: 20px;
+}
 
 .styled-table {
+    margin: 20px;
     /*border-spacing: 15px 5px;*/   /* セル間の間隔 */
     border-spacing: 0px;   /* セル間の間隔 */
     /*border-collapse: separate;*/  /* セル間の間隔を適用 */

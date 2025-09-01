@@ -385,8 +385,9 @@ ipcMain.on("import-csv", async (event, filePath) => {
   }
 });
 
-// データベースからデータを読み込む処理
-ipcMain.on("get-data", async (event, targetMAC) => {
+// データベースからデータを読み込み、HTML表示を行う
+ipcMain.on("get-data-and-display", async (event, targetMAC) => {
+  console.log('ipcMain.on("get-data-and-display"): In.');
   try {
     console.log("Before await getDatabaseData():", `targetMAC ${targetMAC}`);
     const data = await getDatabaseData(targetMAC);
@@ -397,6 +398,21 @@ ipcMain.on("get-data", async (event, targetMAC) => {
     event.reply("db-data-with-header", { error: err.message });
   }
 });
+
+// データベースからデータを読み込み、ファイル出力を行う
+ipcMain.on(
+  "get-data-and-export-file",
+  async (event, outputFilePath, targetMAC) => {
+    console.log('ipcMain.on("get-data-and-export-file"): In.');
+    try {
+      console.log("Before await getDatabaseData():", `targetMAC ${targetMAC}`);
+      const data = await getDatabaseData(targetMAC);
+      exportTableToCSV(outputFilePath, targetMAC, data);
+    } catch (err) {
+      console.log(`error ${error} err.message ${err.message}`);
+    }
+  }
+);
 
 /*
 // メインプロセスで 'file-select' イベントを受け取る
