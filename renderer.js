@@ -170,7 +170,7 @@ function setupDatabaseDataReceiver() {
 
       // テーブルを生成して `innerHTML` を設定
       dataContainer.innerHTML = `
-        <table>
+        <table class="styled-table">
           <tr>
             ${headerRow}
           </tr>

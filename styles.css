@@ -75,3 +75,23 @@ canvas {
     display: block;
     /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
 }
+
+
+.styled-table {
+    /*border-spacing: 15px 5px;*/   /* セル間の間隔 */
+    border-spacing: 0px;   /* セル間の間隔 */
+    /*border-collapse: separate;*/  /* セル間の間隔を適用 */
+    border-collapse: collapse;  /* セル間の間隔を適用 */}
+
+.styled-table th {
+    padding: 10px 0px 15px 15px;   /* セル内の余白 */
+    text-align: center;    /* 水平方向に中央揃え */
+    vertical-align: middle;    /* 垂直方向に中央揃え */
+    border-bottom: 2px solid #ddd;  /* ヘッダー下に横線を表示 */
+}
+
+.styled-table td {
+    padding: 10px 0px 15px 15px;  /* セル内の余白 */
+    text-align: center; /* 水平方向に中央揃え */
+    vertical-align: middle; /* 垂直方向に中央揃え */
+}

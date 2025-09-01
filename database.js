@@ -156,7 +156,7 @@ export function getDatabaseData(targetMAC) {
     //const sql = `SELECT id, temperature, humidity, pm1_0, pm2_5, pm10, co2, tvoc, ch2o, co FROM IAQ`;
     let sql = `SELECT * FROM IAQ`;
     if ("0" !== targetMAC) {
-      sql = `SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER(${targetMAC})`;
+      sql = `SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER("${targetMAC}")`;
     }
     console.log("Before db.all():", `sql ${sql}`, `targetMAC ${targetMAC}`);
 
