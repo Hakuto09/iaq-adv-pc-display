@@ -93,9 +93,9 @@ function createWindow() {
   ipcMain.handle("dialog:saveFile", async (event) => {
     const result = await dialog.showSaveDialog({
       title: "Save File",
-      defaultPath: "example.txt", // 初期出力ファイルの名前
+      defaultPath: "output.csv", // 初期出力ファイルの名前
       filters: [
-        { name: "Text Files", extensions: ["txt"] },
+        { name: "CSV Files", extensions: ["csv"] },
         { name: "All Files", extensions: ["*"] },
       ],
     });
