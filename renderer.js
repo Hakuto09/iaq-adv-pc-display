@@ -35,6 +35,7 @@ function setup() {
 // CSVファイルのインポート処理
 function setupCsvImport() {
   const importCsvButton = document.getElementById("importCsvButton");
+
   importCsvButton.addEventListener("click", async () => {
     const filePath = await window.electron.openFileDialog();
     if (filePath) {
@@ -48,15 +49,38 @@ function setupCsvImport() {
 
 // CSVファイルのエクスポート処理
 function setupCsvExport() {
-  const importCsvButton = document.getElementById("exportCsvButton");
-  importCsvButton.addEventListener("click", async () => {
-    const filePath = await window.electron.openFileDialog();
+  const exportCsvButton = document.getElementById("exportCsvButton");
+
+  exportCsvButton.addEventListener("click", async () => {
+    const filePath = await window.electron.saveFileDialog();
     if (filePath) {
-      console.log("Before window.api.exportCsv():", `filePath ${filePath}`);
-      window.api.exportCsv(filePath); // Electronのメインプロセスに送信
+      const targetMACInput = document.getElementById("targetMAC");
+      const targetMAC = targetMACInput.value.trim();
+
+      console.log(
+        "Before window.api.exportCsv():",
+        `filePath ${filePath}`,
+        `targetMAC ${targetMAC}`
+      );
+      window.api.exportCsv(filePath, targetMAC);
     } else {
       console.log("No file selected.");
     }
+  });
+}
+
+function setupGetDataAndDisplay() {
+  const fetchDataButton = document.getElementById("displayDataButton");
+
+  fetchDataButton.addEventListener("click", () => {
+    const targetMACInput = document.getElementById("targetMAC");
+    const targetMAC = targetMACInput.value.trim();
+
+    console.log(
+      "Before window.api.getDataAndDisplay():",
+      `targetMAC ${targetMAC}`
+    );
+    window.api.getDataAndDisplay(targetMAC);
   });
 }
 
@@ -68,23 +92,10 @@ function setupImportStatusReceiver() {
   });
 }
 
-// データの取得処理
-function setupDataFetch() {
-  const fetchDataButton = document.getElementById("fetchDataButton");
-
-  fetchDataButton.addEventListener("click", () => {
-    const targetMACInput = document.getElementById("targetMAC");
-    const targetMAC = targetMACInput.value.trim();
-
-    console.log("Before window.api.getData():", `targetMAC ${targetMAC}`);
-    window.api.getData(targetMAC); // データ取得要求をメインプロセスに送信
-  });
-}
-
 // データベースからのデータ受信・表示更新
 function setupDatabaseDataReceiver() {
+  /*
   window.api.onDatabaseData((data) => {
-    /*
     const dataContainer = document.getElementById("databaseData");
     if (data.error) {
       dataContainer.innerText = `Error: ${data.error}`; // エラーがあれば記述
@@ -130,8 +141,8 @@ function setupDatabaseDataReceiver() {
         </table>
       `;
     }
-    */
   });
+  */
 
   window.api.onDBDataWithHeader((data) => {
     const dataContainer = document.getElementById("databaseData");
@@ -470,8 +481,9 @@ function initialize() {
   console.log("initialize(): In");
   setup();
   setupCsvImport();
+  setupCsvExport();
+  setupGetDataAndDisplay();
   setupImportStatusReceiver();
-  setupDataFetch();
   setupDatabaseDataReceiver();
   setupValueAndChart();
   //  setupChart();

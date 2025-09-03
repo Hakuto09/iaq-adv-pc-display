@@ -89,26 +89,48 @@ export function importCsvToDatabase(filePath) {
 }
 
 // SQLiteテーブルからデータを読み取り、CSVに出力する関数
-export function exportTableToCSV(outputFilePath, data) {
-  console.log("exportTableToCSV(): In.");
+export function exportCSVFromDatabase(outputFilePath, data) {
+  console.log("exportCSVFromDatabase(): In.");
 
   const headers = data.headers;
   const rows = data.rows;
 
+  console.log(
+    "exportCSVFromDatabase():",
+    `headers.length ${headers.length}`,
+    `rows.length ${rows.length}`
+  );
+
   if (rows.length === 0) {
-    console.log(`No data found in table '${tableName}'`);
+    console.log("exportCSVFromDatabase(): No data found in database.");
     return;
   }
 
-  console.log(`Fetched ${rows.length} rows from the table '${tableName}'`);
-
   // CSVデータへの変換
   const csvContent = [headers.join(",")]; // ヘッダー行作成
+  console.log(
+    "exportCSVFromDatabase():",
+    "After headers.join():",
+    `csvContent ${csvContent}`
+  );
 
   rows.forEach((row) => {
     const values = headers.map((header) => row[header]); // 各列の値を取得
     csvContent.push(values.join(",")); // 各行をCSV形式で追加
+    console.log(
+      "exportCSVFromDatabase():",
+      "After values.join():",
+      `csvContent ${csvContent}`
+    );
   });
+  console.log(
+    "exportCSVFromDatabase():",
+    "After rows.forEach():",
+    `csvContent ${csvContent}`
+  );
+  for (let i = 0; i < 10; i++) {
+    console.log(`csvContent[${i}] ${csvContent[i]}`);
+  }
 
   // ファイルを書き出し
   fs.writeFile(outputFilePath, csvContent.join("\n"), "utf8", (err) => {
@@ -231,6 +253,11 @@ export function getDatabaseData(targetMAC) {
         })),
       };
 
+      console.log(
+        "getDatabaseData():",
+        "Before db.all() - resolve():",
+        `reformattedData ${JSON.stringify(reformattedData)}`
+      );
       resolve(reformattedData);
     });
   });

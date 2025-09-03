@@ -17,10 +17,15 @@ contextBridge.exposeInMainWorld("api", {
   // CSVファイルのインポート
   importCsv: (filePath) => ipcRenderer.send("import-csv", filePath),
   // CSVファイルのエクスポート
-  exportCsv: (filePath) => ipcRenderer.send("export-csv", filePath),
+  exportCsv: (filePath, targetMAC) =>
+    ipcRenderer.send("export-csv", filePath, targetMAC),
 
-  // データベースからデータを取得
-  getData: (targetMAC) => ipcRenderer.send("get-data", targetMAC),
+  // データベースからのデータ取得とHTML表示
+  getDataAndDisplay: (targetMAC) =>
+    ipcRenderer.send("get-data-and-display", targetMAC),
+  // データベースからのデータ取得とファイル保存
+  getDataAndSave: (targetMAC) =>
+    ipcRenderer.send("get-data-and-save", targetMAC),
 
   onBLEData: (callback) =>
     ipcRenderer.on("ble-data", (event, data) => callback(data)),
@@ -56,17 +61,10 @@ contextBridge.exposeInMainWorld("fileAPI", {
 */
 
 contextBridge.exposeInMainWorld("electron", {
-  /*
-    ipcRenderer: {
-    send: (channel, data) => {
-      ipcRenderer.send(channel, data);
-    },
-    on: (channel, callback) => {
-      ipcRenderer.on(channel, (event, ...args) => callback(...args));
-    },
-  },
-*/
   openFileDialog: async () => {
     return await ipcRenderer.invoke("dialog:openFile");
+  },
+  saveFileDialog: async () => {
+    return await ipcRenderer.invoke("dialog:saveFile"); // 新規追加の書き込みダイアログ用
   },
 });

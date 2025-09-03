@@ -71,13 +71,13 @@ canvas {
     display: none;  /* 要素とそのスペースを完全に非表示にする */
 }
 
-#fetchDataButton {
+#displayDataButton {
     display: inline;
     /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
     margin-right: 20px;
 }
 
-#exportDataButton {
+#exportCsvButton {
     display: inline;
     /*display: none;*/  /* 要素とそのスペースを完全に非表示にする */
     margin-right: 20px;

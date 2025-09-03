@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, dialog } from "electron";
 import path from "path";
 import {
   importCsvToDatabase,
+  exportCSVFromDatabase,
   insertDatabaseData,
   getDatabaseData,
 } from "./database.js";
@@ -77,7 +78,7 @@ function createWindow() {
     store.set("windowBounds", bounds);
   });
 
-  // ファイル選択ダイアログを開く処理
+  // 読み込み用ファイル選択ダイアログを開く処理
   ipcMain.handle("dialog:openFile", async () => {
     const result = await dialog.showOpenDialog(win, {
       properties: ["openFile"],
@@ -86,6 +87,21 @@ function createWindow() {
       ],
     });
     return result.filePaths[0] || null; // 選択されたファイルのパスを返す
+  });
+
+  // 書き込み用ファイル選択ダイアログを開く処理
+  ipcMain.handle("dialog:saveFile", async (event) => {
+    const result = await dialog.showSaveDialog({
+      title: "Save File",
+      defaultPath: "example.txt", // 初期出力ファイルの名前
+      filters: [
+        { name: "Text Files", extensions: ["txt"] },
+        { name: "All Files", extensions: ["*"] },
+      ],
+    });
+
+    // ダイアログ操作結果を返す
+    return result.filePath; // ユーザーが選択したファイルパス
   });
 
   return win;
@@ -197,7 +213,7 @@ function setupBleWatchMacFilter(win) {
         */
         const tmpNowDate = new Date();
         //        console.log(`tmpNowDate ${tmpNowDate}`);
-        const japanTimeISOString = getJapanTimeISOString(tmpNowDate);
+        const japanTimeISOString = await getJapanTimeISOString(tmpNowDate);
         //        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
         const nowDate = new Date(japanTimeISOString);
         /*
@@ -251,7 +267,7 @@ function setupBleWatchMacFilter(win) {
               console.log(`0x${value.toString(16).padStart(2, "0")}`)
             );
 
-            const sendData = getIAQData(manufacturerData);
+            const sendData = await getIAQData(manufacturerData);
             console.log(
               "After getIAQData():",
               `sendData.error ${sendData.error}`
@@ -266,7 +282,7 @@ function setupBleWatchMacFilter(win) {
               //const nowTime = `${hours}:${minutes}:${seconds}`;
               const nowTime = `${hours}:${minutes}`;
 
-              insertDatabaseData(
+              await insertDatabaseData(
                 japanTimeISOString,
                 currentMAC.toLowerCase(),
                 sendData
@@ -397,7 +413,7 @@ ipcMain.on("export-csv", async (event, filePath, targetMAC) => {
       `filePath ${filePath}`,
       `data ${data}`
     );
-    exportTableToCSV(filePath, data);
+    exportCSVFromDatabase(filePath, data);
   } catch (err) {
     console.log(`error ${error} err.message ${err.message}`);
   }
