@@ -6,12 +6,16 @@ function btnControlAtScanInprogress() {
   const stopBtn = document.getElementById("stopBtn");
   const displayDataButton = document.getElementById("displayDataButton");
   const exportCsvButton = document.getElementById("exportCsvButton");
+  const clearDisplayAndLogBtn = document.getElementById(
+    "clearDisplayAndLogBtn"
+  );
 
   targetMACInput.disabled = true;
   startBtn.disabled = true;
   stopBtn.disabled = false;
   displayDataButton.disabled = false;
   exportCsvButton.disabled = true;
+  clearDisplayAndLogBtn.disabled = true;
 }
 
 function btnControlAtScanStopped() {
@@ -20,12 +24,16 @@ function btnControlAtScanStopped() {
   const stopBtn = document.getElementById("stopBtn");
   const displayDataButton = document.getElementById("displayDataButton");
   const exportCsvButton = document.getElementById("exportCsvButton");
+  const clearDisplayAndLogBtn = document.getElementById(
+    "clearDisplayAndLogBtn"
+  );
 
   targetMACInput.disabled = false;
   startBtn.disabled = false;
   stopBtn.disabled = true;
   displayDataButton.disabled = false;
   exportCsvButton.disabled = false;
+  clearDisplayAndLogBtn.disabled = false;
 }
 
 function setup() {
@@ -33,8 +41,12 @@ function setup() {
   const targetMACInput = document.getElementById("targetMAC");
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
+  const clearDisplayAndLogBtn = document.getElementById(
+    "clearDisplayAndLogBtn"
+  );
+  const textContentDefault = "Application Version: " + APP_VERSION;
 
-  log.textContent = "Application Version: " + APP_VERSION;
+  log.textContent = textContentDefault;
 
   btnControlAtScanStopped();
 
@@ -53,6 +65,13 @@ function setup() {
     log.textContent += "\n" + "スキャンを停止します...";
     window.electronAPI.stopScan();
     btnControlAtScanStopped();
+  });
+
+  clearDisplayAndLogBtn.addEventListener("click", () => {
+    log.textContent = textContentDefault;
+
+    const dataContainer = document.getElementById("databaseData");
+    dataContainer.innerText = "";
   });
 
   window.electronAPI.onScanStatus((message) => {
