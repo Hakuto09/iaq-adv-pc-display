@@ -1,0 +1,24 @@
+﻿**********************
+Windows PowerShell トランスクリプト開始
+開始時刻: 20250903155024
+ユーザー名: ADHAKUTO\hkt11233
+RunAs ユーザー: ADHAKUTO\hkt11233
+構成名: 
+コンピューター: 23X83026 (Microsoft Windows NT 10.0.22631.0)
+ホスト アプリケーション: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+プロセス ID: 20248
+PSVersion: 5.1.22621.5624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.5624
+BuildVersion: 10.0.22621.5624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+トランスクリプトが開始されました。出力ファイル: ps-electron-001.log
+PS C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-display> Stop-Transcript
+**********************
+Windows PowerShell トランスクリプト終了
+終了時刻: 20250903155042
+**********************

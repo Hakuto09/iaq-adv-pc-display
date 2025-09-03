@@ -1,5 +1,33 @@
 import { APP_VERSION } from "./version.js";
 
+function btnControlAtScanInprogress() {
+  const targetMACInput = document.getElementById("targetMAC");
+  const startBtn = document.getElementById("startBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const displayDataButton = document.getElementById("displayDataButton");
+  const exportCsvButton = document.getElementById("exportCsvButton");
+
+  targetMACInput.disabled = true;
+  startBtn.disabled = true;
+  stopBtn.disabled = false;
+  displayDataButton.disabled = false;
+  exportCsvButton.disabled = true;
+}
+
+function btnControlAtScanStopped() {
+  const targetMACInput = document.getElementById("targetMAC");
+  const startBtn = document.getElementById("startBtn");
+  const stopBtn = document.getElementById("stopBtn");
+  const displayDataButton = document.getElementById("displayDataButton");
+  const exportCsvButton = document.getElementById("exportCsvButton");
+
+  targetMACInput.disabled = false;
+  startBtn.disabled = false;
+  stopBtn.disabled = true;
+  displayDataButton.disabled = false;
+  exportCsvButton.disabled = false;
+}
+
 function setup() {
   const log = document.getElementById("log");
   const targetMACInput = document.getElementById("targetMAC");
@@ -8,11 +36,14 @@ function setup() {
 
   log.textContent = "Application Version: " + APP_VERSION;
 
+  btnControlAtScanStopped();
+
   startBtn.addEventListener("click", () => {
     const targetMAC = targetMACInput.value.trim();
     if (targetMAC) {
       log.textContent += "\n" + "スキャンを開始します...";
       window.electronAPI.startScan(targetMAC);
+      btnControlAtScanInprogress();
     } else {
       log.textContent += "\n" + "MACアドレスを入力してください！";
     }
@@ -21,6 +52,7 @@ function setup() {
   stopBtn.addEventListener("click", () => {
     log.textContent += "\n" + "スキャンを停止します...";
     window.electronAPI.stopScan();
+    btnControlAtScanStopped();
   });
 
   window.electronAPI.onScanStatus((message) => {
