@@ -137,9 +137,12 @@ function setupBleWatchMacFilter(win) {
     if (noble.state === "poweredOn") {
       console.log("Before noble.startScanning():");
       noble.startScanning([], true);
-      event.reply("scanStatus", `スキャン開始: ターゲットMAC -> ${targetMAC}`);
+      event.reply(
+        "scanStatus",
+        `スキャン開始: ターゲットMAC -> ${targetMAC.toLowerCase()}`
+      );
       //      console.log("スキャン開始: ターゲットMAC ->", targetMAC);
-      console.log("Scan Start: Target MAC ->", targetMAC);
+      console.log("Scan Start: Target MAC ->", targetMAC.toLowerCase());
     } else {
       console.log("Before noble.once('stateChange'):");
       noble.once("stateChange", (state) => {
@@ -147,15 +150,12 @@ function setupBleWatchMacFilter(win) {
           noble.startScanning([], true);
           event.reply(
             "scanStatus",
-            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC}`
+            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC.toLowerCase()}`
           );
-          /*
           console.log(
-            "スキャン開始 (stateChange): ターゲットMAC ->",
-            targetMAC
+            "Scan Start (stateChange):",
+            `Target MAC ${targetMAC.toLowerCase()}`
           );
-          */
-          console.log("Scan Start (stateChange):", `Target MAC ${targetMAC}`);
         } else if (state === "unknown" || state === "unsupported") {
           console.log(
             'noble: state === "unknown" or "unsupported":',
@@ -255,7 +255,10 @@ function setupBleWatchMacFilter(win) {
                   "0x" + value.toString(16).padStart(2, "0") + " ")
             );
 
-            event.reply("manufacturerData", `nowDate: ${nowDate}`);
+            event.reply(
+              "manufacturerData",
+              `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${nowDate}`
+            );
             event.reply("manufacturerData", manufacturerDataLog);
             console.log(`nowDate ${nowDate}`);
             console.log(`japanTimeISOString ${japanTimeISOString}`);
