@@ -237,13 +237,17 @@ function setupBleWatchMacFilter(win) {
                 `sendData.error ${sendData.error}`
               );
 
-              //            if (typeof sendData.temperature !== "undefined") {
-              if (!sendData.error) {
+              function getTimeFromDate(date) {
                 const padZero = (num) => num.toString().padStart(2, "0");
-                const hours = padZero(nowDate.getHours());
-                const minutes = padZero(nowDate.getMinutes());
-                const seconds = padZero(nowDate.getSeconds());
-                //const nowTime = `${hours}:${minutes}:${seconds}`;
+                const hours = padZero(date.getHours());
+                const minutes = padZero(date.getMinutes());
+                const seconds = padZero(date.getSeconds());
+
+                return { hours: hours, minutes: minutes, seconds: seconds };
+              }
+
+              if (!sendData.error) {
+                const { hours, minutes } = getTimeFromDate(nowDate);
                 const nowTime = `${hours}:${minutes}`;
 
                 /*await*/ insertDatabaseData(
