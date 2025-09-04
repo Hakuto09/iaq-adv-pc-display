@@ -257,7 +257,7 @@ function setupBleWatchMacFilter(win) {
 
             event.reply(
               "manufacturerData",
-              `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${nowDate}`
+              `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${japanTimeISOString}`
             );
             event.reply("manufacturerData", manufacturerDataLog);
             console.log(`nowDate ${nowDate}`);
