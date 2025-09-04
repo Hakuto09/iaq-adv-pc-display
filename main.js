@@ -131,22 +131,7 @@ function setupBleWatchMacFilter(win) {
     }
 
     isScanning = true;
-    /*
-    noble.on("stateChange", (state) => {
-      console.log('noble.on("stateChange"): In');
-      if (state === "poweredOn") {
-        noble.startScanning([], true);
-        event.reply(
-          "scanStatus",
-          `スキャン開始: ターゲットMAC -> ${targetMAC}`
-        );
-        console.log("スキャン開始: ターゲットMAC ->", targetMAC);
-      } else {
-        noble.stopScanning();
-        event.reply("scanStatus", "BLEがオフになっています！");
-      }
-    });
-    */
+
     if (noble.state === "poweredOn") {
       console.log("Before noble.startScanning():");
       noble.startScanning([], true);
@@ -154,7 +139,6 @@ function setupBleWatchMacFilter(win) {
         "scanStatus",
         `スキャン開始: ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJst ${getNowDateJstISOString()}`
       );
-      //      console.log("スキャン開始: ターゲットMAC ->", targetMAC);
       console.log("Scan Start: Target MAC ->", targetMAC.toLowerCase());
     } else {
       console.log("Before noble.once('stateChange'):");
@@ -201,30 +185,9 @@ function setupBleWatchMacFilter(win) {
           "0" === targetMAC.toLowerCase() ||
           currentMAC.toLowerCase() === targetMAC.toLowerCase()
         ) {
-          /*
-        const jstDate = new Date().toLocaleString("ja-JP", {
-          timeZone: "Asia/Tokyo",
-        }); // 日本時間を表示
-        console.log(`jstDate ${jstDate}`);
-        console.log(`jstDate.toString() ${jstDate.toString()}`);
-
-        const nowDate = new Date(jstDate); // 日本時間を明示的に保持
-        console.log(`nowDate ${nowDate}`);
-        console.log(`nowDate.toString() ${nowDate.toString()}`);
-        console.log(`nowDate.toISOString() ${nowDate.toISOString()}`);
-        console.log(`nowDate.getTime() ${nowDate.getTime()}`);
-        */
           const nowDateJstISOString = /*await*/ getNowDateJstISOString();
           //        console.log(`nowDateJstISOString ${nowDateJstISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
           const nowDate = new Date(nowDateJstISOString);
-          /*
-        console.log(
-          "After new Date(nowDateJstISOString)",
-          `nowDate ${nowDate}`,
-          `nowDate.toISOString() ${nowDate.toISOString()}`
-        );
-        console.log(`pastDate ${pastDate}`);
-        */
 
           const advertisement = peripheral.advertisement;
           const manufacturerData = advertisement.manufacturerData;
@@ -236,25 +199,22 @@ function setupBleWatchMacFilter(win) {
 
           if (manufacturerData) {
             if (isGapOver) {
+              console.log(
+                "Before manufacturerData.map():",
+                "manufacturerData.map(typeof value):",
+                manufacturerData.map((value) => typeof value)
+              );
+              const manufacturerDataLog = Array.from(manufacturerData)
+                .map((value) => "0x" + value.toString(16).padStart(2, "0"))
+                .join(" ");
               /*
-            const logData = manufacturerData
-              .map(
-                (byte, index) =>
-                  `Byte ${index + 1}: 0x${byte.toString(16).padStart(2, "0")}`
-              )
-              .join("\n");
-            */
-              /*
-            const manufacturerDataLog = manufacturerData
-              .map((byte, index) => `0x${byte.toString(16).padStart(2, "0")}`)
-              .join(" ");
-            */
               let manufacturerDataLog = "";
               manufacturerData.forEach(
                 (value) =>
                   (manufacturerDataLog +=
                     "0x" + value.toString(16).padStart(2, "0") + " ")
               );
+              */
 
               event.reply(
                 "manufacturerData",
@@ -265,7 +225,7 @@ function setupBleWatchMacFilter(win) {
               console.log(`nowDateJstISOString ${nowDateJstISOString}`);
               console.log(`pastDate ${pastDate}`);
               console.log(`advertisement ${advertisement}`);
-              console.log(`manufacturerData ${manufacturerData}`);
+              console.log(`manufacturerDataLog ${manufacturerDataLog}`);
               console.log("manufacturerData Hex:");
               manufacturerData.forEach((value) =>
                 console.log(`0x${value.toString(16).padStart(2, "0")}`)
@@ -416,7 +376,7 @@ ipcMain.on("export-csv", async (event, filePath, targetMAC) => {
     console.log("Before getDatabaseData():", `targetMAC ${targetMAC}`);
     const data = await getDatabaseData(targetMAC);
     console.log(
-      "Before exportTableToCSV():",
+      "Before exportCSVFromDatabase():",
       `filePath ${filePath}`,
       `data ${data}`
     );

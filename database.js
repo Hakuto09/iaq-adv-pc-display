@@ -128,9 +128,9 @@ export function exportCSVFromDatabase(outputFilePath, data) {
     "After rows.forEach():",
     `csvContent ${csvContent}`
   );
-  for (let i = 0; i < 10; i++) {
-    console.log(`csvContent[${i}] ${csvContent[i]}`);
-  }
+  csvContent.slice(0, 10).forEach((value, i) => {
+    console.log(`csvContent[${i}] ${value}`);
+  });
 
   // ファイルを書き出し
   fs.writeFile(outputFilePath, csvContent.join("\n"), "utf8", (err) => {
@@ -206,12 +206,11 @@ export function getDatabaseData(targetMAC) {
   });
   */
   return new Promise((resolve, reject) => {
-    // SQLクエリでテーブルのすべてのデータを取得
-    //const sql = `SELECT id, temperature, humidity, pm1_0, pm2_5, pm10, co2, tvoc, ch2o, co FROM IAQ`;
-    let sql = `SELECT * FROM IAQ`;
-    if ("0" !== targetMAC) {
-      sql = `SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER("${targetMAC}")`;
-    }
+    // SQLクエリでテーブルのデータを取得
+    const sql =
+      "0" === targetMAC
+        ? `SELECT * FROM IAQ`
+        : `SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER("${targetMAC}")`;
     console.log("Before db.all():", `sql ${sql}`, `targetMAC ${targetMAC}`);
 
     db.all(sql, [], (err, rows) => {
