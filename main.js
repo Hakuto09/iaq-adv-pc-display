@@ -110,6 +110,19 @@ function createWindow() {
 function setupBleWatchMacFilter(win) {
   let isScanning = false;
 
+  function getNowDateJstISOString() {
+    const nowDate = new Date();
+    const japanOffsetInMinutes = 9 * 60; // 日本時間：UTC+9=540分
+    const utcTimestamp = nowDate.getTime();
+    const japanTimestamp = utcTimestamp + japanOffsetInMinutes * 60 * 1000; // ミリ秒に変換して適用
+
+    // 日本時間のタイムスタンプをDateオブジェクトに変換
+    const japanDate = new Date(japanTimestamp);
+
+    // ISO形式として保存（日本時間基準）
+    return japanDate.toISOString().replace("Z", "+09:00");
+  }
+
   ipcMain.on("startScan", (event, targetMAC) => {
     console.log('ipcMain.on("startScan"): In');
     if (isScanning) {
@@ -139,7 +152,7 @@ function setupBleWatchMacFilter(win) {
       noble.startScanning([], true);
       event.reply(
         "scanStatus",
-        `スキャン開始: ターゲットMAC -> ${targetMAC.toLowerCase()}`
+        `スキャン開始: ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJst ${getNowDateJstISOString()}`
       );
       //      console.log("スキャン開始: ターゲットMAC ->", targetMAC);
       console.log("Scan Start: Target MAC ->", targetMAC.toLowerCase());
@@ -150,7 +163,7 @@ function setupBleWatchMacFilter(win) {
           noble.startScanning([], true);
           event.reply(
             "scanStatus",
-            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC.toLowerCase()}`
+            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJst ${getNowDateJstISOString()}`
           );
           console.log(
             "Scan Start (stateChange):",
@@ -182,19 +195,6 @@ function setupBleWatchMacFilter(win) {
       /*async*/ (peripheral) => {
         //      console.log('noble.on("discover"): In');
 
-        function getJapanTimeISOString(date) {
-          const japanOffsetInMinutes = 9 * 60; // 日本時間：UTC+9=540分
-          const utcTimestamp = date.getTime();
-          const japanTimestamp =
-            utcTimestamp + japanOffsetInMinutes * 60 * 1000; // ミリ秒に変換して適用
-
-          // 日本時間のタイムスタンプをDateオブジェクトに変換
-          const japanDate = new Date(japanTimestamp);
-
-          // ISO形式として保存（日本時間基準）
-          return japanDate.toISOString().replace("Z", "+09:00");
-        }
-
         const currentMAC = peripheral.address;
 
         if (
@@ -214,15 +214,12 @@ function setupBleWatchMacFilter(win) {
         console.log(`nowDate.toISOString() ${nowDate.toISOString()}`);
         console.log(`nowDate.getTime() ${nowDate.getTime()}`);
         */
-          const tmpNowDate = new Date();
-          //        console.log(`tmpNowDate ${tmpNowDate}`);
-          const japanTimeISOString =
-            /*await*/ getJapanTimeISOString(tmpNowDate);
-          //        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
-          const nowDate = new Date(japanTimeISOString);
+          const nowDateJstISOString = /*await*/ getNowDateJstISOString();
+          //        console.log(`nowDateJstISOString ${nowDateJstISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
+          const nowDate = new Date(nowDateJstISOString);
           /*
         console.log(
-          "After new Date(japanTimeISOString)",
+          "After new Date(nowDateJstISOString)",
           `nowDate ${nowDate}`,
           `nowDate.toISOString() ${nowDate.toISOString()}`
         );
@@ -261,11 +258,11 @@ function setupBleWatchMacFilter(win) {
 
               event.reply(
                 "manufacturerData",
-                `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${japanTimeISOString}`
+                `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${nowDateJstISOString}`
               );
               event.reply("manufacturerData", manufacturerDataLog);
               console.log(`nowDate ${nowDate}`);
-              console.log(`japanTimeISOString ${japanTimeISOString}`);
+              console.log(`nowDateJstISOString ${nowDateJstISOString}`);
               console.log(`pastDate ${pastDate}`);
               console.log(`advertisement ${advertisement}`);
               console.log(`manufacturerData ${manufacturerData}`);
@@ -290,7 +287,7 @@ function setupBleWatchMacFilter(win) {
                 const nowTime = `${hours}:${minutes}`;
 
                 /*await*/ insertDatabaseData(
-                  japanTimeISOString,
+                  nowDateJstISOString,
                   currentMAC.toLowerCase(),
                   sendData
                 );
