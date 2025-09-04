@@ -6,16 +6,16 @@ function btnControlAtScanInprogress() {
   const stopBtn = document.getElementById("stopBtn");
   const displayDataButton = document.getElementById("displayDataButton");
   const exportCsvButton = document.getElementById("exportCsvButton");
-  const clearDisplayAndLogBtn = document.getElementById(
-    "clearDisplayAndLogBtn"
-  );
+  const clearDisplayDataBtn = document.getElementById("clearDisplayDataBtn");
+  const clearLogBtn = document.getElementById("clearLogBtn");
 
   targetMACInput.disabled = true;
   startBtn.disabled = true;
   stopBtn.disabled = false;
   displayDataButton.disabled = false;
   exportCsvButton.disabled = true;
-  clearDisplayAndLogBtn.disabled = true;
+  clearDisplayDataBtn.disabled = false;
+  clearLogBtn.disabled = true;
 }
 
 function btnControlAtScanStopped() {
@@ -24,16 +24,16 @@ function btnControlAtScanStopped() {
   const stopBtn = document.getElementById("stopBtn");
   const displayDataButton = document.getElementById("displayDataButton");
   const exportCsvButton = document.getElementById("exportCsvButton");
-  const clearDisplayAndLogBtn = document.getElementById(
-    "clearDisplayAndLogBtn"
-  );
+  const clearDisplayDataBtn = document.getElementById("clearDisplayDataBtn");
+  const clearLogBtn = document.getElementById("clearLogBtn");
 
   targetMACInput.disabled = false;
   startBtn.disabled = false;
   stopBtn.disabled = true;
   displayDataButton.disabled = false;
   exportCsvButton.disabled = false;
-  clearDisplayAndLogBtn.disabled = false;
+  clearDisplayDataBtn.disabled = false;
+  clearLogBtn.disabled = false;
 }
 
 function setup() {
@@ -41,9 +41,6 @@ function setup() {
   const targetMACInput = document.getElementById("targetMAC");
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
-  const clearDisplayAndLogBtn = document.getElementById(
-    "clearDisplayAndLogBtn"
-  );
   const textContentDefault = "Application Version: " + APP_VERSION;
 
   log.textContent = textContentDefault;
@@ -67,11 +64,13 @@ function setup() {
     btnControlAtScanStopped();
   });
 
-  clearDisplayAndLogBtn.addEventListener("click", () => {
-    log.textContent = textContentDefault;
-
+  clearDisplayDataBtn.addEventListener("click", () => {
     const dataContainer = document.getElementById("databaseData");
     dataContainer.innerText = "";
+  });
+
+  clearLogBtn.addEventListener("click", () => {
+    log.textContent = textContentDefault;
   });
 
   window.electronAPI.onScanStatus((message) => {
