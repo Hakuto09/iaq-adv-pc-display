@@ -177,28 +177,31 @@ function setupBleWatchMacFilter(win) {
       });
     }
 
-    noble.on("discover", async (peripheral) => {
-      //      console.log('noble.on("discover"): In');
+    noble.on(
+      "discover",
+      /*async*/ (peripheral) => {
+        //      console.log('noble.on("discover"): In');
 
-      function getJapanTimeISOString(date) {
-        const japanOffsetInMinutes = 9 * 60; // 日本時間：UTC+9=540分
-        const utcTimestamp = date.getTime();
-        const japanTimestamp = utcTimestamp + japanOffsetInMinutes * 60 * 1000; // ミリ秒に変換して適用
+        function getJapanTimeISOString(date) {
+          const japanOffsetInMinutes = 9 * 60; // 日本時間：UTC+9=540分
+          const utcTimestamp = date.getTime();
+          const japanTimestamp =
+            utcTimestamp + japanOffsetInMinutes * 60 * 1000; // ミリ秒に変換して適用
 
-        // 日本時間のタイムスタンプをDateオブジェクトに変換
-        const japanDate = new Date(japanTimestamp);
+          // 日本時間のタイムスタンプをDateオブジェクトに変換
+          const japanDate = new Date(japanTimestamp);
 
-        // ISO形式として保存（日本時間基準）
-        return japanDate.toISOString().replace("Z", "+09:00");
-      }
+          // ISO形式として保存（日本時間基準）
+          return japanDate.toISOString().replace("Z", "+09:00");
+        }
 
-      const currentMAC = peripheral.address;
+        const currentMAC = peripheral.address;
 
-      if (
-        "0" === targetMAC.toLowerCase() ||
-        currentMAC.toLowerCase() === targetMAC.toLowerCase()
-      ) {
-        /*
+        if (
+          "0" === targetMAC.toLowerCase() ||
+          currentMAC.toLowerCase() === targetMAC.toLowerCase()
+        ) {
+          /*
         const jstDate = new Date().toLocaleString("ja-JP", {
           timeZone: "Asia/Tokyo",
         }); // 日本時間を表示
@@ -211,12 +214,13 @@ function setupBleWatchMacFilter(win) {
         console.log(`nowDate.toISOString() ${nowDate.toISOString()}`);
         console.log(`nowDate.getTime() ${nowDate.getTime()}`);
         */
-        const tmpNowDate = new Date();
-        //        console.log(`tmpNowDate ${tmpNowDate}`);
-        const japanTimeISOString = await getJapanTimeISOString(tmpNowDate);
-        //        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
-        const nowDate = new Date(japanTimeISOString);
-        /*
+          const tmpNowDate = new Date();
+          //        console.log(`tmpNowDate ${tmpNowDate}`);
+          const japanTimeISOString =
+            /*await*/ getJapanTimeISOString(tmpNowDate);
+          //        console.log(`japanTimeISOString ${japanTimeISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
+          const nowDate = new Date(japanTimeISOString);
+          /*
         console.log(
           "After new Date(japanTimeISOString)",
           `nowDate ${nowDate}`,
@@ -225,17 +229,17 @@ function setupBleWatchMacFilter(win) {
         console.log(`pastDate ${pastDate}`);
         */
 
-        const advertisement = peripheral.advertisement;
-        const manufacturerData = advertisement.manufacturerData;
+          const advertisement = peripheral.advertisement;
+          const manufacturerData = advertisement.manufacturerData;
 
-        let isGapOver = true;
-        if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
+          let isGapOver = true;
+          if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
 
-        //console.log(`isGapOver ${isGapOver}`);
+          //console.log(`isGapOver ${isGapOver}`);
 
-        if (manufacturerData) {
-          if (isGapOver) {
-            /*
+          if (manufacturerData) {
+            if (isGapOver) {
+              /*
             const logData = manufacturerData
               .map(
                 (byte, index) =>
@@ -243,102 +247,105 @@ function setupBleWatchMacFilter(win) {
               )
               .join("\n");
             */
-            /*
+              /*
             const manufacturerDataLog = manufacturerData
               .map((byte, index) => `0x${byte.toString(16).padStart(2, "0")}`)
               .join(" ");
             */
-            let manufacturerDataLog = "";
-            manufacturerData.forEach(
-              (value) =>
-                (manufacturerDataLog +=
-                  "0x" + value.toString(16).padStart(2, "0") + " ")
-            );
-
-            event.reply(
-              "manufacturerData",
-              `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${japanTimeISOString}`
-            );
-            event.reply("manufacturerData", manufacturerDataLog);
-            console.log(`nowDate ${nowDate}`);
-            console.log(`japanTimeISOString ${japanTimeISOString}`);
-            console.log(`pastDate ${pastDate}`);
-            console.log(`advertisement ${advertisement}`);
-            console.log(`manufacturerData ${manufacturerData}`);
-            console.log("manufacturerData Hex:");
-            manufacturerData.forEach((value) =>
-              console.log(`0x${value.toString(16).padStart(2, "0")}`)
-            );
-
-            const sendData = await getIAQData(manufacturerData);
-            console.log(
-              "After getIAQData():",
-              `sendData.error ${sendData.error}`
-            );
-
-            //            if (typeof sendData.temperature !== "undefined") {
-            if (!sendData.error) {
-              const padZero = (num) => num.toString().padStart(2, "0");
-              const hours = padZero(nowDate.getHours());
-              const minutes = padZero(nowDate.getMinutes());
-              const seconds = padZero(nowDate.getSeconds());
-              //const nowTime = `${hours}:${minutes}:${seconds}`;
-              const nowTime = `${hours}:${minutes}`;
-
-              await insertDatabaseData(
-                japanTimeISOString,
-                currentMAC.toLowerCase(),
-                sendData
+              let manufacturerDataLog = "";
+              manufacturerData.forEach(
+                (value) =>
+                  (manufacturerDataLog +=
+                    "0x" + value.toString(16).padStart(2, "0") + " ")
               );
-
-              const db_data = await getDatabaseData(targetMAC.toLowerCase());
-              console.log(
-                "After await getDatabaseData()",
-                `targetMAC ${targetMAC}`,
-                `db_data ${JSON.stringify(db_data)}`
-              );
-
-              win.webContents.send("ble-data-with-date", sendData, nowTime);
 
               event.reply(
                 "manufacturerData",
-                `ValidCount ${manufacturerDataValidCount}`
+                `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${japanTimeISOString}`
+              );
+              event.reply("manufacturerData", manufacturerDataLog);
+              console.log(`nowDate ${nowDate}`);
+              console.log(`japanTimeISOString ${japanTimeISOString}`);
+              console.log(`pastDate ${pastDate}`);
+              console.log(`advertisement ${advertisement}`);
+              console.log(`manufacturerData ${manufacturerData}`);
+              console.log("manufacturerData Hex:");
+              manufacturerData.forEach((value) =>
+                console.log(`0x${value.toString(16).padStart(2, "0")}`)
               );
 
+              const sendData = /*await*/ getIAQData(manufacturerData);
               console.log(
-                `sendData ${JSON.stringify(sendData)}`,
-                `nowDate ${nowDate}`,
-                `nowTime ${nowTime}`,
-                `manufacturerDataValidCount ${manufacturerDataValidCount}`
+                "After getIAQData():",
+                `sendData.error ${sendData.error}`
               );
 
-              pastDate = nowDate;
-              manufacturerDataValidCount++;
-            } else {
-              event.reply("manufacturerData", "sendData.error is true!!");
+              //            if (typeof sendData.temperature !== "undefined") {
+              if (!sendData.error) {
+                const padZero = (num) => num.toString().padStart(2, "0");
+                const hours = padZero(nowDate.getHours());
+                const minutes = padZero(nowDate.getMinutes());
+                const seconds = padZero(nowDate.getSeconds());
+                //const nowTime = `${hours}:${minutes}:${seconds}`;
+                const nowTime = `${hours}:${minutes}`;
 
-              console.log("sendData.error is true!!:", `nowDate ${nowDate}`);
+                /*await*/ insertDatabaseData(
+                  japanTimeISOString,
+                  currentMAC.toLowerCase(),
+                  sendData
+                );
+
+                const db_data = /*await*/ getDatabaseData(
+                  targetMAC.toLowerCase()
+                );
+                console.log(
+                  "After getDatabaseData()",
+                  `targetMAC ${targetMAC}`,
+                  `db_data ${JSON.stringify(db_data)}`
+                );
+
+                win.webContents.send("ble-data-with-date", sendData, nowTime);
+
+                event.reply(
+                  "manufacturerData",
+                  `ValidCount ${manufacturerDataValidCount}`
+                );
+
+                console.log(
+                  `sendData ${JSON.stringify(sendData)}`,
+                  `nowDate ${nowDate}`,
+                  `nowTime ${nowTime}`,
+                  `manufacturerDataValidCount ${manufacturerDataValidCount}`
+                );
+
+                pastDate = nowDate;
+                manufacturerDataValidCount++;
+              } else {
+                event.reply("manufacturerData", "sendData.error is true!!");
+
+                console.log("sendData.error is true!!:", `nowDate ${nowDate}`);
+              }
+            } else {
+              console.log("isGapOver = false!!:", `nowDate ${nowDate}`);
             }
           } else {
-            console.log("isGapOver = false!!:", `nowDate ${nowDate}`);
+            event.reply(
+              "advertisementData",
+              "Manufacturer Dataが見つかりませんでした。"
+            );
+            console.log("Not Found Manufacturer Data!!:", `nowDate ${nowDate}`);
           }
         } else {
-          event.reply(
-            "advertisementData",
-            "Manufacturer Dataが見つかりませんでした。"
-          );
-          console.log("Not Found Manufacturer Data!!:", `nowDate ${nowDate}`);
-        }
-      } else {
-        /*
+          /*
         console.log(
           "Not match with MAC Address!!:",
           "peripheral",
           peripheral.address.toLowerCase()
         );
         */
+        }
       }
-    });
+    );
   });
 
   ipcMain.on("stopScan", (event) => {
@@ -409,7 +416,7 @@ ipcMain.on("import-csv", async (event, filePath) => {
 ipcMain.on("export-csv", async (event, filePath, targetMAC) => {
   console.log("ipcMain.on(export-csv): In.");
   try {
-    console.log("Before await getDatabaseData():", `targetMAC ${targetMAC}`);
+    console.log("Before getDatabaseData():", `targetMAC ${targetMAC}`);
     const data = await getDatabaseData(targetMAC);
     console.log(
       "Before exportTableToCSV():",
@@ -426,7 +433,7 @@ ipcMain.on("export-csv", async (event, filePath, targetMAC) => {
 ipcMain.on("get-data-and-display", async (event, targetMAC) => {
   console.log('ipcMain.on("get-data-and-display"): In.');
   try {
-    console.log("Before await getDatabaseData():", `targetMAC ${targetMAC}`);
+    console.log("Before getDatabaseData():", `targetMAC ${targetMAC}`);
     const data = await getDatabaseData(targetMAC);
     //    event.reply("database-data", data);
     event.reply("db-data-with-header", data);
