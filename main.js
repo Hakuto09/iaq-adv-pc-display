@@ -22,8 +22,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const openDevToolsFlag = false;
-let pastDate;
-let manufacturerDataValidCount = 0;
 
 function createWindow() {
   // 以前保存したウィンドウサイズを取得
@@ -108,6 +106,8 @@ function createWindow() {
 }
 
 function setupBleWatchMacFilter(win) {
+  let pastDate;
+  let manufacturerDataValidCount = 0;
   let isScanning = false;
 
   function getNowDateJstISOString() {
