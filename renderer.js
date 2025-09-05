@@ -259,12 +259,52 @@ function setupValueAndChart() {
     valueCO.textContent = data.co;
   }
 
-  /*
-  const defaultOptions = {
-    responsive: false, // レスポンシブを無効化
-    maintainAspectRatio: false, // アスペクト比を維持しない
+  const baseData = {
+    labels: [],
+    datasets: [
+      {
+        label: "Default",
+        data: [],
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
   };
-  */
+
+  const baseOptions = {
+    responsive: false,
+    maintainAspectRatio: true,
+    layout: {
+      padding: {
+        left: 10, // グラフの右側余白を広げる
+        right: 30, // グラフの右側余白を広げる
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "", // 軸全体のタイトル
+        },
+        min: 0, // Y軸の最小値
+        max: 0, // Y軸の最大値
+        ticks: {
+          stepSize: 0, // Y軸の目盛り間隔
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "time", // X軸のタイトル
+        },
+        ticks: {
+          autoSkip: false, // ラベルを自動でスキップしない
+          maxRotation: 45, // 最大角度 (45度まで回転)
+          minRotation: 45, // 最小角度 (45度で固定)
+        },
+      },
+    },
+  };
 
   const dataLabelsPlugin = {
     id: "dataLabels",
@@ -291,52 +331,36 @@ function setupValueAndChart() {
   };
 
   // グラフの設定
+  const temperatureData = {
+    ...baseData,
+    datasets: [
+      {
+        ...baseData.datasets[0],
+        label: "Temperature",
+        data: [],
+      },
+    ],
+  };
   const ctxTemperature = document
     .getElementById("chart-temperature")
     .getContext("2d");
   const chartTemperature = new Chart(ctxTemperature, {
     type: "line",
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: "Temperature",
-          data: [],
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
+    data: temperatureData,
     options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      layout: {
-        padding: {
-          left: 10, // グラフの右側余白を広げる
-          right: 30, // グラフの右側余白を広げる
-        },
-      },
+      ...baseOptions,
       scales: {
+        ...baseOptions.scales,
         y: {
+          ...baseOptions.scales.y,
           title: {
-            display: true,
-            text: "[ ℃ ]", // 軸全体のタイトル
+            ...baseOptions.scales.y.title,
+            text: "[ ℃ ]",
           },
-          min: 0, // Y軸の最小値
-          max: 50, // Y軸の最大値
+          max: 50,
           ticks: {
+            ...baseOptions.scales.y.ticks,
             stepSize: 5, // Y軸の目盛り間隔
-          },
-        },
-        x: {
-          title: {
-            display: true,
-            text: "time", // X軸のタイトル
-          },
-          ticks: {
-            autoSkip: false, // ラベルを自動でスキップしない
-            maxRotation: 45, // 最大角度 (45度まで回転)
-            minRotation: 45, // 最小角度 (45度で固定)
           },
         },
       },
@@ -344,116 +368,77 @@ function setupValueAndChart() {
     plugins: [dataLabelsPlugin],
   });
 
+  const humidityData = {
+    ...baseData,
+    datasets: [
+      {
+        ...baseData.datasets[0],
+        label: "Humidity",
+        data: [],
+      },
+    ],
+  };
   const ctxHumidity = document
     .getElementById("chart-humidity")
     .getContext("2d");
   const chartHumidity = new Chart(ctxHumidity, {
     type: "line",
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: "Humidity",
-          data: [],
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
+    data: humidityData,
     options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      layout: {
-        padding: {
-          left: 10, // グラフの右側余白を広げる
-          right: 30, // グラフの右側余白を広げる
-        },
-      },
+      ...baseOptions,
       scales: {
+        ...baseOptions.scales,
         y: {
+          ...baseOptions.scales.y,
           title: {
-            display: true,
-            text: "[ % ]", // 軸全体のタイトル
+            ...baseOptions.scales.y.title,
+            text: "[ % ]",
           },
-          min: 0, // Y軸の最小値
-          max: 100, // Y軸の最大値
+          max: 100,
           ticks: {
+            ...baseOptions.scales.y.ticks,
             stepSize: 10, // Y軸の目盛り間隔
           },
         },
-        x: {
-          title: {
-            display: true,
-            text: "time", // X軸のタイトル
-          },
-          ticks: {
-            autoSkip: false, // ラベルを自動でスキップしない
-            maxRotation: 45, // 最大角度 (45度まで回転)
-            minRotation: 45, // 最小角度 (45度で固定)
-          },
-        },
       },
     },
     plugins: [dataLabelsPlugin],
   });
 
+  const co2Data = {
+    ...baseData,
+    datasets: [
+      {
+        ...baseData.datasets[0],
+        label: "CO2",
+        data: [],
+      },
+    ],
+  };
   const ctxCO2 = document.getElementById("chart-co2").getContext("2d");
   const chartCO2 = new Chart(ctxCO2, {
     type: "line",
-    data: {
-      labels: [],
-      datasets: [
-        {
-          label: "CO2",
-          data: [],
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
-        },
-      ],
-    },
+    data: co2Data,
     options: {
-      responsive: false,
-      maintainAspectRatio: true,
-      layout: {
-        padding: {
-          left: 10, // グラフの右側余白を広げる
-          right: 30, // グラフの右側余白を広げる
-        },
-      },
+      ...baseOptions,
       scales: {
+        ...baseOptions.scales,
         y: {
+          ...baseOptions.scales.y,
           title: {
-            display: true,
-            text: "[ ppm ]", // 軸全体のタイトル
+            ...baseOptions.scales.y.title,
+            text: "[ ppm ]",
           },
-          min: 0, // Y軸の最小値
-          max: 3000, // Y軸の最大値
+          max: 3000,
           ticks: {
+            ...baseOptions.scales.y.ticks,
             stepSize: 500, // Y軸の目盛り間隔
-          },
-        },
-        x: {
-          title: {
-            display: true,
-            text: "time", // X軸のタイトル
-          },
-          ticks: {
-            autoSkip: false, // ラベルを自動でスキップしない
-            maxRotation: 45, // 最大角度 (45度まで回転)
-            minRotation: 45, // 最小角度 (45度で固定)
           },
         },
       },
     },
     plugins: [dataLabelsPlugin],
   });
-
-  function updateCharts(data, date) {
-    const limit = 10;
-    updateChart(chartTemperature, date, data.temperature, limit);
-    updateChart(chartHumidity, date, data.humidity, limit);
-    updateChart(chartCO2, date, data.co2, limit);
-  }
 
   // BLEデータ受信時の処理
   window.electronAPI.onBLEDataWithDate((data, date) => {
@@ -471,6 +456,13 @@ function setupValueAndChart() {
 
     updateCharts(data, date);
   });
+
+  function updateCharts(data, date) {
+    const limit = 10;
+    updateChart(chartTemperature, date, data.temperature, limit);
+    updateChart(chartHumidity, date, data.humidity, limit);
+    updateChart(chartCO2, date, data.co2, limit);
+  }
 }
 
 function updateChart(chart, date, data, limit) {
