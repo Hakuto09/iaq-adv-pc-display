@@ -189,13 +189,13 @@ function setupBleWatchMacFilter(win) {
           //        console.log(`nowDateJstISOString ${nowDateJstISOString}`); // 例: "2023-10-01T21:43:15.000+09:00"
           const nowDate = new Date(nowDateJstISOString);
 
-          const advertisement = peripheral.advertisement;
-          const manufacturerData = advertisement.manufacturerData;
-
           let isGapOver = true;
           if (pastDate) isGapOver = nowDate - pastDate > 20000; // ms --> 20秒
 
           //console.log(`isGapOver ${isGapOver}`);
+
+          const advertisement = peripheral.advertisement;
+          const manufacturerData = advertisement.manufacturerData;
 
           if (manufacturerData) {
             if (isGapOver) {
@@ -221,15 +221,19 @@ function setupBleWatchMacFilter(win) {
                 `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${nowDateJstISOString}`
               );
               event.reply("manufacturerData", manufacturerDataLog);
-              console.log(`nowDate ${nowDate}`);
-              console.log(`nowDateJstISOString ${nowDateJstISOString}`);
-              console.log(`pastDate ${pastDate}`);
-              console.log(`advertisement ${advertisement}`);
-              console.log(`manufacturerDataLog ${manufacturerDataLog}`);
+              console.log(
+                `nowDate ${nowDate}`,
+                `nowDateJstISOString ${nowDateJstISOString}`,
+                `pastDate ${pastDate}`,
+                `advertisement ${advertisement}`,
+                `manufacturerDataLog ${manufacturerDataLog}`
+              );
+              /*
               console.log("manufacturerData Hex:");
               manufacturerData.forEach((value) =>
                 console.log(`0x${value.toString(16).padStart(2, "0")}`)
               );
+              */
 
               const sendData = /*await*/ getIAQData(manufacturerData);
               console.log(
@@ -247,9 +251,6 @@ function setupBleWatchMacFilter(win) {
               }
 
               if (!sendData.error) {
-                const { hours, minutes } = getTimeFromDate(nowDate);
-                const nowTime = `${hours}:${minutes}`;
-
                 /*await*/ insertDatabaseData(
                   nowDateJstISOString,
                   currentMAC.toLowerCase(),
@@ -265,6 +266,8 @@ function setupBleWatchMacFilter(win) {
                   `db_data ${JSON.stringify(db_data)}`
                 );
 
+                const { hours, minutes } = getTimeFromDate(nowDate);
+                const nowTime = `${hours}:${minutes}`;
                 win.webContents.send("ble-data-with-date", sendData, nowTime);
 
                 event.reply(
@@ -403,14 +406,3 @@ ipcMain.on("get-data-and-display", async (event, targetMAC) => {
     event.reply("db-data-with-header", { error: err.message });
   }
 });
-
-/*
-// メインプロセスで 'file-select' イベントを受け取る
-ipcMain.on("file-select", (event, filePath) => {
-  console.log("File path received at main.js: filePath ", filePath);
-
-  // ファイルパスをレンダラープロセスに返す
-  //  win.webContents.send("file-selected", filePath);
-  event.reply("file-selected", filePath);
-});
-*/
