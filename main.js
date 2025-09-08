@@ -137,7 +137,7 @@ function setupBleWatchMacFilter(win) {
       noble.startScanning([], true);
       event.reply(
         "scanStatus",
-        `スキャン開始: ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJst ${getNowDateJstISOString()}`
+        `スキャン開始: ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJstISO: ${getNowDateJstISOString()}`
       );
       console.log("Scan Start: Target MAC ->", targetMAC.toLowerCase());
     } else {
@@ -147,7 +147,7 @@ function setupBleWatchMacFilter(win) {
           noble.startScanning([], true);
           event.reply(
             "scanStatus",
-            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJst ${getNowDateJstISOString()}`
+            `スキャン開始 (stateChange): ターゲットMAC -> ${targetMAC.toLowerCase()} nowDateJstISO: ${getNowDateJstISOString()}`
           );
           console.log(
             "Scan Start (stateChange):",
@@ -218,7 +218,7 @@ function setupBleWatchMacFilter(win) {
 
               event.reply(
                 "manufacturerData",
-                `MAC Address: ${currentMAC.toLowerCase()} nowDate: ${nowDateJstISOString}`
+                `MAC Address: ${currentMAC.toLowerCase()} nowDateJstISO: ${nowDateJstISOString}`
               );
               event.reply("manufacturerData", manufacturerDataLog);
               console.log(
@@ -316,7 +316,10 @@ function setupBleWatchMacFilter(win) {
     console.log('ipcMain.on("stopScan"): In');
     noble.stopScanning();
     isScanning = false;
-    event.reply("scanStatus", "スキャンを停止しました。");
+    event.reply(
+      "scanStatus",
+      `スキャンを停止: nowDateJst: ${getNowDateJstISOString()}`
+    );
     console.log("Scan Stopped.");
   });
 }
@@ -399,10 +402,8 @@ ipcMain.on("get-data-and-display", async (event, targetMAC) => {
   try {
     console.log("Before getDatabaseData():", `targetMAC ${targetMAC}`);
     const data = await getDatabaseData(targetMAC);
-    //    event.reply("database-data", data);
     event.reply("db-data-with-header", data);
   } catch (err) {
-    //    event.reply("database-data", { error: err.message });
     event.reply("db-data-with-header", { error: err.message });
   }
 });
