@@ -11,13 +11,44 @@ body {
 }
 
 .chart-container {
+    position: relative;
+    /* ボタンを絶対位置で配置するために基準を設定 */
     display: flex;
+    /* グラフを横並びにする */
     justify-content: space-between;
+    /* グラフの間隔を均等に配置 */
     align-items: center;
+    /* 縦方向で中央揃え */
     margin-top: 10px;
     margin-left: 90px;
     width: 1400px;
     height: 500px;
+}
+
+.chart-container canvas {
+    margin-right: 10px;
+    /* 各グラフ間に若干の余白を追加 */
+}
+
+#clearChartDataBtn {
+    position: absolute;
+    /* ボタンをコンテナ内で絶対的に配置 */
+    bottom: 10px;
+    /* コンテナの底部に配置 */
+    right: 20px;
+    /* コンテナの右端に配置 */
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#clearChartDataBtn:hover {
+    background-color: #0056b3;
+    /* ホバー時の色変更 */
 }
 
 canvas {
