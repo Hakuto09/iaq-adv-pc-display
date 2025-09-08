@@ -333,6 +333,7 @@ function setupValueAndChart() {
   // グラフの設定
   const temperatureData = {
     ...baseData,
+    labels: [],
     datasets: [
       {
         ...baseData.datasets[0],
@@ -370,6 +371,7 @@ function setupValueAndChart() {
 
   const humidityData = {
     ...baseData,
+    labels: [],
     datasets: [
       {
         ...baseData.datasets[0],
@@ -407,6 +409,7 @@ function setupValueAndChart() {
 
   const co2Data = {
     ...baseData,
+    labels: [],
     datasets: [
       {
         ...baseData.datasets[0],

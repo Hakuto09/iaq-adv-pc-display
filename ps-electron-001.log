@@ -277,3 +277,182 @@ PS C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-displa
 >> 終了エラー(): "パイプラインが停止されています。"
 >> 終了エラー(): "パイプラインが停止されています。"
 >> 終了エラー(): "パイプラインが停止されています。"
+**********************
+Windows PowerShell トランスクリプト開始
+開始時刻: 20250908141823
+ユーザー名: ADHAKUTO\hkt11233
+RunAs ユーザー: ADHAKUTO\hkt11233
+構成名: 
+コンピューター: 23X83026 (Microsoft Windows NT 10.0.22631.0)
+ホスト アプリケーション: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+プロセス ID: 13080
+PSVersion: 5.1.22621.5624
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.5624
+BuildVersion: 10.0.22621.5624
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+トランスクリプトが開始されました。出力ファイル: ps-electron-001.log
+PS C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-display> npm run start:dev 2>&1 | Tee-Object -FilePath output.log -append
+
+> iaq-adv-pc-display@1.0.0 start:dev
+> npm-run-all --parallel start:http-server start:electron
+
+
+> iaq-adv-pc-display@1.0.0 start:http-server
+> npx http-server . --ssl --cert ./openssl-certs/for-iaq-cert_to-20260806.cer --key ./openssl-certs/for-iaq-key_to-20260806.key
+
+
+> iaq-adv-pc-display@1.0.0 start:electron
+> electron .
+
+
+Before db.run():
+Before createWindow(): Path of preload.js: C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-display\preload.js
+Before new BrowserWindow(): Path of preload.js: C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-display\preload.js
+Electron is accessing URL: file:///C:/_OD/OneDrive%20-%20Hakuto%20Co.,Ltd/share2/_hakuto/_Programing/iaq-adv-pc-display/index.html
+Starting up http-server, serving . through https
+
+http-server version: 14.1.1
+
+http-server settings:
+CORS: disabled
+Cache: 3600 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  https://172.16.17.18:8080
+  https://127.0.0.1:8080
+  https://172.19.208.1:8080
+Hit CTRL-C to stop the server
+
+ipcMain.on("startScan"): In
+Before noble.once('stateChange'):
+Scan Start (stateChange): Target MAC dc:2e:97:ff:f8:c7
+Before manufacturerData.map(): manufacturerData.map(typeof value): <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00>
+nowDate Mon Sep 08 2025 14:19:04 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾) nowDateJstISOString 2025-09-08T14:19:04.700+09:00 pastDate undefined advertisement [object Object] manufacturerDataLog 0x00 0xf3 0x02 0x8a 0x00 0x04 0x00 0x05 0x00 0x05 0x03 0x7b 0x00 0x3a 0x00 0x6c 0x00
+getIAQData(): manufacturerData[16] 0
+checkError16Bit(): minError  false  maxError  false
+calcTemperatureFrom16Bit(): temperature16Bit 243
+calcTemperatureFrom16Bit(): temperature 24.3 C
+calcTemperatureFrom16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcHumidityFrom16Bit(): humidity16Bit 650
+calcHumidityFrom16Bit(): humidity 65.0 %RH
+calcHumidityFrom16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcPm1_0From16Bit(): pm1_0_16Bit 4
+calcPm1_0From16Bit(): pm1_0 4 %RH
+calcPm1_0From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcPm2_5From16Bit(): pm1_0_16Bit 5
+calcPm2_5From16Bit(): pm1_0 5 ug/m3
+calcPm2_5From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcPm10From16Bit(): pm10_16Bit 5
+calcPm10From16Bit(): pm10 5 ug/m3
+calcPm10From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcCO2From16Bit(): co2_16Bit 891
+calcCO2From16Bit(): co2 891 ppm
+calcCO2From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcTVOCFrom16Bit(): tvoc16Bit 58
+calcTVOCFrom16Bit(): tvoc 58 ppm
+calcTVOCFrom16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcCH2OFrom16Bit(): CH2O_16Bit 108
+calcCH2OFrom16Bit(): ch2o 108 ppm
+calcCH2OFrom16Bit(): error 0
+calcCOFrom8Bit(): co_8Bit 0
+calcCOFrom8Bit(): co 0.0 ppm
+calcCOFrom8Bit(): error false
+After getIAQData(): sendData.error false
+insertDatabaseData(): Before stmt.run() japanTimeISOString 2025-09-08T14:19:04.700+09:00 currentMAC dc:2e:97:ff:f8:c7 sendData {"temperature":"24.3","humidity":"65.0","co2":"891","tvoc":"58","co":"0.0","pm1_0":"4","pm2_5":"5","pm10":"5","ch2o":"108","error":false}
+Before db.all(): sql SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER("dc:2e:97:ff:f8:c7") targetMAC dc:2e:97:ff:f8:c7
+After getDatabaseData() targetMAC DC:2E:97:FF:F8:C7 db_data {}
+sendData {"temperature":"24.3","humidity":"65.0","co2":"891","tvoc":"58","co":"0.0","pm1_0":"4","pm2_5":"5","pm10":"5","ch2o":"108","error":false} nowDate Mon Sep 08 2025 14:19:04 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾) nowTime 14:19 manufacturerDataValidCount 0
+insertDatabaseData(): Row inserted with ID: 71
+getDatabaseData(): Before db.all() - resolve(): reformattedData {"headers":["date_jst_iso","mac_address","temperature","humidity","pm1_0","pm2_5","pm10","co2","tvoc","ch2o","co"],"rows":[{"date_jst_iso":"2025-09-01T11:30:40.680+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"819","tvoc":"59","ch2o":"109","co":"0.0"},{"date_jst_iso":"2025-09-01T11:31:48.212+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"818","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-01T11:32:51.579+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"821","tvoc":"58","ch2o":"103","co":"0.0"},{"date_jst_iso":"2025-09-01T11:33:57.513+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"820","tvoc":"58","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-03T10:47:52.449+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"63.3","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"755","tvoc":"59","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:26.925+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:27.952+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:27.859+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:28.679+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:28.897+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:19:32.926+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"753","tvoc":"50","ch2o":"86","co":"0.0"},{"date_jst_iso":"2025-09-03T13:14:09.195+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"63.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"810","tvoc":"140","ch2o":"247","co":"0.0"},{"date_jst_iso":"2025-09-03T13:15:14.172+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"63.6","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"813","tvoc":"138","ch2o":"234","co":"0.0"},{"date_jst_iso":"2025-09-03T15:51:21.261+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"63.3","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"901","tvoc":"53","ch2o":"96","co":"0.0"},{"date_jst_iso":"2025-09-03T17:02:18.372+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.0","pm1_0":"0","pm2_5":"0","pm10":"0","co2":"876","tvoc":"62","ch2o":"116","co":"0.0"},{"date_jst_iso":"2025-09-03T17:13:13.039+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.5","pm1_0":"0","pm2_5":"0","pm10":"0","co2":"874","tvoc":"60","ch2o":"112","co":"0.0"},{"date_jst_iso":"2025-09-03T17:14:19.268+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.4","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"870","tvoc":"60","ch2o":"113","co":"0.0"},{"date_jst_iso":"2025-09-03T17:15:27.088+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.4","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"869","tvoc":"60","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-03T17:16:31.133+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.3","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"871","tvoc":"60","ch2o":"114","co":"0.0"},{"date_jst_iso":"2025-09-03T17:17:35.149+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.3","pm1_0":"0","pm2_5":"0","pm10":"0","co2":"870","tvoc":"60","ch2o":"112","co":"0.0"},{"date_jst_iso":"2025-09-03T17:20:53.014+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.2","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"867","tvoc":"59","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-04T11:03:01.862+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"66.3","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"789","tvoc":"58","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-04T11:03:01.863+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"66.3","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"789","tvoc":"58","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-04T11:11:46.984+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"66.2","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"801","tvoc":"57","ch2o":"100","co":"0.0"},{"date_jst_iso":"2025-09-04T11:35:48.024+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"66.0","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"818","tvoc":"53","ch2o":"94","co":"0.0"},{"date_jst_iso":"2025-09-04T11:36:53.106+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"65.9","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"819","tvoc":"53","ch2o":"93","co":"0.0"},{"date_jst_iso":"2025-09-04T13:50:04.875+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"66.6","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"864","tvoc":"65","ch2o":"122","co":"0.0"},{"date_jst_iso":"2025-09-04T16:25:04.850+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.7","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"886","tvoc":"54","ch2o":"92","co":"0.0"},{"date_jst_iso":"2025-09-04T16:30:32.228+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.6","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"881","tvoc":"68","ch2o":"115","co":"0.0"},{"date_jst_iso":"2025-09-04T16:31:38.572+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"880","tvoc":"63","ch2o":"113","co":"0.0"},{"date_jst_iso":"2025-09-04T16:32:46.983+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"877","tvoc":"63","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-04T16:35:59.628+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.4","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"876","tvoc":"73","ch2o":"134","co":"0.0"},{"date_jst_iso":"2025-09-04T16:44:44.115+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.3","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"869","tvoc":"72","ch2o":"126","co":"0.0"},{"date_jst_iso":"2025-09-04T16:51:16.785+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.2","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"873","tvoc":"73","ch2o":"120","co":"0.0"},{"date_jst_iso":"2025-09-04T17:07:39.431+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.6","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"869","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-04T17:08:43.000+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.6","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"869","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-04T17:09:47.596+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"877","tvoc":"59","ch2o":"104","co":"0.0"},{"date_jst_iso":"2025-09-04T17:10:55.519+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"65.4","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"889","tvoc":"58","ch2o":"103","co":"0.0"},{"date_jst_iso":"2025-09-04T17:22:56.723+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.7","humidity":"66.0","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"875","tvoc":"55","ch2o":"95","co":"0.0"},{"date_jst_iso":"2025-09-04T17:27:18.291+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.7","humidity":"66.1","pm1_0":"2","pm2_5":"3","pm10":"4","co2":"870","tvoc":"54","ch2o":"94","co":"0.0"},{"date_jst_iso":"2025-09-04T17:58:58.632+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.7","humidity":"66.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"841","tvoc":"52","ch2o":"89","co":"0.0"},{"date_jst_iso":"2025-09-08T13:56:10.094+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.7","humidity":"64.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"832","tvoc":"59","ch2o":"109","co":"0.0"},{"date_jst_iso":"2025-09-08T13:57:15.585+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.7","humidity":"64.8","pm1_0":"3","pm2_5":"4","pm10":"4","co2":"838","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-08T14:12:32.671+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.4","humidity":"64.7","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"892","tvoc":"59","ch2o":"112","co":"0.0"},{"date_jst_iso":"2025-09-08T14:13:38.796+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.4","humidity":"64.7","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"891","tvoc":"59","ch2o":"113","co":"0.0"},{"date_jst_iso":"2025-09-08T14:16:54.030+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"64.9","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"893","tvoc":"59","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-08T14:18:00.685+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"64.9","pm1_0":"3","pm2_5":"4","pm10":"4","co2":"892","tvoc":"59","ch2o":"110","co":"0.0"},{"date_jst_iso":"2025-09-08T14:19:04.700+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"65.0","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"891","tvoc":"58","ch2o":"108","co":"0.0"}]}
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:04 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:04 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:05 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:05 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:05 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:05 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:06 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:06 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:06 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:07 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:19:08 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+Before manufacturerData.map(): manufacturerData.map(typeof value): <Buffer 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00>
+nowDate Mon Sep 08 2025 14:20:08 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾) nowDateJstISOString 2025-09-08T14:20:08.592+09:00 pastDate Mon Sep 08 2025 14:19:04 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾) advertisement [object Object] manufacturerDataLog 0x00 0xf3 0x02 0x8a 0x00 0x04 0x00 0x05 0x00 0x05 0x03 0x7b 0x00 0x3a 0x00 0x6c 0x00
+getIAQData(): manufacturerData[16] 0
+checkError16Bit(): minError  false  maxError  false
+calcTemperatureFrom16Bit(): temperature16Bit 243
+calcTemperatureFrom16Bit(): temperature 24.3 C
+calcTemperatureFrom16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcHumidityFrom16Bit(): humidity16Bit 650
+calcHumidityFrom16Bit(): humidity 65.0 %RH
+calcHumidityFrom16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcPm1_0From16Bit(): pm1_0_16Bit 4
+calcPm1_0From16Bit(): pm1_0 4 %RH
+calcPm1_0From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcPm2_5From16Bit(): pm1_0_16Bit 5
+calcPm2_5From16Bit(): pm1_0 5 ug/m3
+calcPm2_5From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcPm10From16Bit(): pm10_16Bit 5
+calcPm10From16Bit(): pm10 5 ug/m3
+calcPm10From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcCO2From16Bit(): co2_16Bit 891
+calcCO2From16Bit(): co2 891 ppm
+calcCO2From16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcTVOCFrom16Bit(): tvoc16Bit 58
+calcTVOCFrom16Bit(): tvoc 58 ppm
+calcTVOCFrom16Bit(): error 0
+checkError16Bit(): minError  false  maxError  false
+calcCH2OFrom16Bit(): CH2O_16Bit 108
+calcCH2OFrom16Bit(): ch2o 108 ppm
+calcCH2OFrom16Bit(): error 0
+calcCOFrom8Bit(): co_8Bit 0
+calcCOFrom8Bit(): co 0.0 ppm
+calcCOFrom8Bit(): error false
+After getIAQData(): sendData.error false
+insertDatabaseData(): Before stmt.run() japanTimeISOString 2025-09-08T14:20:08.592+09:00 currentMAC dc:2e:97:ff:f8:c7 sendData {"temperature":"24.3","humidity":"65.0","co2":"891","tvoc":"58","co":"0.0","pm1_0":"4","pm2_5":"5","pm10":"5","ch2o":"108","error":false}
+Before db.all(): sql SELECT * FROM IAQ WHERE LOWER(mac_address) = LOWER("dc:2e:97:ff:f8:c7") targetMAC dc:2e:97:ff:f8:c7
+After getDatabaseData() targetMAC DC:2E:97:FF:F8:C7 db_data {}
+sendData {"temperature":"24.3","humidity":"65.0","co2":"891","tvoc":"58","co":"0.0","pm1_0":"4","pm2_5":"5","pm10":"5","ch2o":"108","error":false} nowDate Mon Sep 08 2025 14:20:08 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾) nowTime 14:20 manufacturerDataValidCount 1
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:20:10 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+insertDatabaseData(): Row inserted with ID: 72
+getDatabaseData(): Before db.all() - resolve(): reformattedData {"headers":["date_jst_iso","mac_address","temperature","humidity","pm1_0","pm2_5","pm10","co2","tvoc","ch2o","co"],"rows":[{"date_jst_iso":"2025-09-01T11:30:40.680+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"819","tvoc":"59","ch2o":"109","co":"0.0"},{"date_jst_iso":"2025-09-01T11:31:48.212+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"818","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-01T11:32:51.579+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"821","tvoc":"58","ch2o":"103","co":"0.0"},{"date_jst_iso":"2025-09-01T11:33:57.513+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"61.6","pm1_0":"4","pm2_5":"6","pm10":"6","co2":"820","tvoc":"58","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-03T10:47:52.449+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"63.3","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"755","tvoc":"59","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:26.925+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:27.952+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:27.859+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:28.679+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:18:28.897+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.2","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"751","tvoc":"51","ch2o":"85","co":"0.0"},{"date_jst_iso":"2025-09-03T11:19:32.926+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"62.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"753","tvoc":"50","ch2o":"86","co":"0.0"},{"date_jst_iso":"2025-09-03T13:14:09.195+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"63.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"810","tvoc":"140","ch2o":"247","co":"0.0"},{"date_jst_iso":"2025-09-03T13:15:14.172+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"63.6","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"813","tvoc":"138","ch2o":"234","co":"0.0"},{"date_jst_iso":"2025-09-03T15:51:21.261+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"63.3","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"901","tvoc":"53","ch2o":"96","co":"0.0"},{"date_jst_iso":"2025-09-03T17:02:18.372+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.0","pm1_0":"0","pm2_5":"0","pm10":"0","co2":"876","tvoc":"62","ch2o":"116","co":"0.0"},{"date_jst_iso":"2025-09-03T17:13:13.039+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.5","pm1_0":"0","pm2_5":"0","pm10":"0","co2":"874","tvoc":"60","ch2o":"112","co":"0.0"},{"date_jst_iso":"2025-09-03T17:14:19.268+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.4","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"870","tvoc":"60","ch2o":"113","co":"0.0"},{"date_jst_iso":"2025-09-03T17:15:27.088+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.4","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"869","tvoc":"60","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-03T17:16:31.133+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.3","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"871","tvoc":"60","ch2o":"114","co":"0.0"},{"date_jst_iso":"2025-09-03T17:17:35.149+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.3","pm1_0":"0","pm2_5":"0","pm10":"0","co2":"870","tvoc":"60","ch2o":"112","co":"0.0"},{"date_jst_iso":"2025-09-03T17:20:53.014+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"64.2","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"867","tvoc":"59","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-04T11:03:01.862+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"66.3","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"789","tvoc":"58","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-04T11:03:01.863+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"66.3","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"789","tvoc":"58","ch2o":"106","co":"0.0"},{"date_jst_iso":"2025-09-04T11:11:46.984+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"66.2","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"801","tvoc":"57","ch2o":"100","co":"0.0"},{"date_jst_iso":"2025-09-04T11:35:48.024+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"66.0","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"818","tvoc":"53","ch2o":"94","co":"0.0"},{"date_jst_iso":"2025-09-04T11:36:53.106+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"65.9","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"819","tvoc":"53","ch2o":"93","co":"0.0"},{"date_jst_iso":"2025-09-04T13:50:04.875+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"66.6","pm1_0":"0","pm2_5":"1","pm10":"1","co2":"864","tvoc":"65","ch2o":"122","co":"0.0"},{"date_jst_iso":"2025-09-04T16:25:04.850+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.7","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"886","tvoc":"54","ch2o":"92","co":"0.0"},{"date_jst_iso":"2025-09-04T16:30:32.228+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.6","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"881","tvoc":"68","ch2o":"115","co":"0.0"},{"date_jst_iso":"2025-09-04T16:31:38.572+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"880","tvoc":"63","ch2o":"113","co":"0.0"},{"date_jst_iso":"2025-09-04T16:32:46.983+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"877","tvoc":"63","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-04T16:35:59.628+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.4","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"876","tvoc":"73","ch2o":"134","co":"0.0"},{"date_jst_iso":"2025-09-04T16:44:44.115+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.3","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"869","tvoc":"72","ch2o":"126","co":"0.0"},{"date_jst_iso":"2025-09-04T16:51:16.785+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.1","humidity":"65.2","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"873","tvoc":"73","ch2o":"120","co":"0.0"},{"date_jst_iso":"2025-09-04T17:07:39.431+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.6","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"869","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-04T17:08:43.000+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.6","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"869","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-04T17:09:47.596+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.0","humidity":"65.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"877","tvoc":"59","ch2o":"104","co":"0.0"},{"date_jst_iso":"2025-09-04T17:10:55.519+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.9","humidity":"65.4","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"889","tvoc":"58","ch2o":"103","co":"0.0"},{"date_jst_iso":"2025-09-04T17:22:56.723+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.7","humidity":"66.0","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"875","tvoc":"55","ch2o":"95","co":"0.0"},{"date_jst_iso":"2025-09-04T17:27:18.291+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.7","humidity":"66.1","pm1_0":"2","pm2_5":"3","pm10":"4","co2":"870","tvoc":"54","ch2o":"94","co":"0.0"},{"date_jst_iso":"2025-09-04T17:58:58.632+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"23.7","humidity":"66.5","pm1_0":"1","pm2_5":"2","pm10":"2","co2":"841","tvoc":"52","ch2o":"89","co":"0.0"},{"date_jst_iso":"2025-09-08T13:56:10.094+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.7","humidity":"64.9","pm1_0":"2","pm2_5":"3","pm10":"3","co2":"832","tvoc":"59","ch2o":"109","co":"0.0"},{"date_jst_iso":"2025-09-08T13:57:15.585+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.7","humidity":"64.8","pm1_0":"3","pm2_5":"4","pm10":"4","co2":"838","tvoc":"59","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-08T14:12:32.671+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.4","humidity":"64.7","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"892","tvoc":"59","ch2o":"112","co":"0.0"},{"date_jst_iso":"2025-09-08T14:13:38.796+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.4","humidity":"64.7","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"891","tvoc":"59","ch2o":"113","co":"0.0"},{"date_jst_iso":"2025-09-08T14:16:54.030+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"64.9","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"893","tvoc":"59","ch2o":"111","co":"0.0"},{"date_jst_iso":"2025-09-08T14:18:00.685+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"64.9","pm1_0":"3","pm2_5":"4","pm10":"4","co2":"892","tvoc":"59","ch2o":"110","co":"0.0"},{"date_jst_iso":"2025-09-08T14:19:04.700+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"65.0","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"891","tvoc":"58","ch2o":"108","co":"0.0"},{"date_jst_iso":"2025-09-08T14:20:08.592+09:00","mac_address":"dc:2e:97:ff:f8:c7","temperature":"24.3","humidity":"65.0","pm1_0":"4","pm2_5":"5","pm10":"5","co2":"891","tvoc":"58","ch2o":"108","co":"0.0"}]}
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:20:11 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:20:11 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:20:11 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:20:11 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+isGapOver = false!!: nowDate Mon Sep 08 2025 14:20:11 GMT+0900 (譌･譛ｬ讓呎ｺ匁凾)
+ipcMain.on("stopScan"): In
+Scan Stopped.
+http-server stopped.
+PS C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-display> 終了エラー(): "パイプラインが停止されています。"
+>> 終了エラー(): "パイプラインが停止されています。"
+>> 終了エラー(): "パイプラインが停止されています。"
+>> 終了エラー(): "パイプラインが停止されています。"
+PS C:\_OD\OneDrive - Hakuto Co.,Ltd\share2\_hakuto\_Programing\iaq-adv-pc-display> Stop-Transcript
+**********************
+Windows PowerShell トランスクリプト終了
+終了時刻: 20250908142024
+**********************
