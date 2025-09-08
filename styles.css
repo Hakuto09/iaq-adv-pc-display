@@ -51,6 +51,17 @@ body {
     /* ホバー時の色変更 */
 }
 
+#clearChartDataBtn:disabled {
+    background-color: #a0a0a0;
+    /* 無効化時の背景色 */
+    color: #c0c0c0;
+    /* 無効化時の文字色 */
+    cursor: not-allowed;
+    /* 無効化時のカーソルを「禁止マーク」に変更 */
+    opacity: 0.6;
+    /* ボタンの透明度を調整 */
+}
+
 canvas {
     border: 1px solid lightgray;
 }

@@ -4,6 +4,7 @@ function btnControlAtScanInprogress() {
   const targetMACInput = document.getElementById("targetMAC");
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
+  const clearChartDataBtn = document.getElementById("clearChartDataBtn");
   const displayDataButton = document.getElementById("displayDataButton");
   const exportCsvButton = document.getElementById("exportCsvButton");
   const clearDisplayDataBtn = document.getElementById("clearDisplayDataBtn");
@@ -12,6 +13,7 @@ function btnControlAtScanInprogress() {
   targetMACInput.disabled = true;
   startBtn.disabled = true;
   stopBtn.disabled = false;
+  clearChartDataBtn.disabled = true;
   displayDataButton.disabled = false;
   exportCsvButton.disabled = true;
   clearDisplayDataBtn.disabled = false;
@@ -22,6 +24,7 @@ function btnControlAtScanStopped() {
   const targetMACInput = document.getElementById("targetMAC");
   const startBtn = document.getElementById("startBtn");
   const stopBtn = document.getElementById("stopBtn");
+  const clearChartDataBtn = document.getElementById("clearChartDataBtn");
   const displayDataButton = document.getElementById("displayDataButton");
   const exportCsvButton = document.getElementById("exportCsvButton");
   const clearDisplayDataBtn = document.getElementById("clearDisplayDataBtn");
@@ -30,6 +33,7 @@ function btnControlAtScanStopped() {
   targetMACInput.disabled = false;
   startBtn.disabled = false;
   stopBtn.disabled = true;
+  clearChartDataBtn.disabled = false;
   displayDataButton.disabled = false;
   exportCsvButton.disabled = false;
   clearDisplayDataBtn.disabled = false;
@@ -246,6 +250,7 @@ function setupValueAndChart() {
   const valueTVOC = document.getElementById("value-tvoc");
   const valueCH2O = document.getElementById("value-ch2o");
   const valueCO = document.getElementById("value-co");
+  const clearChartDataBtn = document.getElementById("clearChartDataBtn");
 
   function updateBoxValue(data) {
     valueTemperature.textContent = data.temperature;
@@ -466,6 +471,13 @@ function setupValueAndChart() {
     updateChart(chartHumidity, date, data.humidity, limit);
     updateChart(chartCO2, date, data.co2, limit);
   }
+
+  clearChartDataBtn.addEventListener("click", () => {
+    console.log("clearChartDataBtn Clicked:");
+    clearChart(chartTemperature);
+    clearChart(chartHumidity);
+    clearChart(chartCO2);
+  });
 }
 
 function updateChart(chart, date, data, limit) {
@@ -477,6 +489,13 @@ function updateChart(chart, date, data, limit) {
     chart.data.labels.shift(); // 配列の最初の要素を削除
     chart.data.datasets[0].data.shift(); // データセットの最初の値を削除
   }
+
+  chart.update();
+}
+
+function clearChart(chart) {
+  chart.data.labels = [];
+  chart.data.datasets[0].data = [];
 
   chart.update();
 }
