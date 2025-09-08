@@ -131,6 +131,7 @@ function setupBleWatchMacFilter(win) {
     }
 
     isScanning = true;
+    manufacturerDataValidCount = 0;
 
     if (noble.state === "poweredOn") {
       console.log("Before noble.startScanning():");
